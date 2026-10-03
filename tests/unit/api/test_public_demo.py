@@ -549,3 +549,22 @@ async def test_public_table_scope_filters_schema_and_blocks_mcp_query():
     assert set((await scoped.get_enterprise_schema()).tables) == {"products"}
     result = await scoped.execute_safe_query("SELECT order_id FROM sales_orders")
     assert result.error_code == "data_scope_violation"
+
+
+@pytest.mark.asyncio
+async def test_execution_deadline_releases_public_admission_slot():
+    executor = Executor(blocked=asyncio.Event())
+    app, _ = app_for(
+        settings(public_demo_max_active=1, request_execution_timeout_seconds=0.02), executor
+    )
+    async with (
+        app.router.lifespan_context(app),
+        AsyncClient(transport=ASGITransport(app), base_url=ORIGIN) as client,
+    ):
+        assert (await client.get(SESSION_ENDPOINT)).status_code == 200
+        response = await client.post(EXECUTE_ENDPOINT, json=payload(), headers=HEADERS)
+        assert response.status_code == 504
+        executor.blocked.set()
+        assert (
+            await client.post(EXECUTE_ENDPOINT, json=payload(), headers=HEADERS)
+        ).status_code == 200

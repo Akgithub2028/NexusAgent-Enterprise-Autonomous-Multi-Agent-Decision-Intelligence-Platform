@@ -140,3 +140,10 @@ independent ingestion module. Terraform adds a private versioned metadata bucket
 and bucket-scoped ingestion object access; serving gets no storage role. Deploy a
 single-task job by immutable image digest, with only the numeric vector-write
 secret version. Promote only after the successful execution and receipt agree.
+
+## P6 restricted serving
+
+See [P6 runbook](../../docs/deployment/P6_RESTRICTED_DEPLOYMENT.md) for guarded private
+bootstrap/candidate commands, exact HTTPS tag origin, four pinned reader secrets,
+startup/readiness/liveness probes, measurements and rollback/pause. Cloud acceptance
+remains blocked by billing; no live URL exists.

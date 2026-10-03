@@ -4,7 +4,8 @@ Source baseline: `2e2b34c220158c1711409ddb1335fba00fbe375f`, reviewed 2026-10-03
 P0–P3 are complete. P4 implementation is complete with real Google provisioning and
 vector RBAC validation deferred by the owner due blocked billing. Offline Terraform
 planning uses explicit dummy inputs. P5 implementation is ready; managed execution and
-promotion acceptance await those same prerequisites. P6–P7 remain planned work.
+promotion acceptance await those same prerequisites. P6 implementation is ready, with managed deployment/measurement acceptance blocked
+by billing and earlier managed gates. P7 remains planned work.
 The [audit](P0_AUDIT.md) distinguishes implemented behavior from proposed changes;
 the [baseline](P0_BASELINE.json) records checks performed on this checkout.
 
@@ -222,7 +223,9 @@ chunks cannot survive into a new release; rollback requires no re-ingestion.
 
 ## P6 — Restricted deployment and measurements
 
-Candidate settings: 2 vCPU, 4 GiB RAM, concurrency 2, max instances 1, min instances 0,
+Implementation/runbook: [P6](P6_RESTRICTED_DEPLOYMENT.md). Cloud acceptance is pending.
+
+Candidate settings: 2 vCPU, 4 GiB RAM, concurrency 2, max instances 1, min instances 1,
 one worker, HTTP timeout 300 seconds. Benchmark these; they are not measured requirements.
 Application deadlines must cancel work before the transport timeout. Use a restricted
 test revision before public access. Attach pinned secrets, Cloud SQL and the validated

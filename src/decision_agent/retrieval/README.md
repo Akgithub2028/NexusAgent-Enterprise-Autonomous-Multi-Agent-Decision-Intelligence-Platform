@@ -9,3 +9,5 @@ P3 reranker gains cache/local-only loading with remote code disabled. P4 AUTOIND
 
 Validation and phase gates: [deployment plan](../../../docs/deployment/IMPLEMENTATION_PLAN.md).
 Update this note with source changes; check its source fingerprint in the [directory index](../../../docs/deployment/DIRECTORY_INDEX.md).
+
+P6 native inference calls retain thread serialization when an awaiting request is cancelled.

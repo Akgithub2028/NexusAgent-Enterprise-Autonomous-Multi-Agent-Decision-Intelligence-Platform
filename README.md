@@ -294,3 +294,5 @@ This project is licensed under the **Apache License 2.0** - see the [LICENSE](LI
 
 P5 versioned ingestion and promotion gates are implemented; real job execution awaits
 billing/P4 provisioning. See [ingestion runbook](docs/deployment/P5_INGESTION.md).
+
+P6 adds restricted deployment/bootstrap and authenticated measurement tools; live cloud acceptance remains blocked by billing/P4/P5 prerequisites.

@@ -12,3 +12,5 @@ Update this note with source changes; check its source fingerprint in the [direc
 
 P5 adds independent versioned ingestion, distributed generation locks and completion/
 promotion gates. See [P5 runbook](../docs/deployment/P5_INGESTION.md). Managed execution awaits billing/P4 prerequisites.
+
+P6 deploy_restricted_revision.py prepares guarded private bootstrap/candidate deployments; measure_restricted_service.py samples authenticated HTTPS without outputting payloads.

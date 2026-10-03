@@ -78,7 +78,11 @@ def create_app(
 
     app = FastAPI(title=settings.app_name, lifespan=lifespan)
     app.include_router(
-        create_agent_router(handle, security_context_resolver=security_context_resolver)
+        create_agent_router(
+            handle,
+            security_context_resolver=security_context_resolver,
+            execution_timeout_seconds=settings.request_execution_timeout_seconds,
+        )
     )
     _mount_demo_ui(app)
 

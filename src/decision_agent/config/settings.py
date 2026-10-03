@@ -61,6 +61,7 @@ class Settings(BaseSettings):
     public_demo_max_visitors: int = Field(default=1000, ge=1, le=100000)
     public_demo_max_body_bytes: int = Field(default=65536, ge=1024, le=131072)
     public_demo_body_timeout_seconds: float = Field(default=10.0, gt=0, le=60)
+    request_execution_timeout_seconds: float = Field(default=240.0, gt=0, le=240)
     required_dependencies: list[str] = Field(default_factory=list)
     milvus_uri: str = Field(default="http://localhost:19530", min_length=1)
     milvus_token: SecretStr | None = None

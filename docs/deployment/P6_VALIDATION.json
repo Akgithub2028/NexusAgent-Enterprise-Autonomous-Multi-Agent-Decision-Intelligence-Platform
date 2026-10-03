@@ -1,0 +1,57 @@
+{
+  "phase": "P6",
+  "status": "implementation_ready_managed_acceptance_blocked",
+  "base_commit": "267e8f4859445f86faadc55a45eb1cc768b09be1",
+  "billing_recheck": {
+    "project": "nexus-agent-510512",
+    "billingEnabled": false,
+    "billingAccountName": ""
+  },
+  "checks": {
+    "targeted_tests": 112,
+    "ruff": "passed",
+    "format_files": 345,
+    "dependency_lock": "passed",
+    "dry_candidate_and_bootstrap_plans": "passed with dummy receipts; no API calls",
+    "markdown_links": 56,
+    "directory_fingerprints": 61
+  },
+  "offline_wheel_over_p34_container_smoke": {
+    "status": "passed",
+    "uid": 10001,
+    "dimension": 512,
+    "torch": "2.13.0+cpu",
+    "seconds": 24.286,
+    "peak_rss_kib": 1291956,
+    "sql_queries": 0,
+    "network": "none",
+    "read_only": true,
+    "cpu_limit": 2,
+    "memory_limit": "4g",
+    "cloud_measurement": false
+  },
+  "source_sha256": {
+    "scripts/deploy_restricted_revision.py": "711617fb1bccbd9f8905ebf26f47fd4ba1339d1a0990aa8daa4ce39f89625503",
+    "scripts/measure_restricted_service.py": "e3f5e5b80e1efd3994677fe68a1739a8475effa806246a42d7a3d455dba7a0eb",
+    "src/decision_agent/api/app.py": "1fc0c4ed8c43a87dfcbf3e827d3ecd73e689d4781ada61655ca9f3b8d470677a",
+    "src/decision_agent/api/routes.py": "fe5b5ee047310dabae9f0f22c7488f02905928d4c26f98ff679b93b4a4b8edfc",
+    "src/decision_agent/config/settings.py": "fd69351f913d1a8fa336018694b06a7ee96ee5d73d910f410371c7e7e49824e9",
+    "src/decision_agent/retrieval/_threading.py": "5c8b43664dac1ca5c4f13d548f87ee1c919f0d4e7226de5e320a8526fbe112c0",
+    "src/decision_agent/retrieval/embeddings.py": "581722dbb53d33d607c5af567608128eef0d41ce92892259d6b0d2b7474dba34",
+    "src/decision_agent/retrieval/reranking.py": "6e9b15156c62b83b2d728371e579cb99030cbd194b2b5382f200ef4bc6f970c0",
+    "tests/unit/api/test_execution_deadline.py": "13d034903ac848251bc65b822e924a6447d836c4bea7ef185589e795340263b3",
+    "tests/unit/api/test_public_demo.py": "2f94f333f947ec537c40ea86df598d3fcb0a79f5c4e02e706c76e5b9b9fe80df",
+    "tests/unit/api/test_restricted_deployment.py": "08d0e7390a08595f2e1ebd8f1d51e5838c248cd8282fbc75c0f87bfeeed886ba"
+  },
+  "resources_created": false,
+  "live_llm_calls": 0,
+  "remaining_gates": [
+    "Billing and P4 managed provisioning/identity separation",
+    "P5 managed successful first/repeat ingestion",
+    "Workspace Cloud SDK exposing readiness-probe",
+    "Restricted Cloud Run deployment and HTTPS sampling",
+    "Actual cold/warm startup, memory and concurrent request measurements",
+    "SQL denials, reconnect, SIGTERM, restart/overlap and cloud audit acceptance",
+    "Actual traffic rollback/pause exercises"
+  ]
+}

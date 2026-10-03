@@ -9,3 +9,5 @@ P1 identity/admission contracts remain. P2 adds safe lifecycle events while pres
 
 Validation and phase gates: [deployment plan](../../../docs/deployment/IMPLEMENTATION_PLAN.md).
 Update this note with source changes; check its source fingerprint in the [directory index](../../../docs/deployment/DIRECTORY_INDEX.md).
+
+P6 adds a cooperative total execution deadline with safe504 and preserves cancellation/admission cleanup.

@@ -1,7 +1,7 @@
 # Codex implementation handoff
 
-Updated 2026-10-03 during P5, based on P3/P4 commit
-`8cee3a60efba2ba5050cb25dd6a468b41428401b`. Inspect Git for the final phase commit.
+Updated 2026-10-03 during P6, based on P5 commit
+`267e8f4859445f86faadc55a45eb1cc768b09be1`. Inspect Git for the final phase commit.
 
 ## Objective and phase status
 
@@ -15,7 +15,8 @@ implemented; Zilliz and local socket/SQL privilege checks passed. The owner expl
 authorized placeholder billing configuration because billing setup is blocked. Actual
 Google provisioning/Cloud SQL validation and vector reader separation are deferred gates.
 P5 ingestion/promotion implementation is ready; managed first/repeat execution remains
-deferred. P6 restricted deployment/measurement and P7 CD/live badge are unstarted.
+deferred. P6 restricted deployment/measurement tooling is implemented; managed deployment and
+measurements remain blocked. P7 CD/live badge is unstarted.
 P3/P4 implementation is complete under that adjusted scope; deployment acceptance
 is not complete until the deferred managed gates pass.
 
@@ -30,7 +31,7 @@ Authoritative contracts/evidence: [phase plan](deployment/IMPLEMENTATION_PLAN.md
 Repository is the `NexusAgent-Enterprise-Autonomous-Multi-Agent-Decision-Intelligence-Platform`
 child of `/media/aayaann-kausar/New Volume1/Project Enhancements-Deployements`. Set workdir
 explicitly. Work only within this workspace; do not delete unrelated/outside files.
-Branch main. User authorizes commit/push and has authorized P5 implementation. P0/P1/P2 historical commits
+Branch main. User authorizes commit/push and has authorized P6 implementation. P0/P1/P2 historical commits
 are in prior evidence/Git. Existing gh authentication works; no PAT is needed in commands.
 No applicable AGENTS.md was found; no subagents were requested.
 
@@ -196,3 +197,34 @@ plans passed. Installed wheel includes the job module. No real cloud job ran.
 Code-only images reuse a validated corpus through reader revalidation and separate
 `images/<SHA256(image-reference)>.json` receipts. The original corpus receipt and
 rollback pair remain unchanged. Promotion requires the matching image receipt.
+
+## P6 additions (2026-10-03)
+
+Total API cooperative execution deadline240s (configurable downward), safe504,
+executor cancellation and admission release precede transport300s. Model calls
+now hold thread locks inside to_thread so cancellation does not permit overlapping
+CPU calls; native work already running cannot be forcibly stopped. No provider,
+SQL guard, scope, audit, memory or frozen fixture contract was relaxed.
+
+`scripts/deploy_restricted_revision.py` plans by default; apply revalidates billing,
+P5 execution/receipt, private IAM, exact p6 tag origin and prior pinned secrets.
+Bootstrap creates only an absent deny-all private service to obtain the real tag
+URL. Candidate deploy saves prior service/IAM without overwriting, moves no traffic,
+uses four numeric reader secrets, serving identity, SQL socket,2CPU/4GiB/concurrency2,
+min1/max1 and HTTP300s. Startup/readiness use ready; liveness uses health. SDK541
+lacks readiness-probe: update the workspace-local SDK before managed application.
+
+`scripts/measure_restricted_service.py` checks IAM, secure cookies, scoped routes,
+M9 cases, memory isolation, two concurrent requests, wrong-Origin denial and health
+latency. It reports payload-free small-sample p50/p95, not cold-start or memory.
+Token files/output stay ignored. No live LLM request or Cloud Run resource was
+created: authenticated billing recheck still false. Follow P6 runbook's exact gates
+for cold/warm startup, memory, SQL denials, reconnects, SIGTERM, restart/overlap,
+cloud audit review and actual rollback/pause. P6 managed acceptance is incomplete.
+P7 implementation may follow only when authorized; public release needs all gates.
+
+P6 local verification:112 focused tests passed, Ruff/format/lock checks passed.
+Current wheel over retained P3/P4 image passed real offline CPU512embedding/reranking
+and installed MCP smoke (24.286s,1,291,956KiB RSS,UID10001,SQL0). This is not a P6
+image digest or a cloud cold-start/memory measurement. Dry bootstrap/candidate plans
+used explicitly fake receipts/digest and contacted no cloud APIs.

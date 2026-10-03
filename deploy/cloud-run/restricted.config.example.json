@@ -1,0 +1,14 @@
+{
+  "project": "nexus-agent-510512",
+  "region": "us-west1",
+  "service": "nexusagent",
+  "origin": "https://REPLACE_WITH_ACTUAL_P6_TAG_HOST.run.app",
+  "milvus_uri": "https://in03-58be74b5a71aa09.serverless.gcp-us-west1.cloud.zilliz.com",
+  "release_bucket": "nexus-agent-510512-nexus-releases",
+  "secret_versions": {
+    "nexus-groq-key": "REPLACE_NUMERIC_VERSION",
+    "nexus-vector-read-token": "REPLACE_NUMERIC_VERSION",
+    "nexus-db-reader-password": "REPLACE_NUMERIC_VERSION",
+    "nexus-demo-signing-key": "REPLACE_NUMERIC_VERSION"
+  }
+}

@@ -27,6 +27,7 @@ def create_agent_router(
     runtime_handle: FormalRuntimeHandle,
     *,
     security_context_resolver: ApiSecurityContextResolver | None = None,
+    execution_timeout_seconds: float = 240.0,
 ) -> APIRouter:
     """Bind one app-local runtime holder without global mutable state."""
     router = APIRouter(prefix="/api/v1/agent", tags=["agent"])
@@ -37,6 +38,7 @@ def create_agent_router(
         responses={
             status.HTTP_500_INTERNAL_SERVER_ERROR: {"model": ApiErrorResponse},
             status.HTTP_503_SERVICE_UNAVAILABLE: {"model": ApiErrorResponse},
+            status.HTTP_504_GATEWAY_TIMEOUT: {"model": ApiErrorResponse},
             status.HTTP_401_UNAUTHORIZED: {"model": ApiErrorResponse},
             status.HTTP_403_FORBIDDEN: {"model": ApiErrorResponse},
             status.HTTP_429_TOO_MANY_REQUESTS: {"model": ApiErrorResponse},
@@ -68,12 +70,26 @@ def create_agent_router(
                 return _security_error_response(exc.code)
             except Exception:
                 return _security_error_response(SecurityErrorCode.SECURITY_CONTEXT_INVALID.value)
+        deadline = asyncio.timeout(execution_timeout_seconds)
         try:
-            response = await formal_request_executor.execute(
-                request.to_formal_request(security_context=security_context)
-            )
+            async with deadline:
+                response = await formal_request_executor.execute(
+                    request.to_formal_request(security_context=security_context)
+                )
         except asyncio.CancelledError:
             raise
+        except TimeoutError:
+            if deadline.expired():
+                return _error_response(
+                    status_code=status.HTTP_504_GATEWAY_TIMEOUT,
+                    code="execution_deadline_exceeded",
+                    message="The Agent request exceeded its execution deadline.",
+                )
+            return _error_response(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                code="internal_execution_error",
+                message="The Agent request could not be completed.",
+            )
         except Exception:
             logger.error("Formal Agent execution failed")
             return _error_response(

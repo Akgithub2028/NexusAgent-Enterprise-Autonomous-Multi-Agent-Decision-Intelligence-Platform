@@ -6,6 +6,7 @@ import asyncio
 import math
 import time
 from collections.abc import Callable, Sequence
+from threading import Lock
 from typing import Any, Protocol
 
 from pydantic import BaseModel, ConfigDict, Field, ValidationError, field_validator
@@ -16,6 +17,7 @@ from decision_agent.exceptions import (
     RerankerModelLoadError,
     RetrievalValidationError,
 )
+from decision_agent.retrieval._threading import locked_call
 
 _ModelFactory = Callable[..., Any]
 
@@ -114,6 +116,7 @@ class SentenceTransformerCrossEncoderReranker:
         self._total_predict_seconds = 0.0
         self._model_lock = asyncio.Lock()
         self._inference_lock = asyncio.Lock()
+        self._thread_inference_lock = Lock()
 
     @property
     def model_load_seconds(self) -> float | None:
@@ -172,7 +175,12 @@ class SentenceTransformerCrossEncoderReranker:
             async with self._inference_lock:
                 predict_started = time.perf_counter()
                 raw_scores = await asyncio.to_thread(
-                    model.predict, pairs, batch_size=self.batch_size, show_progress_bar=False
+                    locked_call,
+                    self._thread_inference_lock,
+                    model.predict,
+                    pairs,
+                    batch_size=self.batch_size,
+                    show_progress_bar=False,
                 )
                 self._total_predict_seconds += time.perf_counter() - predict_started
             scores = [float(value) for value in raw_scores]

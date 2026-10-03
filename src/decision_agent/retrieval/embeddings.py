@@ -8,6 +8,7 @@ import math
 import re
 import unicodedata
 from collections.abc import Callable, Sequence
+from threading import Lock
 from typing import TYPE_CHECKING, Any
 
 from decision_agent.exceptions import (
@@ -16,6 +17,7 @@ from decision_agent.exceptions import (
     EmbeddingModelLoadError,
     RetrievalValidationError,
 )
+from decision_agent.retrieval._threading import locked_call
 
 if TYPE_CHECKING:
     from decision_agent.config import Settings
@@ -83,6 +85,7 @@ class SentenceTransformerEmbeddingProvider:
         self._model_ready = False
         self._model_lock = asyncio.Lock()
         self._inference_lock = asyncio.Lock()
+        self._thread_inference_lock = Lock()
 
     @classmethod
     def from_settings(
@@ -180,6 +183,8 @@ class SentenceTransformerEmbeddingProvider:
         async with self._inference_lock:
             try:
                 raw_vectors = await asyncio.to_thread(
+                    locked_call,
+                    self._thread_inference_lock,
                     model.encode,
                     texts,
                     batch_size=self._batch_size,
