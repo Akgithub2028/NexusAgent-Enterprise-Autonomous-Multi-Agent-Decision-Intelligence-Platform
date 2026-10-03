@@ -61,8 +61,8 @@ class SQLAlchemyQueryExecutor:
             "mysql+pymysql",
             username=settings.db_readonly_username,
             password=settings.db_readonly_password.get_secret_value(),
-            host=settings.db_host,
-            port=settings.db_port,
+            host=None if settings.db_unix_socket else settings.db_host,
+            port=None if settings.db_unix_socket else settings.db_port,
             database=settings.db_database,
             query={"charset": "utf8mb4"},
         )
@@ -70,7 +70,17 @@ class SQLAlchemyQueryExecutor:
             engine=create_engine(
                 url,
                 pool_pre_ping=True,
-                connect_args={"connect_timeout": settings.db_connect_timeout_seconds},
+                pool_size=settings.db_pool_size,
+                max_overflow=0,
+                pool_timeout=settings.db_pool_timeout_seconds,
+                pool_recycle=1800,
+                connect_args={
+                    "connect_timeout": settings.db_connect_timeout_seconds,
+                    "read_timeout": settings.db_query_timeout_seconds,
+                    "write_timeout": settings.db_query_timeout_seconds,
+                    "init_command": "SET time_zone = '+08:00'",
+                    **({"unix_socket": settings.db_unix_socket} if settings.db_unix_socket else {}),
+                },
             )
         )
 

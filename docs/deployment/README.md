@@ -6,8 +6,14 @@ P1 reviewed on 2026-10-03, based on `635a8ecc697754d798376626b0380f06d60e4cbf`.
 P0 established the audit, plan, directory notes and baseline. P1 implements opt-in
 public-demo identity, fixed grants and bounded admission, and remediates the reported
 dependency findings. P2 adds the container launcher, bounded ephemeral memory and mandatory stdout audit
-with structured logging. No cloud service has been deployed. P3 has not started.
+with structured logging. P3 adds the verified offline CPU serving image. P4 adapters and
+infrastructure are implemented; the owner deferred actual provisioning due billing issues.
+Dummy inputs/offline planning are explicitly marked; provider vector-reader RBAC remains
+a deployment prerequisite. No cloud service has been deployed.
 
+- [P3/P4 implementation and remaining gates](P3_P4_IMPLEMENTATION.md)
+- [P3/P4 validation evidence](P3_P4_VALIDATION.json)
+- [Cloud infrastructure/operator runbook](../../deploy/cloud-run/README.md)
 - [Implementation plan and phase gates](IMPLEMENTATION_PLAN.md)
 - [P2 runtime, memory and audit contract](P2_CLOUD_RUNTIME.md)
 - [P2 validation evidence](P2_VALIDATION.json)

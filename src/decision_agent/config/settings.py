@@ -33,6 +33,7 @@ class MilvusIndexType(StrEnum):
     """Vector index supported by the M2B-2A Milvus adapter."""
 
     HNSW = "HNSW"
+    AUTOINDEX = "AUTOINDEX"
 
 
 class Settings(BaseSettings):
@@ -93,6 +94,8 @@ class Settings(BaseSettings):
     reranker_model_revision: str | None = _RERANKER_MODEL_REVISION
     reranker_device: Literal["cpu"] = "cpu"
     reranker_batch_size: int = Field(default=8, gt=0)
+    reranker_cache_folder: str | None = None
+    reranker_local_files_only: bool = False
     llm_api_key: SecretStr | None = None
     llm_base_url: str | None = Field(default=None, min_length=1)
     llm_model_name: str | None = Field(default=None, min_length=1)
@@ -100,6 +103,9 @@ class Settings(BaseSettings):
     controlled_workflow_enabled: bool = False
     mcp_timeout_seconds: float = Field(default=10.0, gt=0)
     db_host: str = Field(default="127.0.0.1", min_length=1)
+    db_unix_socket: str | None = None
+    db_pool_size: int = Field(default=2, ge=1, le=32)
+    db_pool_timeout_seconds: float = Field(default=5.0, gt=0, le=60)
     db_port: int = Field(default=3306, gt=0, le=65535)
     db_database: str = Field(default="enterprise_operations", min_length=1)
     db_readonly_username: str = Field(default="decision_agent_readonly", min_length=1)
@@ -122,6 +128,7 @@ class Settings(BaseSettings):
     audit_mode: Literal["file", "stdout"] = "file"
     audit_log_path: Path | None = None
     runtime_revision: str = Field(default="local", pattern=r"^[A-Za-z0-9_.-]{1,128}$")
+    release_manifest_path: Path | None = None
     release_id: str = Field(default="unversioned", pattern=r"^[A-Za-z0-9_.-]{1,128}$")
     corpus_release_id: str = Field(default="unversioned", pattern=r"^[A-Za-z0-9_.-]{1,128}$")
 
@@ -130,7 +137,10 @@ class Settings(BaseSettings):
         "public_demo_signing_secret",
         "milvus_token",
         "embedding_cache_folder",
+        "reranker_cache_folder",
+        "db_unix_socket",
         "knowledge_dataset_root",
+        "release_manifest_path",
         "llm_api_key",
         "llm_base_url",
         "llm_model_name",
@@ -198,6 +208,20 @@ class Settings(BaseSettings):
             )
         return value
 
+    @field_validator("db_unix_socket")
+    @classmethod
+    def validate_cloud_sql_socket(cls, value: str | None) -> str | None:
+        if value is not None:
+            import re
+
+            if not re.fullmatch(
+                r"/cloudsql/[a-z][a-z0-9-]{4,61}[a-z0-9]:[a-z][a-z0-9-]+:[a-z][a-z0-9-]*", value
+            ):
+                raise ValueError("database socket must identify a Cloud SQL instance")
+            if len(value.encode()) > 100:
+                raise ValueError("database socket exceeds the Unix socket path limit")
+        return value
+
     @model_validator(mode="after")
     def validate_runtime_contract(self) -> Settings:
         """Fail fast on cross-field configuration contradictions only."""
@@ -259,7 +283,7 @@ class Settings(BaseSettings):
             parsed = urlsplit(value or "")
             if parsed.scheme != "https" or _is_local_or_placeholder_host(parsed.hostname or ""):
                 raise ValueError("public demo requires external HTTPS endpoints")
-        if _is_local_or_placeholder_host(self.db_host):
+        if self.db_unix_socket is None and _is_local_or_placeholder_host(self.db_host):
             raise ValueError("public demo requires an explicit external database host")
 
     @staticmethod

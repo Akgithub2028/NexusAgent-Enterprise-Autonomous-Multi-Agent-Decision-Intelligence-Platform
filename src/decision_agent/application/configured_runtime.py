@@ -159,6 +159,9 @@ async def _build_configured_runtime(
     stack: AsyncExitStack,
     dependencies: ConfiguredRuntimeDependencies,
 ) -> FormalRequestExecutor:
+    from decision_agent.release import verify_release
+
+    verify_release(settings)
     _validate_complete_runtime_configuration(settings)
 
     if (

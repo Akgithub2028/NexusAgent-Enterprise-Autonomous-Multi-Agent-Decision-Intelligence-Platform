@@ -70,6 +70,12 @@ virtual environments, caches, Git internals or generated/frozen dataset leaves.
 | [src/decision_agent/web](../../src/decision_agent/web/README.md) | Package-local Web Workbench assets | runtime boundary traced |
 | [src/decision_agent/workflows](../../src/decision_agent/workflows/README.md) | LangGraph knowledge and data execution | runtime boundary traced |
 
+| [deploy](../../deploy/README.md) | P3/P4 implementation contracts | implementation reviewed |
+| [deploy/cloud-run](../../deploy/cloud-run/README.md) | P3/P4 implementation contracts | implementation reviewed |
+| [deploy/cloud-run/tests](../../deploy/cloud-run/tests/README.md) | P3/P4 implementation contracts | implementation reviewed |
+| [tests/unit/mcp_client](../../tests/unit/mcp_client/README.md) | P3/P4 implementation contracts | implementation reviewed |
+| [tests/unit/retrieval](../../tests/unit/retrieval/README.md) | P3/P4 implementation contracts | implementation reviewed |
+
 ## Updating a note
 
 When changing a directory, read its note and only the relevant entry files. Check

@@ -141,6 +141,9 @@ class _KnowledgeRuntimeBoundary:
         self.initialize_calls = 0
         self.close_calls = 0
 
+    async def initialize_reader(self) -> None:
+        await self.initialize()
+
     async def initialize(self) -> None:
         self.initialize_calls += 1
         self.events.append(f"{self.name}:initialize")
@@ -702,6 +705,9 @@ class _VectorStoreBoundary:
         self.events = events
         self.initialize_calls = 0
         self.close_calls = 0
+
+    async def initialize_reader(self) -> None:
+        await self.initialize()
 
     async def initialize(self) -> None:
         self.initialize_calls += 1

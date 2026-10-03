@@ -1,9 +1,9 @@
 # Formal runtime lifecycle and executor regression
 
-Reviewed on 2026-10-03 for P2, based on `5ce044b2dfec6b40dd2a7cc05401017975dc062d`; current source fingerprints are recorded below.
+Reviewed on 2026-10-03 for P3/P4, based on `a7f4d5dcdde2bffaecd95340a63f41689e35c111`.
 
 Entry files: [test_configured_runtime_bootstrap.py](test_configured_runtime_bootstrap.py), [test_formal_request_executor.py](test_formal_request_executor.py).
 
-P2 test_cloud_runtime.py checks PORT/configuration, JSON logging and a real SIGTERM server. Configured composition tests cover stdout audit without a file and memory capacity wiring.
+test_managed_release.py verifies socket validation, bounded engine configuration, reranker offline options and release checksum/config failure. Configured runtime doubles expose initialize_reader for serving.
 
 Validation and source fingerprints: [deployment notes](../../../docs/deployment/README.md). Update this note with contract changes.

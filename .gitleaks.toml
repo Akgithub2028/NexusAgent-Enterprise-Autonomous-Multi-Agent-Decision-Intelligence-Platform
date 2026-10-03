@@ -13,3 +13,10 @@ paths = [
   '''^artifacts/datasets/m2c1_parent_child_summary\.json$''',
   '''^artifacts/datasets/m2c2b1_clause_aware_summary\.json$''',
 ]
+
+[[rules.allowlists]]
+description = "Immutable corpus/model SHA256 entries, including tokenizer filenames"
+condition = "AND"
+paths = ['''^deploy/cloud-run/corpus-release\.json$''']
+regexTarget = "line"
+regexes = ['''^\s*"(?:corpus|models)/[^"]+": "[a-f0-9]{64}",?\s*$''']

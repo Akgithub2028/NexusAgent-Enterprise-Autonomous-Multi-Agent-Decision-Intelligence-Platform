@@ -1,0 +1,5 @@
+project_id = "nexus-agent-510512"
+region = "us-west1" # Confirmed by the project owner; colocated with Zilliz.
+billing_account_id = "000000-000000-000000" # DUMMY: replace before real plan/apply.
+monthly_budget_amount = 50 # Owner requested a small budget; monthly alert, not a spending cap.
+budget_currency = "USD" # Convert to the billing account currency before apply.

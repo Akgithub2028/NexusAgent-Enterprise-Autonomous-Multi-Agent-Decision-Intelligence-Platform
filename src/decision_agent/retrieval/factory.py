@@ -25,6 +25,9 @@ class ProductionVectorStore(VectorStore, Protocol):
     async def initialize(self) -> None:
         """Initialize the external vector store."""
 
+    async def initialize_reader(self) -> None:
+        """Validate an existing collection without provisioning or loading it."""
+
     async def close(self) -> None:
         """Close the external vector store."""
 
@@ -61,7 +64,7 @@ class EnterpriseRetrievalRuntime:
 
     async def initialize(self) -> None:
         """Initialize a retrieval reader against an already-ingested formal corpus."""
-        await self._vector_store.initialize()
+        await self._vector_store.initialize_reader()
         await self._pipeline.initialize(ingest_corpus=False)
 
     async def initialize_for_ingestion(self) -> None:
@@ -135,4 +138,6 @@ def _build_reranker_from_settings(settings: Settings) -> Reranker:
         model_revision=settings.reranker_model_revision,
         device=settings.reranker_device,
         batch_size=settings.reranker_batch_size,
+        cache_folder=settings.reranker_cache_folder,
+        local_files_only=settings.reranker_local_files_only,
     )

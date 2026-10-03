@@ -1,0 +1,172 @@
+{
+  "schema_version": 1,
+  "checked_at_utc": "2026-10-03T13:30:38.919020+00:00",
+  "phase_base": "a7f4d5dcdde2bffaecd95340a63f41689e35c111",
+  "phase_status": {
+    "P3": "complete",
+    "P4": "implementation complete under owner-adjusted scope; real provisioning/vector RBAC deferred"
+  },
+  "source_sha256": {
+    ".gitleaks.toml": "38a8bbd7cbc51ce91e221c65a0c432dc5ad067ae8b8506ddeb1e3248a7252980",
+    "Dockerfile": "067eb1f284c621a541a125ecd46ca480dc1f1719438d913a39ff7c6e91980220",
+    ".dockerignore": "45c04e168eee77f29d655b5698afa1601edcd4c03313055279c52d70e868b9cb",
+    "deploy/cloud-run/requirements-runtime.lock": "4770cda3c6b3c888efb419935facc815090205fb39de22632847050ec4472b3a",
+    "deploy/cloud-run/requirements-build.lock": "c4940bc32c42e8aacfde35c40d5acb9ac367c540cf7e74c86f05c6b1bcfddef9",
+    "deploy/cloud-run/main.tf": "01e4179b7d8a707c47a478f14587ba579af765c77fd2cadc69c6340e681c0ef9",
+    "deploy/cloud-run/tests/offline.tftest.hcl": "1cb9788ffb553208ca20e51e957048eeee9c74525cf4760dec5382acbe80ed0a",
+    "deploy/cloud-run/.terraform.lock.hcl": "2cf229fd527f41ce7a00d381c06a6ef644772d7591293b83f25786751e41a3a7",
+    "deploy/cloud-run/corpus-release.json": "130607be8d2f113e56393a8cfff8782d34cc614ad830697da29305b94a83f56a",
+    "src/decision_agent/release.py": "8b821398a7a70feec08cacc66dbc75d333fb1ef44c44fbd7358cb8982adbd9df",
+    "src/decision_agent/config/settings.py": "aac58a5d63073885a3e7bdab0729e9d7b5106d955ac9876913564e336d2218d6",
+    "src/decision_agent/retrieval/factory.py": "7c9b7f0f9301dbdfae9f99e594677f3eec10e07098fa13ee947283904796023b",
+    "src/decision_agent/retrieval/milvus_store.py": "322dac5299fbbfeab76f7cf0e56716802cb5852c651ed261d8d2cd283a5309a6",
+    "src/decision_agent/retrieval/reranking.py": "595c3083cc5b8a4c6ab02b662aaecb902029e7e338995492363fe1eccdef56c5",
+    "src/decision_agent/data/executor.py": "737f53be5ad24e3ec8a7e2c1f5ec70acaa80022facded88700dc141478adbcba",
+    "src/decision_agent/mcp_client/enterprise_data_client.py": "aeed6e8cf992e6fc28519bee6c051d020f919259b63449e0649caa58c56974e8",
+    "src/decision_agent/application/configured_runtime.py": "6484008e4713fe58b2801ee239699b8463142af6ecaf2c1e23ac20ac2423d8b1",
+    "scripts/prepare_cloud_release.py": "305e98c2a7711ddb40e0f659139c6da8f90eb7d0877147bf65300f195f54981e",
+    "scripts/validate_cloud_image.py": "6b11f77f48472dbc94e45267ce709d4bb93909de3a4eed7f499bc686ab3bbee5",
+    "scripts/manage_cloud_sql_demo.py": "55ff1420fb862a3d9850d46971b8fc8cb038b0038ecfa70a6b4fb9289e9ed76f",
+    "scripts/verify_managed_vector.py": "73f016e0084ab48370482cda534ad1329d7f6bbfd00748ab92d626ad3cd77442"
+  },
+  "image": {
+    "id": "sha256:b92929f77991ef8d19937e68e82f7cd7d97cddf0ebddf7e079a159fcde85b407",
+    "bytes": 2874416057,
+    "architecture": "amd64",
+    "base_digest": "sha256:65a93d69fa75478d554f4ad27c85c1e69fa184956261b4301ebaf6dbb0a3543d",
+    "model_smoke": {
+      "status": "passed",
+      "uid": 10001,
+      "dimension": 512,
+      "torch": "2.13.0+cpu",
+      "corpus_release_id": "m2c1_9e02a989eace4274",
+      "seconds": 20.202,
+      "peak_rss_kib": 1295292,
+      "sql_queries": 0
+    },
+    "http_smoke": {
+      "/": 200,
+      "/assets/app.js": 200,
+      "/assets/styles.css": 200,
+      "/health": 200,
+      "/ready": 503
+    },
+    "SIGTERM_exit_code": 0,
+    "manifest": "../../deploy/cloud-run/corpus-release.json"
+  },
+  "checks": [
+    {
+      "command": "pytest focused retrieval/runtime/data/MCP + managed release tests",
+      "passed": 227,
+      "log_sha256": "18039635dc215a607cb0700ff8a59f8034360e135a0a9892286df4576248c630"
+    },
+    {
+      "command": "pytest settings/cloud launcher/ingestion contract tests",
+      "passed": 90,
+      "log_sha256": "f199da859f9f61eb48145ee927a8204e57b630a6288d30b2e9b6ac0ac1599786"
+    },
+    {
+      "command": "ruff check .",
+      "exit_code": 0
+    },
+    {
+      "command": "ruff format --check .",
+      "exit_code": 0
+    },
+    {
+      "command": "python scripts/validate_dependency_lock.py",
+      "exit_code": 0
+    },
+    {
+      "command": "python -m pip check",
+      "exit_code": 0
+    },
+    {
+      "command": "terraform init/fmt/validate",
+      "result": {
+        "format_version": "1.0",
+        "valid": true,
+        "error_count": 0,
+        "warning_count": 0,
+        "diagnostics": []
+      }
+    },
+    {
+      "command": "terraform test (mock provider, dummy billing)",
+      "exit_code": 0,
+      "log_sha256": "c38785c692e61f5b30d542a2f7c1d4d9f82d1217b8bce56d1ed619b4056dacdb"
+    },
+    {
+      "command": "gitleaks staged redacted scan",
+      "exit_code": 0,
+      "findings": 0,
+      "checksum_false_positives": "Narrow line+path allowlist for immutable corpus/model SHA256 entries only"
+    }
+  ],
+  "managed_vector": {
+    "status": "passed",
+    "index": "AUTOINDEX",
+    "dimension": 512,
+    "metric": "COSINE",
+    "exact_ids": 3,
+    "filtered_hits": 2,
+    "serving_provisioning": false
+  },
+  "vector_role_discovery": {
+    "cluster_role_discovery": "unavailable",
+    "error_class": "_InactiveRpcError",
+    "code": null
+  },
+  "local_mysql": {
+    "privileges": {
+      "status": "passed",
+      "approved_tables": 4,
+      "database_enforced_denials": 4
+    },
+    "mcp_socket": {
+      "status": "passed",
+      "mcp_child_socket_connectivity": true,
+      "raw_reader_select": true,
+      "owned_pool_closed": true
+    },
+    "mysql_version": "8.4.11",
+    "scope": "real local transport and database enforcement; not Cloud SQL IAM/proxy"
+  },
+  "groq": {
+    "provider": "groq",
+    "status_code": 200,
+    "model": "openai/gpt-oss-20b",
+    "model_available": true
+  },
+  "google_project": {
+    "id": "nexus-agent-510512",
+    "region": "us-west1",
+    "CLI_ADC_authenticated": true,
+    "billing_enabled": false,
+    "available_billing_accounts": 0,
+    "provisioned": false,
+    "monthly_alert_target_usd": 50,
+    "warm_instances_preference": 1
+  },
+  "owner_adjusted_scope": {
+    "dummy_billing_configuration_authorized": true,
+    "real_managed_provisioning_deferred_due_billing": true,
+    "mock_provider_plan": "passed; no resources provisioned"
+  },
+  "limitations": [
+    "No actual Cloud SQL/Google infrastructure without linked billing",
+    "No provider vector reader RBAC credentials established",
+    "No real corpus ingestion/promotion or ready cloud service",
+    "No agent completion/provider quota validation",
+    "No cloud startup/load benchmark; local combined smoke only",
+    "Stdout audit flush is not durable delivery",
+    "Ephemeral session history across revisions/restarts"
+  ],
+  "documentation_validation": {
+    "directory_fingerprints_verified": 61,
+    "local_markdown_links_verified": 157,
+    "current_source_hashes": "all match",
+    "json_parsing": "passed",
+    "git_diff_whitespace": "passed"
+  }
+}

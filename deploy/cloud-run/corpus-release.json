@@ -1,0 +1,58 @@
+{
+  "children": 101,
+  "collection": "nexus_m2c1_9e02a989eace4274",
+  "corpus_release_id": "m2c1_9e02a989eace4274",
+  "dimension": 512,
+  "documents": 12,
+  "metric": "COSINE",
+  "models": {
+    "embedding": {
+      "license": "MIT",
+      "repository": "BAAI/bge-small-zh-v1.5",
+      "revision": "7999e1d3359715c523056ef9478215996d62a620"
+    },
+    "reranker": {
+      "license": "MIT",
+      "repository": "BAAI/bge-reranker-base",
+      "revision": "2cfc18c9415c912f9d8155881c133215df768a70"
+    }
+  },
+  "parents": 36,
+  "schema_version": 1,
+  "sha256": {
+    "corpus/document_manifest.json": "66c5024212bc5c6c620924dcf17f4527e822f83fb46891981334972fd8a31a2c",
+    "corpus/documents/DOC-AGENT-001_capabilities_and_boundaries.md": "0beff782fbb556252d7bc826afd29dd37bc846dcaab51cfa55ffdcf5c46a1dc0",
+    "corpus/documents/DOC-CS-001_product_warranty_policy.md": "ff51f3af04bafb4c1a9d1aeb81db87dbbefed7ee8ef984de32efe069ac85a31a",
+    "corpus/documents/DOC-CS-002_return_repair_operations.md": "7630a2ed5d951a63889468fd925487312c7db6b2bcd341187cd40f325064958a",
+    "corpus/documents/DOC-FIN-001_expense_budget_control.md": "9be3fe0acd887d6019ab5d03127d20184929c5543f25f83fc406879994dba6a1",
+    "corpus/documents/DOC-HR-001_attendance_travel_performance.md": "1da0017e1a44db5a390716839a0856521612d40f69727ea9a1ecc9b9353602c7",
+    "corpus/documents/DOC-INV-001_inventory_replenishment_policy.md": "8387e55e7b45898e950d33e071d6b74b0224e36ce64bbeed62f697d707d2918f",
+    "corpus/documents/DOC-ORG-001_enterprise_profile.md": "e9f8991e7ea8c561d56e62afd57a14bf042def67bc75052ff8e470980ead98cd",
+    "corpus/documents/DOC-PROC-001_supplier_procurement_approval.md": "19aa0861f194d26a3c0424279af1a2dbf1a10b511d96c58ce1c2ba5c625d4ac6",
+    "corpus/documents/DOC-PROC-002_delivery_supplier_assessment.md": "03de34b01b400f3af532bd922a47977b33269f38f4cc408318a4a8a6ba2e6e72",
+    "corpus/documents/DOC-SALES-001_discount_approval_policy.md": "770705a09756683fd49145fc50dac6ba82b80b33abaa533e579ab280b32d91ef",
+    "corpus/documents/DOC-SALES-002_customer_region_authority.md": "69e2ef384bbc2cfbf161235f4a58f3e729709b6fd5cf18bbbe752ce2af7ea364",
+    "corpus/documents/DOC-SEC-001_data_access_security.md": "3fbaa307a0c6c782dd80bb0c668d78505f6fb2c80fd93e8610b77868f6a133ca",
+    "corpus/generated/child_chunks.jsonl": "f77a9117e7aec8742900092f2f249c68cec4821515b27d143b38524de47e3810",
+    "corpus/generated/parent_chunks.jsonl": "e4898f96b58b99ed8f6fdbeceae7028bda38bf364d33798fd8ec66b1c4a9a004",
+    "models/embedding/1_Pooling/config.json": "aaa8861589f80c961a03cc86c7eeaef7605c1676b9ab55329d33a304738769c6",
+    "models/embedding/README.md": "c48a4eeea77f6b1d38b48ec1c5b8d4f86d5550cc43fa345a0db1b2ca1d082369",
+    "models/embedding/config.json": "3853a7979202c348751b753e36f579c41d8da7d36af617d3d907e1fc9b441f2a",
+    "models/embedding/config_sentence_transformers.json": "940d5f50db195fa6e5e6a4f122c095f77880de259d74b14a65779ed48bdd7c56",
+    "models/embedding/model.safetensors": "354763b9b1357bc9c44f62c6be2276321081ed2567773608c0d0785b61d5a026",
+    "models/embedding/modules.json": "84e40c8e006c9b1d6c122e02cba9b02458120b5fb0c87b746c41e0207cf642cf",
+    "models/embedding/sentence_bert_config.json": "84e39fda68ccbff05bfa723ae9c0e70e23e2ec373b76e0f8c6e71af72a693cbf",
+    "models/embedding/special_tokens_map.json": "b6d346be366a7d1d48332dbc9fdf3bf8960b5d879522b7799ddba59e76237ee3",
+    "models/embedding/tokenizer.json": "48cea5d44424912a6fd1ea647bf4fe50b55ab8b1e5879c3275f80e339e8fae26",
+    "models/embedding/tokenizer_config.json": "e6f3b96db926a37d4039995fbf5ad17de158dfb8f6343d607e4dbaad18d75f5a",
+    "models/embedding/vocab.txt": "45bbac6b341c319adc98a532532882e91a9cefc0329aa57bac9ae761c27b291c",
+    "models/reranker/README.md": "b4223c8c1e95538f8c79168afc501f8b2da06c63221f013b79b28af78b59366d",
+    "models/reranker/config.json": "289adf7ada1eb6b4afa7589a48a032d45a076cf2e46dcdb3b4cabc33be14f708",
+    "models/reranker/model.safetensors": "ced967c45fd1902eb92716c9ceeca7c95a936770ea9db611f5a841b926e33fbd",
+    "models/reranker/sentencepiece.bpe.model": "cfc8146abe2a0488e9e2a0c56de7952f7c11ab059eca145a0a727afce0db2865",
+    "models/reranker/special_tokens_map.json": "d5469a60db23249c7f8945013d78df30b44b6bf686c6bb4740f4223f77b1b535",
+    "models/reranker/tokenizer.json": "9eb652ac4e40cc093272bbbe0f55d521cf67570060227109b5cdc20945a4489e",
+    "models/reranker/tokenizer_config.json": "a1d6bc8734a6f635dc158508bef000f8e2e5a759c7d92f984b2c86e5ff53425b"
+  },
+  "vector_schema": "decision-agent-vector-schema-v1"
+}

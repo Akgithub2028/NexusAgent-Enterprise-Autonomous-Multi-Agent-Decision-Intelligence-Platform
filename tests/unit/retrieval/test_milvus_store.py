@@ -1119,3 +1119,41 @@ def test_dense_services_reject_milvus_dimension_mismatch_before_calls() -> None:
         DenseIndexer(provider, store)
     with pytest.raises(RetrievalValidationError, match="dimensions must match"):
         DenseRetriever(provider, store)
+
+
+@pytest.mark.asyncio
+async def test_serving_reader_rejects_missing_collection_without_provisioning() -> None:
+    client = FakeMilvusClient()
+    with pytest.raises(VectorStoreSchemaError, match="existing collection"):
+        await make_store(client).initialize_reader()
+    assert [name for name, _ in client.calls] == ["has_collection"]
+
+
+@pytest.mark.asyncio
+async def test_serving_reader_validates_without_load_and_rejects_writes() -> None:
+    client = FakeMilvusClient(collection_exists=True)
+    store = make_store(client)
+    await store.initialize_reader()
+    assert not calls(client, "load_collection")
+    with pytest.raises(VectorStoreOperationError, match="cannot upsert"):
+        await store.upsert([])
+    with pytest.raises(VectorStoreOperationError, match="cannot delete"):
+        await store.delete_by_document("demo")
+    assert not calls(client, "upsert") and not calls(client, "delete")
+
+
+@pytest.mark.asyncio
+async def test_autoindex_creation_validation_and_search_do_not_pass_hnsw_parameters() -> None:
+    client = FakeMilvusClient()
+    store = make_store(client, index_type="AUTOINDEX")
+    await store.initialize()
+    assert calls(client, "create_index")[0]["index_params"].indexes[0]["params"] == {}
+    client.index_description = {
+        "field_name": "vector",
+        "index_type": "AUTOINDEX",
+        "metric_type": "COSINE",
+    }
+    reader = make_store(client, index_type="AUTOINDEX")
+    await reader.initialize_reader()
+    await reader.search([1.0, 0.0], 1)
+    assert calls(client, "search")[-1]["search_params"] == {"metric_type": "COSINE", "params": {}}

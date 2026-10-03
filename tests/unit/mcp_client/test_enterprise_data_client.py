@@ -173,6 +173,9 @@ def test_database_preflight_reserves_an_absent_atomic_publish_target() -> None:
 def assert_mcp_settings_equal(parent: Settings, child: Settings) -> None:
     assert child.app_name == parent.app_name
     assert child.environment is parent.environment
+    assert child.db_unix_socket == parent.db_unix_socket
+    assert child.db_pool_size == parent.db_pool_size
+    assert child.db_pool_timeout_seconds == parent.db_pool_timeout_seconds
     assert child.db_host == parent.db_host
     assert child.db_port == parent.db_port
     assert child.db_database == parent.db_database
@@ -235,6 +238,9 @@ async def test_from_settings_passes_fixed_command_and_complete_child_snapshot(
         "DECISION_AGENT_APP_NAME",
         "DECISION_AGENT_ENVIRONMENT",
         "DECISION_AGENT_DB_HOST",
+        "DECISION_AGENT_DB_UNIX_SOCKET",
+        "DECISION_AGENT_DB_POOL_SIZE",
+        "DECISION_AGENT_DB_POOL_TIMEOUT_SECONDS",
         "DECISION_AGENT_DB_PORT",
         "DECISION_AGENT_DB_DATABASE",
         "DECISION_AGENT_DB_READONLY_USERNAME",
@@ -285,6 +291,9 @@ async def test_database_preflight_client_keeps_tool_schema_and_marks_only_child_
         "DECISION_AGENT_APP_NAME",
         "DECISION_AGENT_ENVIRONMENT",
         "DECISION_AGENT_DB_HOST",
+        "DECISION_AGENT_DB_UNIX_SOCKET",
+        "DECISION_AGENT_DB_POOL_SIZE",
+        "DECISION_AGENT_DB_POOL_TIMEOUT_SECONDS",
         "DECISION_AGENT_DB_PORT",
         "DECISION_AGENT_DB_DATABASE",
         "DECISION_AGENT_DB_READONLY_USERNAME",

@@ -21,8 +21,8 @@
 
 **[Key Features](#key-engineering-highlights)** • **[System Architecture](#system-architecture)** • **[Web Workbench](#interactive-web-analytics-workbench)** • **[Hybrid RAG](#clause-aware-hybrid-rag-pipeline)** • **[MCP NL2SQL](#mcp-data-agent--safe-nl2sql)** • **[Benchmarks](#retrieval-benchmark-v2-results)** • **[Quickstart](#local-quickstart)**
 
-**Cloud deployment preparation:** [P0 audit, P1 identity, P2 cloud runtime and remaining implementation plan](docs/deployment/README.md).
-P1 adds isolated demo identity and bounded admission. P2 adds a container launcher, bounded ephemeral memory and structured stdout audit; cloud deployment remains pending.
+**Cloud deployment preparation:** [P0–P4 deployment preparation and remaining implementation plan](docs/deployment/README.md).
+P3 adds a verified offline CPU container. P4 adds Cloud SQL socket support, Zilliz AUTOINDEX, reader-only serving and Terraform infrastructure. Managed cloud provisioning remains pending; see the phase report for verified results and remaining gates.
 The dependency findings recorded in P0 are remediated; see the current validation evidence before deploying.
 
 ---
@@ -190,7 +190,7 @@ The retrieval pipeline is evaluated against **Retrieval Benchmark v2**, an offli
 
 ```text
 ==================================== 100% Passing Test Suite ====================================
-✓ 1,897 Unit Tests (State machines, prompts, AST guards, token budgets, serialization, public-demo boundary)
+✓ 1,909 Unit Tests (State machines, prompts, AST guards, token budgets, serialization, public-demo boundary)
 ✓ 322 Stable Offline Integration Tests (Deterministic external-I/O substitutes, LangGraph graphs, visitor isolation)
 ✓ 28 / 28 Security & Boundary Verification Tests (Tenant isolation, SQL injection prevention)
 =================================================================================================

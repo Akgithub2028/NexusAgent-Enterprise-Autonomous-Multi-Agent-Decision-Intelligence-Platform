@@ -88,6 +88,8 @@ class SentenceTransformerCrossEncoderReranker:
         model_revision: str | None = None,
         device: str = "cpu",
         batch_size: int = 8,
+        cache_folder: str | None = None,
+        local_files_only: bool = False,
         model: Any | None = None,
         model_factory: _ModelFactory | None = None,
     ) -> None:
@@ -103,6 +105,8 @@ class SentenceTransformerCrossEncoderReranker:
             "cpu",
             batch_size,
         )
+        self.cache_folder = cache_folder
+        self.local_files_only = local_files_only
         self._injected_model, self._model = model, None
         self._model_factory = model_factory or _default_cross_encoder_factory
         self._ready = False
@@ -137,6 +141,9 @@ class SentenceTransformerCrossEncoderReranker:
                     model_name_or_path=self.model_name,
                     device=self.device,
                     revision=self.model_revision,
+                    cache_folder=self.cache_folder,
+                    local_files_only=self.local_files_only,
+                    trust_remote_code=False,
                 )
             except Exception as exc:
                 raise RerankerModelLoadError(

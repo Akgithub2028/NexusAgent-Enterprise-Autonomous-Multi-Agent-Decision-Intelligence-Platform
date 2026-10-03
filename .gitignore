@@ -46,3 +46,12 @@ models/
 # Keep evaluation reports selectively committed
 artifacts/evaluation/**/raw_traces/
 artifacts/evaluation/*.tmp
+
+# Cloud credentials and local infrastructure state
+zilliz-cloud-*-username-password.txt
+*.tfstate
+*.tfstate.*
+*.tfplan
+.terraform/
+*.tfvars
+!*.tfvars.example

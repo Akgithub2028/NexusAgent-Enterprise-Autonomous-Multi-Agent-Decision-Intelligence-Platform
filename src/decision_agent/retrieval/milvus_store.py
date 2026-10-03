@@ -131,8 +131,8 @@ class MilvusVectorStore:
             raise RetrievalValidationError("Milvus collection name cannot be empty")
         if metric_type != "COSINE":
             raise RetrievalValidationError("Milvus metric_type must be COSINE")
-        if index_type != "HNSW":
-            raise RetrievalValidationError("Milvus index_type must be HNSW")
+        if index_type not in {"HNSW", "AUTOINDEX"}:
+            raise RetrievalValidationError("Milvus index_type must be HNSW or AUTOINDEX")
         if min(hnsw_m, hnsw_ef_construction, hnsw_ef_search) <= 0:
             raise RetrievalValidationError("HNSW parameters must be greater than zero")
         if timeout_seconds <= 0:
@@ -155,6 +155,7 @@ class MilvusVectorStore:
         self._client = client
         self._client_factory = client_factory or MilvusClient
         self._initialized = False
+        self._reader_only = False
         self._closed = False
 
     @classmethod
@@ -198,6 +199,13 @@ class MilvusVectorStore:
     def required_field_names(self) -> tuple[str, ...]:
         """Return fields required for a compatible collection."""
         return self.REQUIRED_FIELD_NAMES
+
+    async def initialize_reader(self) -> None:
+        """Validate only: a reader cannot create/load collections or mutate vectors."""
+        if self._initialized and not self._reader_only:
+            raise VectorStoreConnectionError("a writer cannot become a serving reader")
+        self._reader_only = True
+        await self.initialize()
 
     async def initialize(self) -> None:
         """Create or validate, index, and load the configured collection once."""
@@ -248,14 +256,17 @@ class MilvusVectorStore:
             )
             self._validate_existing_index(index)
         else:
+            if self._reader_only:
+                raise VectorStoreSchemaError("serving requires an existing collection")
             await self._create_collection_and_index()
 
-        await self._connection_call(
-            "load collection",
-            self._client.load_collection,
-            collection_name=self._collection_name,
-            timeout=self._timeout_seconds,
-        )
+        if not self._reader_only:
+            await self._connection_call(
+                "load collection",
+                self._client.load_collection,
+                collection_name=self._collection_name,
+                timeout=self._timeout_seconds,
+            )
         self._initialized = True
 
     async def close(self) -> None:
@@ -269,6 +280,8 @@ class MilvusVectorStore:
 
     async def upsert(self, records: Sequence[VectorRecord]) -> VectorUpsertResult:
         """Validate locally, observe existing IDs once, then issue one batch upsert."""
+        if self._reader_only:
+            raise VectorStoreOperationError("serving reader cannot upsert vectors")
         if not records:
             return VectorUpsertResult(attempted_count=0, inserted_count=0, updated_count=0)
         self._require_initialized()
@@ -337,7 +350,7 @@ class MilvusVectorStore:
             output_fields=self.OUTPUT_FIELDS,
             search_params={
                 "metric_type": self._metric_type,
-                "params": {"ef": self._hnsw_ef_search},
+                "params": {"ef": self._hnsw_ef_search} if self._index_type == "HNSW" else {},
             },
             timeout=self._timeout_seconds,
         )
@@ -352,6 +365,8 @@ class MilvusVectorStore:
     async def delete_by_document(self, document_id: str) -> int:
         """Delete only one parameterized document scope and return confirmed count."""
         self._require_initialized()
+        if self._reader_only:
+            raise VectorStoreOperationError("serving reader cannot delete vectors")
         if not document_id.strip():
             raise RetrievalValidationError("document_id cannot be empty or whitespace")
         result = await self._operation_call(
@@ -490,7 +505,11 @@ class MilvusVectorStore:
             index_name="vector",
             index_type=self._index_type,
             metric_type=self._metric_type,
-            params={"M": self._hnsw_m, "efConstruction": self._hnsw_ef_construction},
+            params=(
+                {"M": self._hnsw_m, "efConstruction": self._hnsw_ef_construction}
+                if self._index_type == "HNSW"
+                else {}
+            ),
         )
         await self._connection_call(
             "create vector index",
@@ -548,7 +567,7 @@ class MilvusVectorStore:
             raise VectorStoreSchemaError("Milvus vector index type is incompatible")
         if index.get("metric_type") != self._metric_type:
             raise VectorStoreSchemaError("Milvus vector index metric is incompatible")
-        if (
+        if self._index_type == "HNSW" and (
             _parse_hnsw_index_parameter(index, "M") != self._hnsw_m
             or _parse_hnsw_index_parameter(index, "efConstruction") != self._hnsw_ef_construction
         ):

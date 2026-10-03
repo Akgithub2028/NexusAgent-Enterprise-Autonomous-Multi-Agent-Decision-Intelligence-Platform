@@ -1,7 +1,9 @@
 # NexusAgent Cloud Run implementation plan
 
 Source baseline: `2e2b34c220158c1711409ddb1335fba00fbe375f`, reviewed 2026-10-03.
-P0–P2 are complete. P3–P7 remain planned work; stop before P3 for the owner's instruction.
+P0–P3 are complete. P4 implementation is complete with real Google provisioning and
+vector RBAC validation deferred by the owner due blocked billing. Offline Terraform
+planning uses explicit dummy inputs. P5–P7 remain planned work.
 The [audit](P0_AUDIT.md) distinguishes implemented behavior from proposed changes;
 the [baseline](P0_BASELINE.json) records checks performed on this checkout.
 
@@ -138,6 +140,9 @@ visible in the Workbench and release docs.
 
 ## P3 — Reproducible serving image and corpus release
 
+Implemented and validated: [P3/P4 report](P3_P4_IMPLEMENTATION.md), [evidence](P3_P4_VALIDATION.json).
+The requirements below remain the acceptance specification.
+
 Add `Dockerfile`, `.dockerignore`, model preparation and image validation helpers.
 Target Python 3.11 and linux/amd64 initially. Pin the base image digest and locked CPU
 dependency sources; the ordinary Torch package selection can pull CUDA distributions.
@@ -160,6 +165,11 @@ resource measurements fit the chosen limits. P0 wheel smoke is evidence for pack
 not a substitute for this future container/model test.
 
 ## P4 — Managed connections and infrastructure
+
+Adapters and Terraform are implemented; managed Zilliz verification passed. Actual Cloud
+SQL/provisioning and provider reader RBAC are explicitly deferred until billing/access
+prerequisites are resolved. Google CLI authentication is complete.
+See [remaining gates](P3_P4_IMPLEMENTATION.md#deferred-managed-deployment-gates).
 
 Application seams: `data/executor.py`, `config/settings.py`,
 `mcp_client/enterprise_data_client.py`, `retrieval/milvus_store.py` and adapter tests.
