@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "status": "blocked",
+  "image": null,
+  "gates": {
+    "billing_and_budget": false,
+    "sql_socket_and_denials": false,
+    "vector_identity_denials": false,
+    "ingestion_repeat": false,
+    "startup_headroom": false,
+    "peak_memory": false,
+    "https_and_grounding": false,
+    "concurrency_and_health": false,
+    "restart_and_overlap": false,
+    "dependency_reconnect": false,
+    "sigterm_and_audit": false,
+    "rollback_and_pause": false
+  },
+  "evidence": [],
+  "reason": "Billing disabled; P4/P5/P6 managed acceptance pending."
+}

@@ -1,0 +1,7 @@
+project_id          = "nexus-agent-510512"
+region              = "us-west1"
+repository_id       = "1354703369"
+repository_owner_id = "181275449"
+preview_service     = "nexusagent-preview"
+production_service  = "nexusagent"
+release_bucket      = "nexus-agent-510512-nexus-releases"

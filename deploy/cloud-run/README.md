@@ -147,3 +147,5 @@ See [P6 runbook](../../docs/deployment/P6_RESTRICTED_DEPLOYMENT.md) for guarded 
 bootstrap/candidate commands, exact HTTPS tag origin, four pinned reader secrets,
 startup/readiness/liveness probes, measurements and rollback/pause. Cloud acceptance
 remains blocked by billing; no live URL exists.
+
+P7 uses a separate restricted preview and production service. release.config.example.json holds nonsecret URLs/numeric secret references only. See ../../docs/deployment/P7_RELEASE.md before activating.

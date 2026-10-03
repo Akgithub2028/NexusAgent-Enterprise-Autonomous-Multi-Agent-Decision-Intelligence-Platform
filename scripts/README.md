@@ -14,3 +14,5 @@ P5 adds independent versioned ingestion, distributed generation locks and comple
 promotion gates. See [P5 runbook](../docs/deployment/P5_INGESTION.md). Managed execution awaits billing/P4 prerequisites.
 
 P6 deploy_restricted_revision.py prepares guarded private bootstrap/candidate deployments; measure_restricted_service.py samples authenticated HTTPS without outputting payloads.
+
+P7 adds verify_release_ci.py, module runner scripts.run_cloud_release and receipt/HTTPS-gated add_live_demo_badge.py. Do not advertise a live URL or execute public release without actual managed acceptance.

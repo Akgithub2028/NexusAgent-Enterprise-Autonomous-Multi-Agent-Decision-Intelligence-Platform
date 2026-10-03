@@ -39,7 +39,7 @@ Once MySQL, etcd, MinIO, and Milvus are healthy:
 python scripts/initialize_knowledge_corpus.py
 ```
 
-This script parses documents, chunks text, generates embeddings, writes vector records into Milvus, and validates child record counts. Re-running updates existing records deterministically by chunk ID.
+This script loads canonical generated chunks, generates embeddings, writes vector records into Milvus, and validates exact child record IDs. Re-running updates existing records deterministically by chunk ID.
 
 Verify retrieval evidence independently:
 
@@ -105,3 +105,5 @@ python scripts/run_safe_query_demo.py
 ```bash
 docker compose down
 ```
+
+Ingestion currently loads the committed canonical generated parent/child corpus, embeds and upserts it; parser/chunker regeneration is separate. Compose has MySQL/etcd/MinIO/Milvus only. Local launchers remain loopback-only; cloud operators must follow deployment/P7_RELEASE.md.

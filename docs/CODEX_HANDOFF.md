@@ -1,7 +1,7 @@
 # Codex implementation handoff
 
-Updated 2026-10-03 during P6, based on P5 commit
-`267e8f4859445f86faadc55a45eb1cc768b09be1`. Inspect Git for the final phase commit.
+Updated 2026-10-04 during P7, based on P6 commit
+`f581fd0e14349e93cb54d34aaf816d427eb7e270`. Inspect Git for the final phase commit.
 
 ## Objective and phase status
 
@@ -16,7 +16,7 @@ authorized placeholder billing configuration because billing setup is blocked. A
 Google provisioning/Cloud SQL validation and vector reader separation are deferred gates.
 P5 ingestion/promotion implementation is ready; managed first/repeat execution remains
 deferred. P6 restricted deployment/measurement tooling is implemented; managed deployment and
-measurements remain blocked. P7 CD/live badge is unstarted.
+measurements remain blocked. P7 CD/OIDC/public release implementation is ready, with real cloud release blocked.
 P3/P4 implementation is complete under that adjusted scope; deployment acceptance
 is not complete until the deferred managed gates pass.
 
@@ -31,7 +31,7 @@ Authoritative contracts/evidence: [phase plan](deployment/IMPLEMENTATION_PLAN.md
 Repository is the `NexusAgent-Enterprise-Autonomous-Multi-Agent-Decision-Intelligence-Platform`
 child of `/media/aayaann-kausar/New Volume1/Project Enhancements-Deployements`. Set workdir
 explicitly. Work only within this workspace; do not delete unrelated/outside files.
-Branch main. User authorizes commit/push and has authorized P6 implementation. P0/P1/P2 historical commits
+Branch main. User authorizes commit/push and has authorized P7 implementation and a complete README/docs refresh. P0/P1/P2 historical commits
 are in prior evidence/Git. Existing gh authentication works; no PAT is needed in commands.
 No applicable AGENTS.md was found; no subagents were requested.
 
@@ -120,7 +120,7 @@ apply validated Terraform, create/admin-seed SQL, validate real Cloud SQL throug
 create scoped vector credentials (tier-dependent, do not assume cluster RBAC on Free),
 load Secret Manager values through stdin and record numeric versions. Serving must never
 receive admin/write credentials. Verify provider-enforced denied vector mutations.
-Then update evidence/handoff with real managed results. P6 is the next implementation phase if authorized. Actual P5 job execution/promotion
+Then update evidence/handoff with real managed results. The next work is real P4–P7 managed acceptance once billing is linked. Actual P5 job execution/promotion
 awaits those prerequisites.
 
 ## Run/verify commands and results
@@ -221,10 +221,48 @@ Token files/output stay ignored. No live LLM request or Cloud Run resource was
 created: authenticated billing recheck still false. Follow P6 runbook's exact gates
 for cold/warm startup, memory, SQL denials, reconnects, SIGTERM, restart/overlap,
 cloud audit review and actual rollback/pause. P6 managed acceptance is incomplete.
-P7 implementation may follow only when authorized; public release needs all gates.
+P7 is now implemented under owner authorization; public release still needs all gates.
 
 P6 local verification:112 focused tests passed, Ruff/format/lock checks passed.
 Current wheel over retained P3/P4 image passed real offline CPU512embedding/reranking
 and installed MCP smoke (24.286s,1,291,956KiB RSS,UID10001,SQL0). This is not a P6
 image digest or a cloud cold-start/memory measurement. Dry bootstrap/candidate plans
 used explicitly fake receipts/digest and contacted no cloud APIs.
+
+## P7 additions (2026-10-04)
+
+release.yml is disabled by default, preserves six-job ci.yml unchanged, checks exact
+commit green CI before OIDC, serializes non-cancelled operations and uses protected
+nexus-release environment. Candidate: digestbuild/push → installed writerjob →
+P5 receipt → private preview → payload-free HTTPS measurement proof. Explicit public
+action requires all12managed acceptance gates, exact image/evidence, matching reader
+bindings and real receipt before no-traffic production tag smoke/traffic/public IAM.
+Failed post-promotion checks attempt saved traffic/IAM rollback. Pause creates deny-all
+private revision; rollback needs retained original revisions/assets/secret versions.
+
+Preview must be a separate nexusagent-preview service, never a tag on publicproduction.
+Use P6 bootstrap manually for both services before applying deploy/github-oidc. Optional
+federation Terraform binds numeric repo1354703369/owner181275449, main, exact release
+workflow and environment; target service/job/registry/SA/bucket roles, no SA key or
+direct Secret Manager accessor. Project roles read-only; production admin scoped to
+that one service. Tokens are short-lived self-impersonated ID tokens.
+
+GitHub environment nexus-release was actually created with owner reviewer, admin
+bypass disabled, main-only branch policy, self-review allowed for one-maintainer
+operation. Repository variable NEXUS_RELEASE_ENABLED=false was set and verified.
+Other cloud config/identity variables are unset. LIVE_ACCEPTANCE.json remains blocked.
+No Google paid resources or OIDC pool were applied. Billing again false.
+
+The README is fully refreshed, retaining original logo/screenshot bytes and verified
+benchmark numbers plus historical test counts. Corrects no-Redis Compose, installation
+order, Python>=3.11, fabricated clone URL, summary scheduling and unsupported guarantee
+claims. add_live_demo_badge.py verifies receipt/current revision/public HTTPS before
+inserting a badge; there is no fake public URL. See P7 runbook for exact activation,
+rollback/pause and badge steps. Next work is actual P4–P7 acceptance after billing,
+not another AI feature or a fictional completion status.
+
+P7 authentication refresh: OAuth access lasts one hour and is refreshed after image
+build; measured HTTPS calls refresh self-impersonated ID tokens with a 120-second cache. Preview
+Minimum-zero preview cleanup runs after deployment or measurement failure to avoid leaving an extra warm
+service. CI proof/benchmark verifiers passed locally; actual cloud token exchange is
+a pending gate, not proven by a mock Terraform plan.

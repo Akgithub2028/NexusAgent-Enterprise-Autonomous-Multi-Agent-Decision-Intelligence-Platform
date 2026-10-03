@@ -29,3 +29,5 @@
 **/*.pem
 **/*.key
 **/.git/**
+
+**/gha-creds-*.json

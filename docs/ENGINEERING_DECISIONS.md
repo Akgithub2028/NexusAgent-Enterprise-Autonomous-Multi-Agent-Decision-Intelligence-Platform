@@ -23,3 +23,5 @@ Request-level Traces record structured spans across Routing, Planning, Skill dis
 ## Verifiable Evaluation Artifacts
 
 The Retrieval Benchmark v2 persists queries, relevance ground-truth labels, ranking records, aggregated metrics, and SHA-256 integrity checksums. Verification scripts reproduce Hit@1, Hit@5, and MRR@5 metrics directly from version-controlled artifact snapshots.
+
+Deployment decisions: serve API/UI together; use managed SQL/vectors, pinned offline CPU models, generation-locked ingestion and separate private preview. Protected OIDC releases preserve explicit managed acceptance; live execution remains deferred by billing. See deployment/P7_RELEASE.md.

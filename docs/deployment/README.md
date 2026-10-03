@@ -1,34 +1,39 @@
-# Cloud deployment preparation
+# Deployment implementation and acceptance ledger
 
-P0 source snapshot: `2e2b34c220158c1711409ddb1335fba00fbe375f`.
-P1 reviewed on 2026-10-03, based on `635a8ecc697754d798376626b0380f06d60e4cbf`.
+Reviewed 2026-10-04. One FastAPI container serves the Workbench and scoped decision
+runtime; managed SQL/vectors and independent ingestion remain the target.
 
-P0 established the audit, plan, directory notes and baseline. P1 implements opt-in
-public-demo identity, fixed grants and bounded admission, and remediates the reported
-dependency findings. P2 adds the container launcher, bounded ephemeral memory and mandatory stdout audit
-with structured logging. P3 adds the verified offline CPU serving image. P4 adapters and
-infrastructure are implemented; the owner deferred actual provisioning due billing issues.
-Dummy inputs/offline planning are explicitly marked; provider vector-reader RBAC remains
-a deployment prerequisite. No cloud service has been deployed.
+| Phase | Implementation | Acceptance |
+| --- | --- | --- |
+| P0 audit/baseline | Complete | Local recorded baseline |
+| P1 public-demo boundary | Complete | Fixed scopes, visitor ownership and admission tested |
+| P2 cloud runtime | Complete | Lifecycle, bounded memory and mandatory stdout audit tested |
+| P3 reproducible CPU image | Complete | Real offline model/wheel/MCP container checks passed |
+| P4 managed adapters/infrastructure | Complete | Zilliz/local SQL checks passed; actual Google provisioning and scoped provider credentials pending |
+| P5 independent ingestion | Complete | Offline regression passed; real first/repeat jobs pending |
+| P6 restricted serving | Complete | Local/deployment tooling checks passed; managed deployment and measurements pending |
+| P7 gated CI/CD | Complete | Workflow/OIDC plan/release guards prepared; federation and live release pending |
 
-- [P3/P4 implementation and remaining gates](P3_P4_IMPLEMENTATION.md)
-- [P3/P4 validation evidence](P3_P4_VALIDATION.json)
-- [Cloud infrastructure/operator runbook](../../deploy/cloud-run/README.md)
-- [Implementation plan and phase gates](IMPLEMENTATION_PLAN.md)
-- [P2 runtime, memory and audit contract](P2_CLOUD_RUNTIME.md)
-- [P2 validation evidence](P2_VALIDATION.json)
-- [P1 public-demo implementation and API contract](P1_PUBLIC_DEMO.md)
-- [P1 validation evidence](P1_VALIDATION.json)
-- [P0 source audit and completion checklist](P0_AUDIT.md)
-- [Measured check results](P0_BASELINE.json)
-- [Dependency advisory inventory](P0_DEPENDENCY_AUDIT.json)
-- [Directory navigation and maintenance](DIRECTORY_INDEX.md)
-- [Directory source fingerprints](DIRECTORY_MANIFEST.json)
-- [P0 documentation validation](P0_VALIDATION.json)
+**Blocking state:** authenticated billing recheck returnedfalse. Owner authorized
+explicit dummy/offline preparation while billing setup is unresolved. No live URL,
+paid cloud provisioning or live LLM completion is claimed. GitHub's release environment
+is protected and its enable variable isfalse. LIVE_ACCEPTANCE remainsblocked.
 
-Read the audit before implementing a phase. Update affected directory READMEs and this
-status in the same commit as their implementation. A source fingerprint identifies
-when a note needs review; it does not automatically rewrite the note.
+Start with [current handoff](../CODEX_HANDOFF.md), then:
 
-P0's historical scan reported 24 advisories in three packages. P1 updates those pins;
-the new resolving and pinned-package audits report zero known vulnerabilities.
+- [P7 release/OIDC/public/rollback runbook](P7_RELEASE.md)
+- [P6 restricted deployment and measurements](P6_RESTRICTED_DEPLOYMENT.md)
+- [P5 versioned ingestion/promotion](P5_INGESTION.md)
+- [P3/P4 implementation and managed gates](P3_P4_IMPLEMENTATION.md)
+- [Cloud infrastructure/operator guide](../../deploy/cloud-run/README.md)
+- [OIDC resource scope](../../deploy/github-oidc/README.md)
+- [Implementation plan](IMPLEMENTATION_PLAN.md)
+- [P1 boundary](P1_PUBLIC_DEMO.md), [P2 runtime](P2_CLOUD_RUNTIME.md), [P0 audit](P0_AUDIT.md)
+- [P0 baseline](P0_BASELINE.json), [P1 evidence](P1_VALIDATION.json), [P2 evidence](P2_VALIDATION.json)
+- [P3/P4 evidence](P3_P4_VALIDATION.json), [P5 evidence](P5_VALIDATION.json), [P6 evidence](P6_VALIDATION.json), [P7 evidence](P7_VALIDATION.json)
+- [Directory index](DIRECTORY_INDEX.md) and [fingerprints](DIRECTORY_MANIFEST.json)
+
+Keep historical evidence unchanged. Record real measurements before advancing live
+acceptance; do not relabel mock plans/local sockets as managed success. The P0
+historical dependency findings were remediated in P1; current CI audits remain the
+appropriate source for present dependency results.

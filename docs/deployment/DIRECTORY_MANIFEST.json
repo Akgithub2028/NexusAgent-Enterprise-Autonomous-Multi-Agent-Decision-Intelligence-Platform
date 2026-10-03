@@ -1,22 +1,22 @@
 {
   "schema_version": 1,
-  "reviewed_source_commit": "2e2b34c220158c1711409ddb1335fba00fbe375f",
-  "review_date": "2026-10-03",
+  "reviewed_source_commit": "f581fd0e14349e93cb54d34aaf816d427eb7e270",
+  "review_date": "2026-10-04",
   "fingerprint_algorithm": "sha256 of sorted repository-relative path + NUL + file sha256 + LF; tracked non-Markdown files, excluding docs/deployment review evidence",
   "directories": [
     {
       "path": ".github",
       "readme": ".github/README.md",
       "review_depth": "supporting inventory / contracts",
-      "source_file_count": 2,
-      "source_sha256": "4e9a8767a840f9a70f472a5e9ffb8ce365343817f8bf3c461a4dfeac160e020e"
+      "source_file_count": 3,
+      "source_sha256": "888c11cfe3db429bf0ec6909a0a6777b3b2d3c082f6322ffd4e2b8f03ea7cdc4"
     },
     {
       "path": ".github/workflows",
       "readme": ".github/workflows/README.md",
       "review_depth": "supporting inventory / contracts",
-      "source_file_count": 1,
-      "source_sha256": "734db89b1d67e791aeb7b10392ade518cb1f2918fda82e7a732f5beea21ee286"
+      "source_file_count": 2,
+      "source_sha256": "bdda2947836b4ad901e97853ba7f3924cd05b35becff992766fe372e9577647d"
     },
     {
       "path": "artifacts",
@@ -106,8 +106,8 @@
       "path": "scripts",
       "readme": "scripts/README.md",
       "review_depth": "supporting inventory / contracts",
-      "source_file_count": 35,
-      "source_sha256": "85d6ee68ce4ed9a414a5983918f40ada29c7d811bc554e85e26dd12250f6cd48"
+      "source_file_count": 38,
+      "source_sha256": "310e23f44028d436e5bbc3ce39279988b133225bac3b3ffa5435395e4930a7d3"
     },
     {
       "path": "scripts/runtime",
@@ -145,8 +145,8 @@
       "path": "tests",
       "readme": "tests/README.md",
       "review_depth": "supporting inventory / contracts",
-      "source_file_count": 158,
-      "source_sha256": "62c8d0769e7e8fe4da440fd74bc8b0a00696cbe733b571013003f423df34e2ae",
+      "source_file_count": 159,
+      "source_sha256": "f5b31909cd9e6b482f696c4f499182005f80d8c6eb84ee5c4591bc41e7cd5597",
       "review_stage": "P2",
       "review_base_commit": "5ce044b2dfec6b40dd2a7cc05401017975dc062d"
     },
@@ -154,8 +154,8 @@
       "path": "tests/unit",
       "readme": "tests/unit/README.md",
       "review_depth": "supporting inventory / contracts",
-      "source_file_count": 127,
-      "source_sha256": "0db6fa57377871ee788e33cecfad73949c4dae9fdc95616190dc3fe5a0a8cfbe",
+      "source_file_count": 128,
+      "source_sha256": "2d00ac2f6367698d76f95afff0943c1f645504cae70e6560244e9fea85aaf76e",
       "review_stage": "P2",
       "review_base_commit": "5ce044b2dfec6b40dd2a7cc05401017975dc062d"
     },
@@ -396,7 +396,7 @@
       "path": "tests/unit/api",
       "readme": "tests/unit/api/README.md",
       "review_depth": "runtime behavior tests",
-      "source_sha256": "09b1740a563a9e06be8337ea97eaa77040769d49e81d7cd58bb4271871e8d962",
+      "source_sha256": "a567df7d514b794f85f4db0250538eca8c0591c1ae297c29cb606ac0bfe61fdf",
       "source_file_count": 5,
       "review_stage": "P1",
       "review_base_commit": "635a8ecc697754d798376626b0380f06d60e4cbf"
@@ -432,15 +432,15 @@
       "path": "deploy",
       "readme": "deploy/README.md",
       "review_depth": "P3/P4 implementation contracts",
-      "source_file_count": 10,
-      "source_sha256": "9da6e5b4fc5be0f845151a4c64e0650f5da6f31a6caaae8eae0e579fb4b34335"
+      "source_file_count": 15,
+      "source_sha256": "597553d304f70dc8a7e19bc8a4327260e1a4743ba3342af87b48213fe37cae69"
     },
     {
       "path": "deploy/cloud-run",
       "readme": "deploy/cloud-run/README.md",
       "review_depth": "P3/P4 implementation contracts",
-      "source_file_count": 10,
-      "source_sha256": "9da6e5b4fc5be0f845151a4c64e0650f5da6f31a6caaae8eae0e579fb4b34335"
+      "source_file_count": 11,
+      "source_sha256": "f8a363770e62c26dbee1d16059bb484b970e60da38beb5ebe36cc53de4b72c19"
     },
     {
       "path": "deploy/cloud-run/tests",
@@ -462,6 +462,27 @@
       "review_depth": "P3/P4 implementation contracts",
       "source_file_count": 13,
       "source_sha256": "3420efdeb286482acc99729d57e8bf5172af7e1cf44e2c6f5039acf2d0efbf5d"
+    },
+    {
+      "path": "deploy/github-oidc",
+      "readme": "deploy/github-oidc/README.md",
+      "review_depth": "implementation reviewed",
+      "source_sha256": "437e337065961c305174dc0b147edc6777d60f3afa4400256c9661dcb5d00328",
+      "source_file_count": 4
+    },
+    {
+      "path": "deploy/github-oidc/tests",
+      "readme": "deploy/github-oidc/tests/README.md",
+      "review_depth": "implementation reviewed",
+      "source_sha256": "2aa74fe06729d8d121704c46eecfbebd86ef41c176bc7b3678beb469747150f2",
+      "source_file_count": 1
+    },
+    {
+      "path": "tests/unit/public_release",
+      "readme": "tests/unit/public_release/README.md",
+      "review_depth": "implementation reviewed",
+      "source_sha256": "06cd28c285eab74f95fec5f8735337df14ac21e3cc01fb76612fd2e350e4644d",
+      "source_file_count": 2
     }
   ],
   "last_update": {

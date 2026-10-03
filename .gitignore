@@ -58,3 +58,6 @@ zilliz-cloud-*-username-password.txt
 
 # Local operator job environment
 deploy/cloud-run/ingestion.env.yaml
+
+# GitHub OIDC action ephemeral credentials
+gha-creds-*.json

@@ -1,7 +1,8 @@
-# Deployment assets
+# Deployment boundaries
 
-[cloud-run](cloud-run/README.md) contains the verified CPU image dependency locks,
-Terraform infrastructure and operator configuration. No public service or ingestion job
-is deployed yet. Owner-authorized dummy configuration supports offline review; billing must be linked
-before actual Google infrastructure provisioning.
-Keep all credentials, local Terraform state/plans/inputs and CLI caches out of Git.
+[cloud-run](cloud-run/README.md) owns managed-state infrastructure, immutable corpus/
+image configuration and phase runbooks. [github-oidc](github-oidc/README.md) adds
+optional federation against existing preview/production/job resources.
+
+These roots never store secret values or build a fictional live URL. Keep Terraform
+state and operator input files ignored; actual provisioning awaits linked billing.

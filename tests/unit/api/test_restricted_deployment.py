@@ -127,7 +127,9 @@ async def test_measurement_projection_and_secure_cookie_checks(monkeypatch):
         "AsyncClient",
         lambda **kw: client_class(**kw, transport=httpx.MockTransport(handle)),
     )
-    result = await measurements.measure("https://p6---test.run.app", "private-token", cases, 2)
+    result = await measurements.measure(
+        "https://p6---test.run.app", lambda: "private-token", cases, 2
+    )
     assert result["status"] == "passed"
     assert result["health_samples"] >= 1
     assert "private" not in json.dumps(result)

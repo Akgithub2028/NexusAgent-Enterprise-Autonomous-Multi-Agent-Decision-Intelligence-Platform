@@ -53,3 +53,5 @@ The Mixed pipeline orchestrates both Knowledge and Data subtasks, combining poli
 ## Runtime Resources
 
 MySQL, Milvus, Redis, and MCP client sessions are initialized during application startup and cleanly finalized upon application shutdown. Unit test suites use deterministic in-memory stubs, while integration and production runtimes connect via Docker and environment configurations.
+
+Cloud boundary implementation: CPU container + external Cloud SQL/Zilliz, explicit versioned ingestion job, serving-reader initialization, scoped public visitor cookies and a separate IAM-private preview. Gated OIDC release tooling is prepared; live acceptance is pending. See deployment/P7_RELEASE.md.

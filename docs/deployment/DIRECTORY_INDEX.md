@@ -69,12 +69,15 @@ virtual environments, caches, Git internals or generated/frozen dataset leaves.
 | [src/decision_agent/tools](../../src/decision_agent/tools/README.md) | Compatibility namespace | supporting inventory / contracts |
 | [src/decision_agent/web](../../src/decision_agent/web/README.md) | Package-local Web Workbench assets | runtime boundary traced |
 | [src/decision_agent/workflows](../../src/decision_agent/workflows/README.md) | LangGraph knowledge and data execution | runtime boundary traced |
-
 | [deploy](../../deploy/README.md) | P3/P4 implementation contracts | implementation reviewed |
 | [deploy/cloud-run](../../deploy/cloud-run/README.md) | P3/P4 implementation contracts | implementation reviewed |
 | [deploy/cloud-run/tests](../../deploy/cloud-run/tests/README.md) | P3/P4 implementation contracts | implementation reviewed |
 | [tests/unit/mcp_client](../../tests/unit/mcp_client/README.md) | P3/P4 implementation contracts | implementation reviewed |
 | [tests/unit/retrieval](../../tests/unit/retrieval/README.md) | P3/P4 implementation contracts | implementation reviewed |
+
+| [deploy/github-oidc](../../deploy/github-oidc/README.md) | Scoped GitHub federation and release permissions | implementation reviewed |
+| [deploy/github-oidc/tests](../../deploy/github-oidc/tests/README.md) | Offline federation plan contracts | implementation reviewed |
+| [tests/unit/public_release](../../tests/unit/public_release/README.md) | Public promotion and rollback guards | runtime behavior tests |
 
 ## Updating a note
 
@@ -109,3 +112,5 @@ PY
 For newly added source files, include them in the Git index before the check. When
 refreshing fingerprints, use the same algorithm and record the reviewed source commit.
 The manifest is a review aid, not a build input or an authorization source.
+
+P7 reviews current sources based on `f581fd0e14349e93cb54d34aaf816d427eb7e270` on 2026-10-04, adding the github-oidc root and refreshed release/docs notes. Fingerprints identify current reviewed sources; historical phase evidence remains unchanged.

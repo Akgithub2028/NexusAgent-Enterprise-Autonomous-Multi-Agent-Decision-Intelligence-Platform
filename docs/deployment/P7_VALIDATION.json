@@ -1,0 +1,64 @@
+{
+  "phase": "P7",
+  "status": "implementation_ready_managed_acceptance_blocked",
+  "base_commit": "f581fd0e14349e93cb54d34aaf816d427eb7e270",
+  "review_date": "2026-10-04",
+  "checks": {
+    "targeted_tests": 28,
+    "unit_tests_collected": 1941,
+    "ruff": "passed",
+    "formatted_files": 349,
+    "actionlint": "passed (1.7.12)",
+    "terraform_validate": "passed",
+    "terraform_mock_runs": 1,
+    "dependency_lock": "passed",
+    "frozen_retrieval_evidence": "passed",
+    "exact_commit_ci_gate": "passed against P6 commit",
+    "directory_fingerprints": 64,
+    "markdown_local_links": 405,
+    "staged_secret_scan": "passed (gitleaks 8.30.1)",
+    "whitespace": "passed",
+    "preserved_original_artwork_and_ci": "byte-identical"
+  },
+  "github_configuration": {
+    "environment": "nexus-release",
+    "required_reviewer_owner_id": 181275449,
+    "admin_bypass": false,
+    "prevent_self_review": false,
+    "deployment_branches": [
+      "main"
+    ],
+    "deployment_tags": [],
+    "NEXUS_RELEASE_ENABLED": "false",
+    "cloud_configuration_vars_set": false
+  },
+  "billing_recheck": {
+    "project": "nexus-agent-510512",
+    "billingEnabled": false,
+    "billingAccountName": ""
+  },
+  "cloud_resources_created": false,
+  "live_llm_calls": 0,
+  "source_sha256": {
+    ".github/workflows/release.yml": "fd6bd2fa5a571c977b94e99a4001835ef26d219b79bb1672c399cfa4ca72a8b8",
+    "deploy/github-oidc/main.tf": "2dc3a72fbc8adcd84e64d4526e493fbb0cd1cb5807b7db1d904bdacfa36b6b07",
+    "scripts/run_cloud_release.py": "1c4c8d98e1521150cab92662eb5b845b972f1948f069685d2ab2b8cf79408edf",
+    "scripts/verify_release_ci.py": "306c4b3962f24c46f1830462c6cb29258682962f6921b7cc795ce2fb8bc0b5ad",
+    "scripts/add_live_demo_badge.py": "e631c2f899f76ec8d9fe4a6f8f29564465913a28e5be699539edd9691de1497f",
+    "scripts/measure_restricted_service.py": "7b05ecdc3baaad145f21728a71a6bad8841d2fd71cba62aed9fee69a2ca47924",
+    "README.md": "b366aa354bfcf7e8bc0409e0ee4676d18fc0aacbc3c7b49edeb04be6751aa32b"
+  },
+  "preserved_assets_sha256": {
+    "docs/assets/nexusagent-logo.svg": "d8e8bbc6b188482e32a3741d1faa18af50d5a6994aeefb9df7d71da222f578c4",
+    "docs/assets/demo-ui.png": "b0e645d32b6aebdc6580b27872dcb0f1952cbde4764cf3f36fe7f00a1cbca8a3",
+    ".github/workflows/ci.yml": "8b85b798e54021cde345a5e0a6b729274c5d9c8b646acc55ce17e687aa14a47d"
+  },
+  "remaining_gates": [
+    "Enable billing and complete real P4 provisioning and scoped SQL/vector identities",
+    "Execute first/repeat P5 ingestion with actual immutable image",
+    "Complete P6 restricted deployment and all measurements/rollback/pause exercises",
+    "Apply scoped OIDC root and verify GitHub token/resource permissions",
+    "Approve exact-image LIVE_ACCEPTANCE.json with real evidence",
+    "Verify public HTTPS release receipt and only then add live badge"
+  ]
+}

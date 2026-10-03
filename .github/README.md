@@ -5,7 +5,9 @@ Review depth: supporting inventory / contracts.
 
 Entry files: [workflows/ci.yml](workflows/ci.yml).
 
-Six CI checks; no image build, OIDC federation or deployment yet. P7 extends release automation.
+Six CI checks validate the source. P7 adds image builds and release automation; cloud federation and live deployment await managed acceptance.
 
 Validation and phase gates: [deployment plan](../docs/deployment/IMPLEMENTATION_PLAN.md).
 Update this note with source changes; check its source fingerprint in the [directory index](../docs/deployment/DIRECTORY_INDEX.md).
+
+P7 adds a disabled-by-default OIDC release workflow. Preserve six CI gates; protected environment/release enablement and real acceptance control live operations.

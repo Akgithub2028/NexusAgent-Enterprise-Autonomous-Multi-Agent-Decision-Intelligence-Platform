@@ -5,7 +5,8 @@ P0–P3 are complete. P4 implementation is complete with real Google provisionin
 vector RBAC validation deferred by the owner due blocked billing. Offline Terraform
 planning uses explicit dummy inputs. P5 implementation is ready; managed execution and
 promotion acceptance await those same prerequisites. P6 implementation is ready, with managed deployment/measurement acceptance blocked
-by billing and earlier managed gates. P7 remains planned work.
+by billing and earlier managed gates. P7 release/OIDC/public/rollback implementation is ready. All managed release acceptance
+remains pending billing and the earlier live gates.
 The [audit](P0_AUDIT.md) distinguishes implemented behavior from proposed changes;
 the [baseline](P0_BASELINE.json) records checks performed on this checkout.
 
@@ -243,6 +244,9 @@ Exit: recorded startup headroom, chosen resource settings, tested isolation/admi
 known latency and exercised rollback/pause procedures.
 
 ## P7 — CI/CD and public release
+
+Implementation/runbook: [P7](P7_RELEASE.md). Protected GitHub environment configured;
+release variablefalse and acceptance recordblocked. Live release is unfinished.
 
 Extend `.github/workflows/ci.yml` or add a release workflow. Preserve its six current
 checks; PR checks require no cloud credentials. Build/model-download steps are networked.

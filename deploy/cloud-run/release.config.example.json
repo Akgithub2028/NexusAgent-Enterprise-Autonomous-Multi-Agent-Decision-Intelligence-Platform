@@ -1,0 +1,18 @@
+{
+  "project": "nexus-agent-510512",
+  "region": "us-west1",
+  "preview_service": "nexusagent-preview",
+  "production_service": "nexusagent",
+  "preview_origin": "https://REPLACE_P6_PREVIEW_TAG.run.app",
+  "preview_audience": "https://REPLACE_CANONICAL_PREVIEW.run.app",
+  "production_origin": "https://REPLACE_CANONICAL_PRODUCTION.run.app",
+  "milvus_uri": "https://in03-58be74b5a71aa09.serverless.gcp-us-west1.cloud.zilliz.com",
+  "release_bucket": "nexus-agent-510512-nexus-releases",
+  "writer_secret_version": "REPLACE_NUMERIC_VERSION",
+  "secret_versions": {
+    "nexus-groq-key": "REPLACE_NUMERIC_VERSION",
+    "nexus-vector-read-token": "REPLACE_NUMERIC_VERSION",
+    "nexus-db-reader-password": "REPLACE_NUMERIC_VERSION",
+    "nexus-demo-signing-key": "REPLACE_NUMERIC_VERSION"
+  }
+}

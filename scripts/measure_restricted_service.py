@@ -8,6 +8,7 @@ import json
 import math
 import time
 import uuid
+from collections.abc import Callable
 from contextlib import suppress
 from pathlib import Path
 from urllib.parse import urlsplit
@@ -31,7 +32,9 @@ def percentile(values: list[float], fraction: float) -> float:
     return ordered[low] + (ordered[math.ceil(rank)] - ordered[low]) * (rank - low)
 
 
-async def measure(origin: str, token: str, cases: list[dict], repeats: int) -> dict:
+async def measure(
+    origin: str, token: str | Callable[[], str], cases: list[dict], repeats: int
+) -> dict:
     parsed = urlsplit(origin)
     if (
         parsed.scheme != "https"
@@ -45,7 +48,11 @@ async def measure(origin: str, token: str, cases: list[dict], repeats: int) -> d
         raise ValueError("exact Cloud Run HTTPS origin required")
     if not 2 <= repeats <= 3:
         raise ValueError("bounded sampling requires two or three repeats")
-    headers = {"X-Serverless-Authorization": "Bearer " + token, "Origin": origin}
+
+    async def request_headers():
+        value = await asyncio.to_thread(token) if callable(token) else token
+        return {"X-Serverless-Authorization": "Bearer " + value, "Origin": origin}
+
     health_times = []
     results = []
     stopped = asyncio.Event()
@@ -56,14 +63,14 @@ async def measure(origin: str, token: str, cases: list[dict], repeats: int) -> d
         if unauthenticated.status_code not in (401, 403):
             raise ValueError("service is publicly invokable")
         for path in ("/health", "/ready", "/", "/assets/app.js"):
-            response = await monitor.get(path, headers=headers)
+            response = await monitor.get(path, headers=await request_headers())
             if response.status_code != 200:
                 raise ValueError("runtime or UI unavailable")
 
         async def health_loop():
             while not stopped.is_set():
                 start = time.perf_counter()
-                response = await monitor.get("/health", headers=headers, timeout=10)
+                response = await monitor.get("/health", headers=await request_headers(), timeout=10)
                 if response.status_code != 200:
                     raise ValueError("health failed during inference")
                 health_times.append(time.perf_counter() - start)
@@ -71,7 +78,7 @@ async def measure(origin: str, token: str, cases: list[dict], repeats: int) -> d
                     await asyncio.wait_for(stopped.wait(), timeout=1)
 
         async def bootstrap(client):
-            response = await client.get(SESSION_ENDPOINT, headers=headers)
+            response = await client.get(SESSION_ENDPOINT, headers=await request_headers())
             cookie = response.headers.get("set-cookie", "").lower()
             if response.status_code != 200 or not all(
                 x in cookie for x in ("secure", "httponly", "samesite=strict")
@@ -83,7 +90,7 @@ async def measure(origin: str, token: str, cases: list[dict], repeats: int) -> d
             start = time.perf_counter()
             response = await client.post(
                 EXECUTE_ENDPOINT,
-                headers=headers,
+                headers=await request_headers(),
                 json={
                     "request_id": uuid.uuid4().hex,
                     "session_id": session,
@@ -153,7 +160,7 @@ async def measure(origin: str, token: str, cases: list[dict], repeats: int) -> d
                 raise ValueError("fresh visitors unexpectedly reused history")
             denial = await a.post(
                 EXECUTE_ENDPOINT,
-                headers={**headers, "Origin": "https://wrong.test"},
+                headers={**(await request_headers()), "Origin": "https://wrong.test"},
                 json={"request_id": uuid.uuid4().hex, "query": "synthetic"},
             )
             if denial.status_code != 403:

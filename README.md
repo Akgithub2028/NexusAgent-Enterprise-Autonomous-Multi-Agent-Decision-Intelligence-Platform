@@ -2,297 +2,361 @@
 
 <img src="docs/assets/nexusagent-logo.svg" alt="NexusAgent Logo" width="130" height="130" />
 
-#  NexusAgent: Enterprise Autonomous Multi-Agent Decision Intelligence Platform
+# NexusAgent
 
-### *Deterministic Evidence-Grounded Hybrid RAG × Model Context Protocol (MCP) NL2SQL × LangGraph Multi-Agent Orchestration*
+### Enterprise Autonomous Multi-Agent Decision Intelligence Platform
 
-<p align="center">
-  <a href="#system-architecture"><img src="https://img.shields.io/badge/LangGraph-Multi--Agent%20StateGraph-FF6F00?style=for-the-badge&logo=langchain&logoColor=white" alt="LangGraph" /></a>
-  <a href="#mcp-data-agent--safe-nl2sql"><img src="https://img.shields.io/badge/Anthropic%20MCP-Model%20Context%20Protocol-5865F2?style=for-the-badge&logo=anthropic&logoColor=white" alt="MCP" /></a>
-  <a href="#clause-aware-hybrid-rag-pipeline"><img src="https://img.shields.io/badge/Milvus%20Vector%20DB-HNSW%20%2B%20BM25%20Hybrid-00A1EA?style=for-the-badge&logo=zilliz&logoColor=white" alt="Milvus" /></a>
-  <a href="#clause-aware-hybrid-rag-pipeline"><img src="https://img.shields.io/badge/Reranker-BGE%20Cross--Encoder-10B981?style=for-the-badge&logo=huggingface&logoColor=white" alt="BGE Reranker" /></a>
+**Evidence-grounded Hybrid RAG × MCP NL2SQL × LangGraph orchestration**
+
+*Turn enterprise policies and operational data into decisions you can inspect.*
+
+<p>
+  <a href="https://github.com/Akgithub2028/NexusAgent-Enterprise-Autonomous-Multi-Agent-Decision-Intelligence-Platform/actions/workflows/ci.yml"><img src="https://github.com/Akgithub2028/NexusAgent-Enterprise-Autonomous-Multi-Agent-Decision-Intelligence-Platform/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-F59E0B" alt="Apache 2.0" /></a>
+  <a href="#local-quickstart"><img src="https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white" alt="Python 3.11+" /></a>
+  <a href="#cloud-deployment"><img src="https://img.shields.io/badge/cloud-release%20gated-64748B?logo=googlecloud&logoColor=white" alt="Cloud release gated" /></a>
+</p>
+<p>
+  <a href="#system-architecture"><img src="https://img.shields.io/badge/LangGraph-Multi--Agent-FF6F00?style=for-the-badge&logo=langchain&logoColor=white" alt="LangGraph" /></a>
+  <a href="#mcp-data-agent--safe-nl2sql"><img src="https://img.shields.io/badge/MCP-Guarded%20NL2SQL-5865F2?style=for-the-badge&logo=anthropic&logoColor=white" alt="MCP" /></a>
+  <a href="#clause-aware-hybrid-rag-pipeline"><img src="https://img.shields.io/badge/Milvus-Hybrid%20Retrieval-00A1EA?style=for-the-badge&logo=zilliz&logoColor=white" alt="Milvus" /></a>
+  <a href="#clause-aware-hybrid-rag-pipeline"><img src="https://img.shields.io/badge/BGE-Cross--Encoder-10B981?style=for-the-badge&logo=huggingface&logoColor=white" alt="BGE" /></a>
   <br />
-  <a href="#mcp-data-agent--safe-nl2sql"><img src="https://img.shields.io/badge/SQLGlot-AST%20Security%20Guard-EC4899?style=for-the-badge&logo=mysql&logoColor=white" alt="SQLGlot" /></a>
-  <a href="#distributed-tracing--context-management"><img src="https://img.shields.io/badge/Redis-Distributed%20Session%20State-DC382D?style=for-the-badge&logo=redis&logoColor=white" alt="Redis" /></a>
-  <a href="#production-asgi-runtime"><img src="https://img.shields.io/badge/FastAPI-Production%20ASGI%20Runtime-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI" /></a>
-  <a href="#engineering-rigor--ci-pipeline"><img src="https://img.shields.io/badge/Python-3.11%2B%20Type--Safe-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python 3.11" /></a>
-  <a href="#license"><img src="https://img.shields.io/badge/License-Apache%202.0-F59E0B?style=for-the-badge&logo=apache&logoColor=white" alt="Apache 2.0" /></a>
+  <a href="#mcp-data-agent--safe-nl2sql"><img src="https://img.shields.io/badge/SQLGlot-AST%20Guard-EC4899?style=for-the-badge&logo=mysql&logoColor=white" alt="SQLGlot" /></a>
+  <a href="#distributed-tracing--context-management"><img src="https://img.shields.io/badge/Redis-Optional%20Memory-DC382D?style=for-the-badge&logo=redis&logoColor=white" alt="Redis" /></a>
+  <a href="#production-asgi-runtime"><img src="https://img.shields.io/badge/FastAPI-ASGI%20Runtime-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI" /></a>
+  <a href="#cloud-deployment"><img src="https://img.shields.io/badge/Cloud%20Run-Container%20%2B%20Jobs-4285F4?style=for-the-badge&logo=googlecloud&logoColor=white" alt="Cloud Run preparation" /></a>
 </p>
 
-**[Key Features](#key-engineering-highlights)** • **[System Architecture](#system-architecture)** • **[Web Workbench](#interactive-web-analytics-workbench)** • **[Hybrid RAG](#clause-aware-hybrid-rag-pipeline)** • **[MCP NL2SQL](#mcp-data-agent--safe-nl2sql)** • **[Benchmarks](#retrieval-benchmark-v2-results)** • **[Quickstart](#local-quickstart)**
+<!-- VERIFIED_LIVE_BADGE -->
 
-**Cloud deployment preparation:** [P0–P4 deployment preparation and remaining implementation plan](docs/deployment/README.md).
-P3 adds a verified offline CPU container. P4 adds Cloud SQL socket support, Zilliz AUTOINDEX, reader-only serving and Terraform infrastructure. Managed cloud provisioning remains pending; see the phase report for verified results and remaining gates.
-The dependency findings recorded in P0 are remediated; see the current validation evidence before deploying.
+**[Highlights](#key-engineering-highlights)** · **[Architecture](#system-architecture)** · **[Workbench](#interactive-web-analytics-workbench)** · **[Benchmarks](#retrieval-benchmark-v2-results)** · **[Quickstart](#local-quickstart)** · **[Deployment](#cloud-deployment)** · **[Docs](#documentation-map)**
 
----
+| 200 benchmark scenarios | 96.25% Child Hit@1 | 28/28 security cases | 3 agent routes |
+| :---: | :---: | :---: | :---: |
+| 160 answerable · 40 unanswerable | 154/160 after reranking | Frozen boundary evaluation | Knowledge · Data · Mixed |
 
 </div>
 
-## 📌 Executive Summary & Problem Solved
+> **Deployment status:** P0–P7 implementation is prepared. Live acceptance is pending: project billing is disabled, and managed provisioning, ingestion and cloud measurements remain unfinished. Release automation defaults to disabled. A live badge will appear only after verified public HTTPS acceptance. See the [phase ledger](docs/deployment/README.md).
 
-Modern enterprise decision-making is severely bottlenecked by **data fragmentation**. High-stakes operational scenarios—such as supply chain inventory replenishment, pricing and discount authority audits, warranty validation, and financial risk assessment—require simultaneously cross-referencing **unstructured compliance policies** with **live relational databases**.
+## The problem NexusAgent solves
 
-Traditional LLM chatbots and naive vector search (RAG) fail catastrophically in production:
-1. **Hallucination over Fine Print**: Generic vector chunks sever clause hierarchies, losing critical exception conditions.
-2. **Schema Hallucinations & Blind SQL Injection**: Naive text-to-SQL lacks schema sandboxing, execution timeouts, and AST-level query validation.
-3. **Absence of Grounded Verifiability**: Decisions lack verifiable citations mapping claims to official document clauses and live database rows.
-4. **Context Drift in Multi-Turn Dialogues**: Unbounded token accumulation degrades reasoning and leaks cross-tenant state.
+Inventory replenishment, discount approvals, warranty validation and financial risk
+assessment often require both policy clauses and database facts. NexusAgent combines
+those sources in one bounded decision workflow, with citations such as `[E1]` and
+`[D1]`, observable execution stages and explicit insufficient-evidence outcomes.
 
-**NexusAgent** is an enterprise-grade, autonomous multi-agent platform that resolves these bottlenecks. Utilizing **LangGraph state machine orchestration**, the **Model Context Protocol (MCP)** for secure tool execution, a **Clause-Aware Hybrid RAG engine (Milvus + BM25 + BGE Reranker)**, and an automated **Evidence Answerability Reviewer**, the platform delivers audited, zero-hallucination decision recommendations backed by exact evidence citations (`[E1]`, `[D1]`).
+It addresses four recurring failure modes:
 
----
+- **Missing fine print:** clause-aware parent/child chunks retain exceptions and policy hierarchy.
+- **Invented or unsafe SQL:** schema discovery, table/column scopes, SQLGlot validation and a read-only database identity constrain queries.
+- **Unsupported recommendations:** evidence sufficiency and citation checks govern answer release.
+- **Context drift and shared history:** bounded context and tenant/visitor-owned session keys keep conversations scoped.
 
-## 🛠️ Advanced Tech Stack & Architecture
+The system is designed to reduce unsupported answers and fail closed at its boundaries.
+Its measured results apply to synthetic fixtures and recorded evaluations; they are
+not a guarantee of zero hallucinations or a production security certification.
 
-| Tier | Technologies & Components | Production Responsibilities |
-| :--- | :--- | :--- |
-| **Agent Orchestration** | **LangGraph**, LangChain Core, Pydantic v2 | Stateful Multi-Agent execution graphs (`Supervisor Router → Planner → Skills → Tools → Reviewer`) with strict schema contracts |
-| **Tool Execution Layer** | **Model Context Protocol (MCP)**, Native Tool Calling | Standardized, sandboxed tool interfaces for live enterprise schema inspection and query dispatching |
-| **Vector & Dense Retrieval** | **Milvus Vector DB** (HNSW Cosine), BAAI `bge-small-zh-v1.5` | High-dimensional semantic dense vector search across hierarchically indexed enterprise clauses |
-| **Lexical & Reranking** | **BM25 Sparse Search**, Reciprocal Rank Fusion (**RRF**), BAAI `bge-reranker-base` | Cross-encoder precision reranking combining lexical keyword accuracy with semantic embeddings |
-| **Deterministic NL2SQL** | **SQLGlot AST Parser**, SQLAlchemy, PyMySQL | Natural language to SQL translation with AST allowlisting, read-only validation, forced `LIMIT` injection, and query sandboxing |
-| **State & Session Memory** | **Redis 7.0+**, In-Memory State Store | Multi-tier session isolation, rolling window summarization, TTL lifecycle management, and token budget enforcement |
-| **Serving & Infrastructure** | **FastAPI ASGI**, Uvicorn, Docker Compose | Async high-throughput REST endpoints, structured OpenTelemetry-compatible tracing, and containerized deployment |
+## Key engineering highlights
 
----
+| Capability | What makes it inspectable |
+| :--- | :--- |
+| **LangGraph multi-agent orchestration** | Explicit router, planner, skill/tool and reviewer transitions; Pydantic v2 contracts; bounded failure outcomes. |
+| **Clause-aware hybrid RAG** | Dense + lexical recall, RRF, cross-encoder reranking, stable clause markers and parent expansion. |
+| **MCP data access** | Runtime-owned installed stdio client/server, discovered schemas and guarded SQL; protocol-only child stdout. |
+| **Evidence release** | Sufficiency review, citation/reference checks and structured abstention when evidence is inadequate. |
+| **Scoped memory** | Optional Redis or bounded in-memory sessions, TTL, version checks, deduplication and rolling summaries. |
+| **Cloud boundary** | Non-root CPU image, offline pinned models, immutable corpus manifests, separate ingestion, restricted preview and OIDC release gates. |
 
-## 🏛️ System Architecture
+## System architecture
 
 ```mermaid
 flowchart TD
-    U["Enterprise Web Workbench / API Client"] --> API["FastAPI Gateway (ASGI)"]
-    API --> EX["Request Executor"]
-    EX --> CM["Context & Token Budget Manager"]
-    CM <--> MEM["Redis / In-Memory Session Store"]
-    CM --> SEC["Security & Scope Principal"]
-    SEC --> R["Dynamic Request Router (LangGraph)"]
-    R --> C["Coordinator & Skill Dispatcher"]
-
-    subgraph HybridRAG["1. Clause-Aware Hybrid RAG Workflow"]
-        K["Knowledge QA Agent"] --> RAG["Milvus Dense + BM25 Sparse"]
-        RAG --> RRF["Reciprocal Rank Fusion (RRF)"]
-        RRF --> RERANK["BGE Cross-Encoder Reranker"]
-        RERANK --> PARENT["Parent-Child Context Expansion"]
-    end
-
-    subgraph MCPPipeline["2. Guarded MCP NL2SQL Workflow"]
-        D["Data Analytics Agent"] --> DPLAN["Data Query Planner"]
-        DPLAN --> MCP["Model Context Protocol (MCP)"]
-        MCP --> SQLG["SQLGlot AST Security Guard"]
-        SQLG --> MYSQL[("Enterprise MySQL (Replica)")]
-    end
-
-    subgraph JointSynth["3. Strategic Decision Workflow"]
-        M["Strategic Decision Agent"] --> SYN["Joint Risk & Policy Synthesizer"]
-    end
-
-    C -->|Route: Knowledge| K
-    C -->|Route: Data| D
-    C -->|Route: Mixed| M
-
-    PARENT --> REV["Evidence Answerability Reviewer"]
-    MYSQL --> REV
-    SYN --> REV
-
-    REV -->|Grounded & Sufficient| OUT["Verified Decision Release + Citations"]
-    REV -->|Insufficient Evidence| CLAR["Structured Fallback / Clarification"]
-    EX -.-> TRACE["Structured Traces & Telemetry"]
+    UI[Web Workbench / API client] --> API[FastAPI + visitor / scope boundary]
+    API --> EX[Formal request executor]
+    EX --> CM[Context and token budget manager]
+    CM <--> MEM[In-memory / optional Redis]
+    CM --> R[LangGraph router and coordinator]
+    R -->|Knowledge| K[Knowledge agent]
+    R -->|Data| D[Data agent]
+    R -->|Mixed| M[Joint policy + data workflow]
+    M --> K
+    M --> D
+    K --> HY[Milvus dense + BM25]
+    HY --> RRF[RRF fusion]
+    RRF --> CE[BGE cross-encoder]
+    CE --> P[Parent context expansion]
+    D --> PLAN[Schema-aware data planner]
+    PLAN --> MCP[Internal stdio MCP]
+    MCP --> SQL[SQLGlot guard + bounded execution]
+    SQL --> DB[(Synthetic MySQL / Cloud SQL)]
+    P --> REV[Evidence answerability reviewer]
+    DB --> REV
+    REV -->|Sufficient| OUT[Grounded answer + citations]
+    REV -->|Insufficient| STOP[Refusal / clarification]
+    EX -.-> OBS[Request traces + mandatory audit]
 ```
 
----
+### Advanced technology stack
 
-## 🚀 Key Engineering Highlights
+| Tier | Technologies | Responsibilities |
+| :--- | :--- | :--- |
+| Orchestration | LangGraph, LangChain Core, Pydantic v2 | State graphs, structured model output and skill/tool contracts. |
+| Dense retrieval | Milvus, BAAI `bge-small-zh-v1.5` | CPU embeddings, 512-dimensional normalized COSINE search; local HNSW / managed AUTOINDEX. |
+| Lexical ranking | BM25, RRF, BAAI `bge-reranker-base` | Keyword recall, rank fusion and CPU cross-encoder precision. |
+| Data tools | MCP, SQLGlot, SQLAlchemy, PyMySQL | Schema discovery, SELECT validation, scope checks, row limits and bounded driver waits. |
+| Context / memory | Token budgets, in-memory store, optional Redis | Visitor/tenant isolation, TTL, optimistic versions and optional summaries. |
+| Serving | FastAPI, Uvicorn, package-local HTML/JS | One application serves both API and Workbench; one cloud worker. |
+| Deployment | Docker, Cloud Run, Cloud SQL, Zilliz, Secret Manager, GitHub OIDC | Prepared infrastructure and gated release automation; managed acceptance pending. |
 
-```
-                 ┌────────────────────────────────────────────────────────┐
-                 │       LangGraph Multi-Agent State Machine Orchestration│
-                 └───────────────────────────┬────────────────────────────┘
-                                             │
-               ┌─────────────────────────────┴─────────────────────────────┐
-               ▼                                                           ▼
-┌───────────────────────────────┐                       ┌──────────────────────────────────┐
-│   Clause-Aware Hybrid RAG     │                       │  Guarded MCP NL2SQL Engine       │
-│ • Milvus HNSW Dense Vector    │                       │ • Anthropic MCP Server Standard  │
-│ • BM25 Lexical Keyword Engine │                       │ • SQLGlot AST Syntax Allowlisting│
-│ • Reciprocal Rank Fusion (RRF)│                       │ • Forced LIMIT & Timeout Guards  │
-│ • BGE Cross-Encoder Reranker  │                       │ • Zero Data Leakage Scope Isolation│
-│ • Parent/Child Chunk Expansion│                       │ • Deterministic Schema Discovery │
-└──────────────┬────────────────┘                       └─────────────────┬────────────────┘
-               │                                                          │
-               └─────────────────────────────┬────────────────────────────┘
-                                             ▼
-                 ┌────────────────────────────────────────────────────────┐
-                 │      Evidence Answerability Reviewer & Audit Trail     │
-                 │      • Strict Citation Verification ([E1], [D1])       │
-                 │      • Request-Level Distributed Tracing & Telemetry   │
-                 └────────────────────────────────────────────────────────┘
+## Clause-aware hybrid RAG pipeline
+
+```text
+Documents → clause-aware parents / children → BGE embeddings
+                                         ↘ Milvus dense search
+Query ────────────────────────────────────↗                  ↘
+                       BM25 lexical search ─────────────────→ RRF
+                                                               ↓
+                                                       BGE cross-encoder
+                                                               ↓
+                                                       Parent expansion
+                                                               ↓
+                                                   Evidence + answerability review
 ```
 
-### 1. Multi-Agent Orchestration via LangGraph
-- Modular **StateGraph** coordinates transitions across `Supervisor Router → Planner → Domain Skills → Tools → Reviewer`.
-- Type-safe Pydantic v2 state schemas eliminate runtime contract mismatches.
-- Granular fail-closed logic ensures that partial agent failures trigger structured remediation rather than unhandled exceptions.
+The serving corpus contains **12 documents, 36 parents and 101 children**. Stable
+clause identifiers preserve document hierarchy; child hits expand into parent policy
+context rather than isolating an exception from its rule. BM25 and vector records
+must agree on exact child IDs. Cloud releases pair these local assets with a versioned
+remote collection and the same model revisions. Serving never creates or ingests a
+collection; an explicit writer job owns those operations.
 
-### 2. Clause-Aware Hybrid RAG (Milvus + BM25 + BGE Reranker)
-- **Hierarchical Indexing**: Preserves stable clause markers (`Clause ID: {id}`) during chunking, maintaining parent-child document semantics.
-- **Multi-Stage Ranking**: Merges Dense Vector recall (Milvus HNSW) and Sparse Lexical recall (BM25) via Reciprocal Rank Fusion (RRF), followed by BGE Cross-Encoder reranking.
-- **Parent Expansion**: Compact Child chunks identify precise semantic hits, which are dynamically expanded to full Parent blocks to provide the LLM with complete contextual policies.
+Frozen clause-aware benchmark variants are retained separately from the baked serving
+corpus. Their artifact hashes and adoption decisions remain unchanged.
 
-### 3. Model Context Protocol (MCP) & Safe NL2SQL
-- **Standardized MCP Interface**: Integrates Anthropic Model Context Protocol tools for authorized schema discovery and guarded query execution.
-- **AST Security Guardrails**: Every generated SQL query passes through SQLGlot AST parsing:
-  - Enforces strict read-only guarantees (`SELECT` only; blocks `INSERT`, `UPDATE`, `DROP`, `ALTER`).
-  - Restricts access to authorized table/column allowlists (`DataScope`).
-  - Automatically injects query timeouts and forced `LIMIT` caps to prevent denial-of-service memory exhaustion.
+## MCP data agent & safe NL2SQL
 
-### 4. Resilient Session Memory & Context Window Management
-- Redis 7.0+ backed multi-tier memory supporting session isolation, TTL expiration, and cross-turn state versioning.
-- Rolling window token budget manager automatically generates background summaries of historical turns when token thresholds are reached.
+The Data Agent discovers approved schemas through MCP, plans an SQL query, validates
+its AST and executes it through SQLAlchemy/PyMySQL. The boundary enforces:
 
-### 5. Evidence Sufficiency Review & Citation Verification
-- Mandatory intermediate **Answerability Reviewer** audits selected evidence before answer release.
-- Automatically refuses or requests clarification when policy documents lack required terms or when data results are incomplete.
-- Enforces strict markdown citation syntax mapping every assertion directly to verified evidence spans (`[E1]`, `[D1]`).
+- SELECT-only behavior, with mutation/DDL and disallowed constructs rejected.
+- `DataScope` table and column allowlists, bounded rows/cells and LIMIT handling.
+- Connection, pool, query and MCP timeouts; cloud transport uses an explicit SQL socket.
+- A read-only SQL identity restricted to `products`, `inventory_snapshots`, `purchase_orders` and `suppliers` for the public synthetic demo.
 
----
+AST checks and database privileges are independent defenses. Timeouts are driver and
+application controls; the README does not claim that a SQL hint alone cancels every
+server-side operation. MCP stays inside the application runtime rather than becoming
+an extra public service.
 
-## 🖥️ Interactive Web Analytics Workbench
+## Distributed tracing & context management
+
+Request traces record stage status and timing across routing, retrieval, reranking,
+MCP and synthesis. The Workbench displays safe trace projections. Cloud stdout logs
+carry release, corpus and revision identifiers; mandatory audit uses explicit failure
+semantics and payload-free events. These are structured application traces, not a
+claim of an installed OpenTelemetry exporter or globally tamper-proof cloud logging.
+
+Memory supports `disabled`, `in_memory` and `redis`. The cloud v1 configuration uses
+**ephemeral in-memory history**, bounded to **1,000 sessions**; TTL, turn limits,
+idempotency and optimistic versions remain enforced. Optional rolling summaries run
+after successful persistence when configured turn thresholds are reached. Redis is
+supported in code, but is not included in current Compose or the initial cloud plan.
+
+## Production ASGI runtime
+
+FastAPI owns runtime startup/cleanup and serves `/`, `/assets`, `/health`, `/ready`
+and `/api/v1/agent/execute`. The cloud launcher binds `0.0.0.0:$PORT`. Public-demo mode
+uses fixed synthetic scopes, signed Secure/HttpOnly/SameSite=strict visitor cookies
+and an exact HTTPS Origin. Private mode rejects execution by default; the local adapter
+remains loopback-only.
+
+The prepared configuration uses a **240-second cooperative execution deadline** below
+a **300-second HTTP timeout**. Native model calls remain serialized even after an
+awaiting request is cancelled; running CPU work cannot be forcibly stopped by asyncio.
+Quotas and one-instance settings are process/resource controls, not a guaranteed global
+spending cap. Readiness reflects bootstrap and registered checks, not continuous proof
+that every remote dependency is healthy.
+
+## Interactive Web Analytics Workbench
 
 <div align="center">
-  <img src="docs/assets/demo-ui.png" alt="NexusAgent Web Analytics Workbench" width="920" style="border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);" />
-  <p><em>Figure 1: NexusAgent Interactive Web Workbench featuring multi-turn decision intelligence, live evidence inspection, execution path visualization, and live distributed trace telemetry.</em></p>
+  <img src="docs/assets/demo-ui.png" alt="NexusAgent Web Analytics Workbench" width="920" />
+  <p><em>The existing Workbench: scoped multi-turn interaction, route/status indicators, citations and request-stage telemetry.</em></p>
 </div>
 
-The Web Workbench provides enterprise users with a real-time operational interface:
-- **Unified Multi-Turn Chat**: Natural language queries spanning knowledge QA, operational data questions, and joint diagnostic recommendations.
-- **Live Execution Routing**: Visual indicators showing dynamic routing decisions (`Knowledge`, `Data`, `Mixed`).
-- **Interactive Evidence Drawer**: Expandable side-panel displaying retrieved clause citations (`[E1]`), table schemas (`[D1]`), and similarity scores.
-- **Distributed Trace Explorer**: Request-level telemetry showing per-stage latency breakdown across routing, retrieval, reranking, MCP tool execution, and answer synthesis.
+Ask knowledge, operational data or mixed questions from the same interface. Inspect
+answer citations and the execution trace, continue a session or reset it. Public-demo
+users receive distinct visitor identities and an explicit warning that history may
+expire or disappear on restart. FastAPI serves the UI directly—no separate frontend
+hosting is needed.
 
----
+## Retrieval Benchmark v2 results
 
-## 📊 Retrieval Benchmark v2 Results
+The frozen benchmark contains **200 synthetic enterprise scenarios** across **12
+long-form policies**: **160 answerable** and **40 unanswerable**. Ranking denominators
+below are the 160 answerable queries.
 
-The retrieval pipeline is evaluated against **Retrieval Benchmark v2**, an offline frozen benchmark consisting of **200 enterprise scenarios** (160 answerable, 40 unanswerable) across 12 long-form corporate policies.
-
-| Metric | RRF Baseline (Dense + Sparse) | BGE Cross-Encoder Reranker | Net Improvement |
+| Metric | RRF baseline: dense + sparse | BGE cross-encoder reranker | Improvement |
 | :--- | :---: | :---: | :---: |
-| **Child Hit@1** | 85.62% *(137 / 160)* | **96.25%** *(154 / 160)* | **+10.63 pp** |
-| **Child Hit@5** | 100.00% *(160 / 160)* | **100.00%** *(160 / 160)* | **100% Coverage** |
-| **MRR@5** | 91.69% *(146.7 / 160)* | **98.12%** *(157.0 / 160)* | **+6.44 pp** |
+| **Child Hit@1** | 85.62% · 137/160 | **96.25% · 154/160** | **+10.63 pp** |
+| **Child Hit@5** | 100.00% · 160/160 | **100.00% · 160/160** | Both cover all answerable queries |
+| **MRR@5** | 91.69% · 146.7/160 | **98.12% · 157.0/160** | **+6.44 pp** |
 
-> *Ranking metrics are calculated over the 160 answerable queries; the 40 unanswerable queries are audited for correct refusal and evidence insufficiency detection.*
+Unanswerable cases are recorded separately; answerable Hit@K is not a refusal-accuracy
+metric. Rounded percentage-point gains come from unrounded scores. Verify the
+[committed metrics](artifacts/public-evaluation/retrieval-v2/metrics.json) and
+[evaluation methodology](docs/EVALUATION.md) without downloading models or calling an LLM.
 
----
+## Engineering rigor & CI pipeline
 
-## 🧪 Engineering Rigor & Quality Gates
+The [verified P6 CI snapshot](https://github.com/Akgithub2028/NexusAgent-Enterprise-Autonomous-Multi-Agent-Decision-Intelligence-Platform/actions/runs/37143083491)
+passed **1,930 unit tests**, **323 offline integration tests** and **28/28 security
+cases**. Security cases overlap the unit suite; these counts are not additive.
+The current CI badge links to the latest run.
 
-```text
-==================================== 100% Passing Test Suite ====================================
-✓ 1,909 Unit Tests (State machines, prompts, AST guards, token budgets, serialization, public-demo boundary)
-✓ 322 Stable Offline Integration Tests (Deterministic external-I/O substitutes, LangGraph graphs, visitor isolation)
-✓ 28 / 28 Security & Boundary Verification Tests (Tenant isolation, SQL injection prevention)
-=================================================================================================
-```
+| Quality gate | What it verifies |
+| :--- | :--- |
+| Quality | Ruff lint/format, dependency lock, pip consistency, Compose, frozen evidence and JS syntax. |
+| Unit | State machines, AST guards, context budgets, serialization, security and cloud boundaries. |
+| Offline integration | Deterministic substitutes for external I/O and graph/protocol contracts. |
+| Security evaluation | Recorded tenant/scope, guarded SQL and release-boundary cases. |
+| Secret scanning | Repository secret detection with narrowly scoped checksum exceptions. |
+| Dependency audit | Known dependency vulnerabilities under the recorded audit conditions. |
 
-- **Offline Regression Tests**: Unit and offline integration suites use deterministic substitutes and synthetic datasets. Dependency installation and audits require networking; deployment automation is planned in P7.
-- **Multi-Stage Quality Gates**: GitHub Actions executes `ruff` formatting/linting, `pydantic` strict typing, `pytest` async execution, and `pip-audit` vulnerability scanning on every PR.
-- **Deterministic Evaluation Verifiers**: Standalone verification scripts validate locked artifact hashes and compute retrieval metrics without non-deterministic cloud provider dependencies.
+Offline test/evidence execution needs no provider keys. Package installation,
+vulnerability databases, model builds and cloud releases require networking. Pydantic
+checks runtime schemas; it is not a substitute for a static type checker.
 
----
+<details>
+<summary><strong>Historical counts preserved from the original README</strong></summary>
 
-## ⚡ Local Quickstart
+The pre-P0 README reported **1,802 unit tests** and **235 offline integration tests**.
+P0's audited baseline recorded **1,806** and **235**; subsequent phases expanded coverage.
+Use the linked CI run for current verified results, not the older marketing snapshot.
 
-### Option A: Instant Offline Verification (No External Keys Required)
+</details>
 
-Verify benchmark metrics, AST guardrails, and unit suites locally in under 30 seconds:
+## Local quickstart
+
+### A. Evidence verification without provider keys
+
+Python **3.11+** is supported; the cloud image targets Linux amd64 / Python 3.11.
+Dependency installation requires network access, while the verifiers run offline.
 
 ```bash
-# 1. Clone repository
-git clone https://github.com/your-org/enterprise-decision-agent.git
-cd enterprise-decision-agent
-
-# 2. Set up virtual environment
+git clone https://github.com/Akgithub2028/NexusAgent-Enterprise-Autonomous-Multi-Agent-Decision-Intelligence-Platform.git
+cd NexusAgent-Enterprise-Autonomous-Multi-Agent-Decision-Intelligence-Platform
 python3 -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\Activate.ps1
-
-# 3. Install core package
+source .venv/bin/activate  # Windows: .venv\Scripts\Activate.ps1
+pip install -r requirements.lock
 pip install -e . --no-deps
-
-# 4. Run retrieval benchmark verification
-python3 scripts/verify_retrieval_v2_evidence.py
+python scripts/verify_retrieval_evidence.py
+python scripts/verify_retrieval_v2_evidence.py
 ```
 
-### Option B: Full Runtime with Docker Infrastructure
+Run `pytest -q tests/unit` or `pytest -q -m offline_integration` for regression checks.
+Dependency installation and runtime checks depend on your machine and available caches.
 
-Launch the full stack with containerized MySQL, Milvus vector database, and Redis session memory:
+### B. Full local runtime and Workbench
 
 ```bash
-# 1. Start local infrastructure services
-docker compose up -d
-
-# 2. Configure environment
 cp .env.example .env
-# Edit .env to set your DECISION_AGENT_LLM_API_KEY and model endpoints
-
-# 3. Run interactive CLI demo tasks
-python3 scripts/run_local_demo.py knowledge
-python3 scripts/run_local_demo.py data
-python3 scripts/run_local_demo.py mixed
-
-# 4. Launch the Interactive Web Analytics Workbench
-python3 scripts/run_local_web_demo.py mixed
+# Fill the OpenAI-compatible provider fields and local infrastructure credentials.
+docker compose up -d
+# Wait for MySQL / Milvus / etcd / MinIO to be healthy.
+python scripts/initialize_knowledge_corpus.py
+python scripts/run_local_demo.py knowledge
+python scripts/run_local_demo.py data
+python scripts/run_local_demo.py mixed
+python scripts/run_local_web_demo.py mixed
 ```
 
-Access the Web Workbench interface at **`http://127.0.0.1:8000`**.
+Open **http://127.0.0.1:8000**. Compose starts infrastructure; it does not package the
+application or launch Redis. See the [local run guide](docs/LOCAL_DEMO.md) for audit
+paths, scopes and prerequisites. Local demo launchers must not be exposed publicly.
 
----
+## Cloud deployment
 
-## 📂 Repository Structure
+```mermaid
+flowchart LR
+    CI[GitHub CI: six gates] --> OIDC[Protected release / OIDC]
+    OIDC --> AR[Artifact Registry: immutable image]
+    AR --> JOB[Cloud Run ingestion job]
+    JOB --> V[(Zilliz / Milvus)]
+    JOB --> RECEIPT[Validated release metadata]
+    RECEIPT --> PREVIEW[IAM-restricted preview]
+    PREVIEW --> ACCEPT[Managed acceptance + explicit release decision]
+    ACCEPT --> PROD[Cloud Run: API + Workbench]
+    PROD --> V
+    PROD --> SQL[(Cloud SQL MySQL)]
+    PROD --> LLM[Groq: gpt-oss-20b]
+    SECRETS[Secret Manager] --> JOB
+    SECRETS --> PROD
+    PROD --> LOGS[Cloud Logging]
+```
+
+Prepared for `nexus-agent-510512` / `us-west1`, alongside Zilliz `gcp-us-west1`.
+The image contains pinned CPU BGE models and the exact local corpus. Google Terraform
+and release tooling separate relational/vector state from serving, use numeric secret
+versions, and keep ingestion under a separate writer identity. CI uses short-lived
+OIDC credentials and a serialized release queue; a separate restricted preview remains
+private after production becomes public.
+
+Candidate settings are **2 vCPU, 4 GiB RAM, concurrency 2, minimum 1 and maximum 1 instance**. The owner chose one warm
+instance; these settings await cloud measurements. The **$50/month alert target** is
+an operator planning value, subject to billing currency/pricing—not a spending cap.
+
+P0–P3 are validated locally; P4–P7 code and runbooks are implemented, while managed
+acceptance remains pending. `LIVE_ACCEPTANCE.json` is deliberately blocked and release
+automation is disabled. There is no verified live URL to advertise yet.
+
+**Start here:** [deployment ledger](docs/deployment/README.md) ·
+[P7 release runbook](docs/deployment/P7_RELEASE.md) ·
+[infrastructure and operators](deploy/cloud-run/README.md) ·
+[next-session handoff](docs/CODEX_HANDOFF.md).
+
+## Repository structure
 
 ```text
-├── src/decision_agent/          # Core Agent Platform Source
-│   ├── agents/                  # LangGraph planners, selectors, and reviewers
-│   ├── config/                  # Pydantic v2 settings & environment configuration
-│   ├── data/                    # Business semantics & metadata registries
-│   ├── ingestion/               # Markdown/PDF parsers & clause-aware chunkers
-│   ├── retrieval/               # Milvus vector store, BM25, RRF, and BGE reranker
-│   ├── security/                # Scope validators, token budgets, and audit logging
-│   ├── skills/                  # Domain decision skills (inventory diagnosis, policy QA)
-│   ├── tool_calling/            # Model Context Protocol (MCP) clients & SQLGlot guards
-│   ├── web/                     # Interactive Web Analytics Workbench (HTML/JS)
-│   └── workflows/               # LangGraph multi-agent execution graphs
-├── datasets/                    # Sanitized enterprise datasets, schemas & fixtures
-├── docs/                        # In-depth architectural and engineering documentation
-├── docker/                      # Docker Compose & MySQL initialization scripts
-├── scripts/                     # CLI runners, evaluation harnesses & verification tools
-├── tests/                       # Unit, offline integration, and e2e test suites
-└── LICENSE                      # Apache License 2.0
+.github/workflows/         Six CI gates + disabled-by-default OIDC release workflow
+deploy/                   Cloud infrastructure, federation and nonsecret config examples
+src/decision_agent/
+  api/                    FastAPI transport, identity and admission boundaries
+  application/            Formal executor, runtime lifecycle and preflight
+  agents/                 Planners, evidence selectors and reviewers
+  context/ + memory/      Token budgets, scoped session state and summaries
+  ingestion/              Document parsers, clause-aware chunks and explicit cloud job
+  retrieval/              Milvus, BM25, RRF, BGE and parent expansion
+  data/ + mcp_client/     SQL planning/guards and installed stdio MCP
+  mcp_server/             Schema and guarded query tools
+  security/               Scope, provider governance and mandatory audit
+  skills/                 Knowledge, data and mixed decision skills
+  web/                    Package-local HTML/CSS/JS Workbench
+datasets/                 Synthetic enterprise fixtures and frozen evaluations
+docs/                     Architecture, phase evidence, runbooks and assets
+docker/                   Infrastructure initialization, including MySQL seed scripts
+scripts/                  Demo, verification, deployment and release commands
+tests/                    Unit, offline integration and opt-in live/e2e scenarios
 ```
 
----
+## Documentation map
 
-## 📖 Deep-Dive Documentation Sitemap
+| Guide | Read it for |
+| :--- | :--- |
+| [Architecture](docs/ARCHITECTURE.md) | Component topology, lifecycle and execution paths. |
+| [Agent workflow](docs/AGENT_WORKFLOW.md) | Router, planner, skills, tools and reviewer contracts. |
+| [Hybrid RAG](docs/HYBRID_RAG.md) | Dense/lexical retrieval, RRF, reranking and parent expansion. |
+| [Data Agent & MCP](docs/DATA_AGENT_AND_MCP.md) | SQL planning, guarded MCP tools and MySQL privileges. |
+| [Security boundaries](docs/SECURITY_BOUNDARIES.md) | Scope ownership, provider governance and audited release. |
+| [Evaluation](docs/EVALUATION.md) | Frozen metrics, denominators and verification commands. |
+| [Local demo](docs/LOCAL_DEMO.md) | Working installation and Workbench commands. |
+| [Engineering decisions](docs/ENGINEERING_DECISIONS.md) | Trade-offs and deferred capabilities. |
+| [Deployment ledger](docs/deployment/README.md) | P0–P7 implementation versus managed acceptance. |
+| [Directory index](docs/deployment/DIRECTORY_INDEX.md) | Maintained directory maps and source fingerprints. |
 
-For comprehensive architectural design decisions, see the specialized technical guides:
+## License
 
-- **[System Architecture](docs/ARCHITECTURE.md)** — In-depth component topology, state transitions, and data pipelines.
-- **[Agent Workflow Orchestration](docs/AGENT_WORKFLOW.md)** — State machine coordination across Router, Planner, Skills, Tools, and Reviewer.
-- **[Clause-Aware Hybrid RAG](docs/HYBRID_RAG.md)** — Detailed analysis of dense/sparse retrieval, RRF fusion, and Parent-Child expansion.
-- **[MCP Data Agent & NL2SQL](docs/DATA_AGENT_AND_MCP.md)** — Model Context Protocol architecture, SQLGlot AST validation, and MySQL security.
-- **[Security Boundaries & Scoping](docs/SECURITY_BOUNDARIES.md)** — Tenancy isolation, `DataScope`, `KnowledgeScope`, and zero-hallucination audits.
-- **[Evaluation & Benchmarks](docs/EVALUATION.md)** — Retrieval Benchmark v2 methodology, metrics calculations, and regression testing.
-- **[Local Run & Demo Guide](docs/LOCAL_DEMO.md)** — Step-by-step setup for CLI runners and Web Workbench deployment.
-- **[Engineering Decisions & Roadmap](docs/ENGINEERING_DECISIONS.md)** — Technical trade-offs, architecture choices, and forward-looking roadmap.
-
----
-
-## 📜 License
-
-This project is licensed under the **Apache License 2.0** - see the [LICENSE](LICENSE) file for details.
-
-P5 versioned ingestion and promotion gates are implemented; real job execution awaits
-billing/P4 provisioning. See [ingestion runbook](docs/deployment/P5_INGESTION.md).
-
-P6 adds restricted deployment/bootstrap and authenticated measurement tools; live cloud acceptance remains blocked by billing/P4/P5 prerequisites.
+Licensed under **Apache 2.0**. See [LICENSE](LICENSE). Packaged BGE models retain their
+upstream MIT license notices and pinned revisions in the release manifest.
