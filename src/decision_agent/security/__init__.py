@@ -8,6 +8,7 @@ from decision_agent.security.audit import (
     AuditEventType,
     AuditOutcome,
     JsonlAuditSink,
+    StdoutAuditSink,
     new_audit_event,
 )
 from decision_agent.security.governance import (
@@ -86,6 +87,7 @@ __all__ = [
     "SecurityErrorCode",
     "SecurityEvent",
     "SessionScope",
+    "StdoutAuditSink",
     "build_security_context",
     "ensure_safe_provider_output",
     "make_demo_principal",

@@ -1,7 +1,7 @@
 # Codex implementation handoff
 
-Verified against the repository on 2026-10-03. This is a documentation-only handoff;
-no P2 implementation was performed while preparing it.
+Updated with the P2 implementation on 2026-10-03. P0–P2 are complete; P3 is unstarted.
+This file is committed with the P2 changes; inspect Git for the final phase commit.
 
 ## Checkout and authoritative evidence
 
@@ -9,9 +9,10 @@ no P2 implementation was performed while preparing it.
 - Workspace: `/media/aayaann-kausar/New Volume1/Project Enhancements-Deployements`.
 - Repository is the `NexusAgent-Enterprise-Autonomous-Multi-Agent-Decision-Intelligence-Platform`
   child directory. Run repository commands there, not in the workspace parent.
-- Inspected implementation HEAD: `71732c7e8f9d5db2534b58925d125b2a9f56f4c4`
-  (`feat: add isolated public demo identity and bounded admission`).
-- Branch `main`; working tree clean before this handoff change; `origin/main` matched HEAD.
+- P2 implementation base: `5ce044b2dfec6b40dd2a7cc05401017975dc062d`
+  (`docs: add verified P1 handoff and P2 continuation guide`). P1 implementation commit:
+  `71732c7e8f9d5db2534b58925d125b2a9f56f4c4`.
+- Branch `main`; working tree clean before P2 began; `origin/main` matched the phase base.
 - P0 commit: `635a8ecc697754d798376626b0380f06d60e4cbf`.
 - Original audited baseline: `2e2b34c220158c1711409ddb1335fba00fbe375f`.
 - No applicable `AGENTS.md` was found during inspection.
@@ -20,8 +21,8 @@ no P2 implementation was performed while preparing it.
 - Work within this workspace. Do not delete files or directories outside it.
 
 Read [deployment status](deployment/README.md), [phase plan](deployment/IMPLEMENTATION_PLAN.md),
-[P1 contract](deployment/P1_PUBLIC_DEMO.md) and [P1 evidence](deployment/P1_VALIDATION.json)
-first. [P0 audit](deployment/P0_AUDIT.md) and its reports are historical evidence, not
+[P1 contract](deployment/P1_PUBLIC_DEMO.md) and [P1 evidence](deployment/P1_VALIDATION.json), [P2 contract](deployment/P2_CLOUD_RUNTIME.md)
+and [P2 evidence](deployment/P2_VALIDATION.json) first. [P0 audit](deployment/P0_AUDIT.md) and its reports are historical evidence, not
 current dependency findings. Directory READMEs and the
 [directory index](deployment/DIRECTORY_INDEX.md) explain source seams; the
 [manifest](deployment/DIRECTORY_MANIFEST.json) records their source fingerprints.
@@ -40,8 +41,8 @@ visitors. In-memory history is intentionally ephemeral; Redis is deferred. There
 no deployed cloud service, application Dockerfile, cloud resource provisioning, CD
 workflow or verified live demo URL yet.
 
-P0 and P1 are complete. P2–P7 are planned. The latest instruction is to prepare this
-handoff before further implementation; do not infer permission to start P2 from this file.
+P0–P2 are complete. P3–P7 are planned. The user authorized P2 only; stop before P3
+and request the next phase instruction. This handoff itself does not authorize P3.
 
 ## Architecture that exists now
 
@@ -82,12 +83,16 @@ FastAPI: / + /assets Workbench, health/readiness, execution API
 - SQL currently uses TCP `mysql+pymysql`, lazy connections and guarded read queries.
   Cloud SQL Unix sockets, their child-environment propagation and pool configuration
   remain P4 work.
-- Non-test configured runtime requires `audit_log_path`. `security/audit.py` provides
+- Configured runtime selects `audit_mode=file/stdout`; non-test file mode requires
+  `audit_log_path`. `security/audit.py` provides
   JSONL hash chaining, fsync and anchors/tamper detection. Governance audit failures
-  fail closed; tracing is best effort. No cloud stdout audit selection exists yet.
+  fail closed; tracing is best effort. Stdout audit is locked and synchronously flushed,
+  uses a per-sink process chain, and is poisoned after write failure. The cloud launcher
+  configures INFO JSON handlers and release/corpus/revision/process metadata.
 - In-memory memory has locks, TTL, retained-turn limits, deduplication and optimistic
-  versions, but no total-session bound or global expiry sweep. Expiration occurs on
-  access. Concurrent executions can conflict on the same session version.
+  versions. P2 adds a 1000-session default bound and expired-session sweeping before
+  new admission. At capacity live history is retained and new persistence fails safely.
+  Concurrent same-session writes report version conflicts instead of overwriting.
 - Docker Compose starts MySQL, etcd, MinIO and Milvus only; no app or Redis service.
 
 ## Completed phases, changed files and decisions
@@ -132,6 +137,35 @@ Design decisions:
   Their storage is bounded; process-local quotas are not a distributed spending cap.
 - Only three dependency pins changed: PyJWT `2.13.0 -> 2.15.1`, pypdf
   `6.16.2 -> 6.19.0`, urllib3 `2.7.0 -> 2.8.0`. No advisory was blanket-ignored.
+
+### P2: cloud runtime, bounded memory and audit
+
+- New `src/decision_agent/cloud.py`: validated PORT/default 8080, 0.0.0.0, one worker,
+  no reload, eight-second request drain, formal deployment factory, safe config errors.
+- New `observability/cloud_logging.py`: validated metadata, actual INFO JSON handler,
+  approved structured payloads, arbitrary exception/access suppression and safe fallback.
+- `security/audit.py`/exports: new mandatory `StdoutAuditSink`; file chains unchanged.
+  A failed/short write or failed flush poisons the stream sink; close never closes stdout.
+- `api/runtime.py`: safe lifecycle events; ownership and readiness semantics preserved.
+- `config/settings.py`/`.env.example`: audit mode, memory session bound and safe metadata.
+- `application/configured_runtime.py`/`runtime.py`: audit selection and capacity wiring.
+- `memory/in_memory.py`/`store.py`/exports: bounded session admission and expiry sweep,
+  `SessionMemoryCapacityError`; no live eviction, unchanged versions/dedup/compaction.
+- `observability/sinks.py`: approved trace payload attachment for JSON formatting.
+- `demo/local.py`: explicitly force file audit to preserve the local adapter contract.
+- `web/index.html`: visible ephemeral-history limitation.
+- New `tests/unit/application/test_cloud_runtime.py` and
+  `tests/unit/security/test_stdout_audit.py`; expanded composition/memory tests;
+  immutable-memory-config assertion updated for the added field.
+- New `docs/deployment/P2_CLOUD_RUNTIME.md` and `P2_VALIDATION.json`; refreshed phase
+  status, handoff, affected notes and fingerprints. Two new memory/security test README
+  maps bring the directory manifest to 56 notes.
+
+Capacity rejects new persistence after reclaiming expired entries rather than evicting
+live conversations. The executor's existing `store_failure` and `version_conflict`
+statuses describe persistence failure while preserving a grounded result. Audit failures
+remain mandatory and cannot be downgraded to telemetry failure. Stdout flush establishes
+local stream acceptance only, not durable cloud delivery or a global chain.
 
 ## Contracts later phases must preserve
 
@@ -212,9 +246,15 @@ docker compose up -d
 
 Local demo cases are positional `knowledge`, `data`, `mixed`, not `--case` flags.
 Ingestion supports `--dataset-root`; otherwise it uses the configured root.
+Cloud launch: `.venv/bin/python -m decision_agent.cloud`; set `PORT` explicitly if needed.
+Select `DECISION_AGENT_AUDIT_MODE=stdout` and `DECISION_AGENT_MEMORY_MODE=in_memory` for
+the planned demo; other P1 required runtime settings still apply. The default audit mode
+is file. `DECISION_AGENT_MEMORY_MAX_SESSIONS=1000` bounds in-memory history. Release/corpus
+IDs and `K_REVISION` must satisfy the documented safe identifier contract.
+
 The formal private ASGI app still rejects execution without a trusted resolver.
 The local-demo runner intentionally binds loopback and rewrites local demo audit/workflow
-configuration. It is not the cloud launcher. A validated `$PORT` launcher is still P2.
+configuration. It is not the cloud launcher. The cloud launcher is the separate P2 module above.
 
 Ignored raw evidence is in workspace `.p0-runtime/evidence` and temporary files in
 `.p0-runtime/tmp`; repo `.venv`, `.cache` and `.tmp-p*` are local artifacts, not fresh-clone
@@ -223,9 +263,14 @@ the authorized workspace: local-demo path tests require that separation.
 
 ## Validation already performed
 
-These are recorded completed checks, not new test executions during this docs-only task.
-Exact commands, timestamps, source/log/report hashes and limitations are in
-[P1_VALIDATION.json](deployment/P1_VALIDATION.json).
+P2 checks were rerun for this implementation; P1 results below remain historical evidence.
+Current exact commands, source/log hashes and limits are in
+[P2_VALIDATION.json](deployment/P2_VALIDATION.json); P1 evidence remains unchanged.
+
+P2: 1897 unit and 322 offline integration tests passed, with zero failures/errors/skips;
+28/28 exact security cases passed. Quality, frozen evidence, wheel/UI/stdio and actual
+SIGTERM cleanup checks passed. The P2 report records audit and documentation verification.
+No live model/provider/SQL/vector queries or cloud deployment were performed.
 
 | P1 check | Recorded result |
 | --- | --- |
@@ -239,7 +284,7 @@ Exact commands, timestamps, source/log/report hashes and limitations are in
 | Wheel and installed-package smoke | UI/assets/health 200, unbootstrapped readiness 503; real stdio discovery of six tables, zero SQL queries. |
 | Gitleaks staged diff | Zero findings. |
 
-GitHub CI for implementation HEAD was rechecked while preparing this handoff:
+Historical P1 GitHub CI at `71732c7` was successful:
 [run 37119077485](https://github.com/Akgithub2028/NexusAgent-Enterprise-Autonomous-Multi-Agent-Decision-Intelligence-Platform/actions/runs/37119077485),
 all six jobs successful: quality, unit, offline-integration, security-evaluation,
 secret-scan, dependency-scan. Test execution is offline; CI dependency installation
@@ -276,34 +321,21 @@ established by the recorded P1 checks.
 
 Quota storage is bounded but process-local; cookie clearing can reset visitor quota,
 although process-wide/bootstrap limits remain. Provider quotas are still required as
-an external spending backstop. Memory storage remains unbounded by session count.
-Cloud-native mandatory audit, actual JSON log configuration and PORT launch are absent.
-Cloud SQL socket transport and managed AUTOINDEX are absent. Serving still provisions
+an external spending backstop. P2 session capacity,
+mandatory stdout audit, JSON logging and PORT launch are implemented. Cloud SQL socket transport and managed AUTOINDEX are absent. Serving still provisions
 missing vector infrastructure. Upserts alone do not remove obsolete corpus chunks.
 
-Exact next phase: **P2 — Cloud runtime, bounded memory and structured audit**.
-Recommended starting point: inspect audit construction in
-`application/configured_runtime.py`, governance audit-failure handling in security,
-and cleanup in `application/bootstrap.py`/`api/runtime.py`. Define validated file/stdout
-audit selection preserving those contracts before wiring the cloud launcher.
+Exact next phase: **P3 — Reproducible serving image and corpus release**.
+Recommended starting point: inspect `requirements.lock`, model revision/cache controls
+in `retrieval/embeddings.py` and `reranking.py`, and installed-package asset discovery.
+Define a pinned Linux/amd64 Python 3.11 CPU image/dependency strategy; add reranker offline
+controls and model preparation, then verify offline loads and exact corpus packaging.
+Use `python -m decision_agent.cloud` as the container command; do not use local demo scripts.
 
-P2 TODOs, corresponding to the plan's acceptance criteria:
-
-1. Reuse formal lifespan/AsyncExitStack; preserve unavailable readiness/execution on
-   bootstrap failure and deterministic cleanup. Never call `prepare_demo_settings`.
-2. Add validated PORT (default 8080), bind `0.0.0.0`, one Uvicorn worker, no reload.
-3. Add total-session capacity plus expiry sweeping/eviction. Preserve TTL, max turns,
-   deduplication, compaction/version invariants and explicit same-session conflicts.
-4. Add file/stdout audit sink selection with closed payload-free events and mandatory
-   audit failure behavior. Preserve local fsync, hash-chain anchors and tamper tests.
-   Do not claim one global persistent hash chain across cloud instances/revisions.
-5. Configure real structured JSON handlers/levels. Keep best-effort trace separate
-   from mandatory audit. Include approved release/corpus correlation without queries,
-   prompts, outputs, rows, raw visitor identities, cookies, secrets or connection URLs.
-6. If adding dependency readiness, use bounded/cached checks and distinguish startup
-   status from remote health. Keep liveness independent of remote services.
-7. Verify bootstrap/audit failure, cancellation, shutdown/resource cleanup, bounded
-   memory and conflict behavior. Document history loss on restart/rollout in the UI/docs.
+P2 acceptance criteria are complete and documented in its contract/evidence: formal
+lifespan reused, PORT launch, bounded memory, mandatory file/stdout audit, actual JSON
+logging, readiness honesty, startup failure/cancellation/shutdown regressions and visible
+restart-history loss. Do not reimplement these as P3 work.
 
 Remaining phases, not implementations already present:
 

@@ -5,13 +5,16 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import sys
 import threading
 from datetime import UTC, datetime
 from enum import StrEnum
 from pathlib import Path
+from typing import TextIO
 
 from pydantic import BaseModel, ConfigDict, Field
 
+from decision_agent.observability.cloud_logging import CloudLogMetadata
 from decision_agent.security.provider_policy import DataClassification, ProviderStage
 
 
@@ -166,6 +169,53 @@ class JsonlAuditSink:
             if anchor != previous:
                 raise AuditChainError("audit_chain_invalid")
         return previous
+
+
+class StdoutAuditSink:
+    """Mandatory synchronous JSON/flush; integrity chain is local to this sink/process.
+
+    A successful flush proves stream acceptance, not durable delivery by Cloud Logging.
+    Failures poison the sink because partial writes cannot safely be retried in a chain.
+    """
+
+    def __init__(self, *, metadata: CloudLogMetadata, stream: TextIO | None = None) -> None:
+        self._metadata = metadata
+        self._stream = sys.stdout if stream is None else stream
+        self._lock = threading.Lock()
+        self._previous_hash = ""
+        self._closed = False
+        self._failed = False
+
+    def append(self, event: AuditEvent) -> AuditEvent:
+        with self._lock:
+            if self._closed or self._failed:
+                raise AuditChainError("audit_sink_unavailable")
+            chained = event.with_chain_hash(self._previous_hash)
+            line = (
+                _canonical(
+                    {
+                        "event": "decision_agent.security_audit",
+                        "severity": "INFO",
+                        "runtime": self._metadata.model_dump(),
+                        "audit": chained.model_dump(mode="json"),
+                    }
+                )
+                + "\n"
+            )
+            try:
+                if self._stream.write(line) != len(line):
+                    raise OSError("audit_short_write")
+                self._stream.flush()
+            except Exception:
+                self._failed = True
+                raise AuditChainError("audit_write_failed") from None
+            self._previous_hash = chained.event_hash
+            return chained
+
+    def close(self) -> None:
+        with self._lock:
+            self._closed = True
+        # The process owns stdout; never close it when the runtime is retired.
 
 
 def new_audit_event(**values: object) -> AuditEvent:

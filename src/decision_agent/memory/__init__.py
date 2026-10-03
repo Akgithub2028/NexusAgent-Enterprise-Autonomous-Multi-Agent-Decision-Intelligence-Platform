@@ -11,6 +11,7 @@ from decision_agent.memory.models import (
 from decision_agent.memory.redis_store import RedisSessionMemoryStore
 from decision_agent.memory.store import (
     SessionCompactionPrefixError,
+    SessionMemoryCapacityError,
     SessionMemoryContentionError,
     SessionMemoryCorruptionError,
     SessionMemoryError,
@@ -53,6 +54,7 @@ __all__ = [
     "RollingSummaryService",
     "RollingSummaryStatus",
     "SessionCompactionPrefixError",
+    "SessionMemoryCapacityError",
     "SessionMemoryContentionError",
     "SessionMemoryCorruptionError",
     "SessionMemoryError",

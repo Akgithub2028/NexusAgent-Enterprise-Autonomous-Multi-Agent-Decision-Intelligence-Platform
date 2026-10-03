@@ -1,4 +1,4 @@
-"""Thread-safe, process-local implementation for tests and local development only."""
+"""Bounded thread-safe memory with ephemeral per-process history."""
 
 from __future__ import annotations
 
@@ -15,6 +15,7 @@ from decision_agent.memory.models import (
     SessionTurn,
 )
 from decision_agent.memory.store import (
+    SessionMemoryCapacityError,
     SessionTurnConflictError,
     SessionVersionConflictError,
     validate_compaction,
@@ -37,7 +38,11 @@ class InMemorySessionMemoryStore:
         *,
         policy: SessionMemoryPolicy = DEFAULT_SESSION_MEMORY_POLICY,
         clock: Callable[[], datetime] | None = None,
+        max_sessions: int = 1000,
     ) -> None:
+        if isinstance(max_sessions, bool) or not isinstance(max_sessions, int) or max_sessions < 1:
+            raise ValueError("max_sessions must be a positive integer")
+        self._max_sessions = max_sessions
         self._policy = policy
         self._clock = clock or (lambda: datetime.now(UTC))
         self._lock = RLock()
@@ -70,6 +75,10 @@ class InMemorySessionMemoryStore:
                     expected_version=expected_version,
                     actual_version=actual_version,
                 )
+            if stored is None:
+                self.sweep_expired()
+                if len(self._sessions) >= self._max_sessions:
+                    raise SessionMemoryCapacityError()
             turns = () if stored is None else stored.turns
             retained_turns = (*turns, turn)[-self._policy.max_turns :]
             updated = _StoredSession(
@@ -121,6 +130,15 @@ class InMemorySessionMemoryStore:
             )
             self._sessions[summary.session_id] = updated
             return _snapshot(summary.session_id, updated)
+
+    def sweep_expired(self) -> int:
+        """Reclaim expired sessions under the same lock; never evict live history."""
+        with self._lock:
+            now = self._now()
+            expired = [key for key, value in self._sessions.items() if now >= value.expires_at]
+            for key in expired:
+                del self._sessions[key]
+            return len(expired)
 
     def _live_session(self, session_id: str) -> _StoredSession | None:
         stored = self._sessions.get(session_id)

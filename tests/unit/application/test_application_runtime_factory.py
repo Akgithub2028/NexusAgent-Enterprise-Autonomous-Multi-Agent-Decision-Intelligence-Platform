@@ -88,6 +88,7 @@ def test_public_configuration_constructors_are_immutable_and_dependency_safe() -
         "mode",
         "store",
         "in_memory_policy",
+        "in_memory_max_sessions",
         "summarizer",
         "summary_policy",
     }

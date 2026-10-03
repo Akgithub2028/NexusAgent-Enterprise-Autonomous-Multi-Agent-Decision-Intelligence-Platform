@@ -5,9 +5,12 @@ P1 reviewed on 2026-10-03, based on `635a8ecc697754d798376626b0380f06d60e4cbf`.
 
 P0 established the audit, plan, directory notes and baseline. P1 implements opt-in
 public-demo identity, fixed grants and bounded admission, and remediates the reported
-dependency findings. No cloud service has been deployed. P2 has not started.
+dependency findings. P2 adds the container launcher, bounded ephemeral memory and mandatory stdout audit
+with structured logging. No cloud service has been deployed. P3 has not started.
 
 - [Implementation plan and phase gates](IMPLEMENTATION_PLAN.md)
+- [P2 runtime, memory and audit contract](P2_CLOUD_RUNTIME.md)
+- [P2 validation evidence](P2_VALIDATION.json)
 - [P1 public-demo implementation and API contract](P1_PUBLIC_DEMO.md)
 - [P1 validation evidence](P1_VALIDATION.json)
 - [P0 source audit and completion checklist](P0_AUDIT.md)

@@ -11,6 +11,13 @@ class SessionMemoryError(Exception):
     """Base class for deterministic session-memory failures."""
 
 
+class SessionMemoryCapacityError(SessionMemoryError):
+    """A new session cannot displace retained live history at capacity."""
+
+    def __init__(self) -> None:
+        super().__init__("memory_capacity_exceeded")
+
+
 class SessionVersionConflictError(SessionMemoryError):
     """Raised when a write would overwrite a newer session version."""
 

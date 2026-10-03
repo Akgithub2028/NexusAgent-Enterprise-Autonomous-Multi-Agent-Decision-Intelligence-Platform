@@ -102,7 +102,11 @@ def prepare_demo_settings(
     external_root.mkdir(parents=True, exist_ok=True)
     audit_path = external_root / f"local-demo-{uuid4().hex}.jsonl"
     return settings.model_copy(
-        update={"audit_log_path": audit_path, "controlled_workflow_enabled": True}
+        update={
+            "audit_mode": "file",
+            "audit_log_path": audit_path,
+            "controlled_workflow_enabled": True,
+        }
     )
 
 

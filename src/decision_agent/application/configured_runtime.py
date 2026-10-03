@@ -59,6 +59,7 @@ from decision_agent.observability import (
     BestEffortTraceDispatcher,
     StructuredLoggingTraceSink,
 )
+from decision_agent.observability.cloud_logging import CloudLogMetadata
 from decision_agent.retrieval.factory import (
     EnterpriseRetrievalRuntime,
     build_production_retrieval_runtime,
@@ -81,6 +82,7 @@ from decision_agent.security import (
     ProviderPolicyError,
     ProviderStage,
 )
+from decision_agent.security.audit import StdoutAuditSink
 from decision_agent.skills.inventory_risk_synthesizer import (
     OpenAICompatibleChatCompletionClient,
     OpenAICompatibleInventoryRiskSynthesizer,
@@ -159,13 +161,26 @@ async def _build_configured_runtime(
 ) -> FormalRequestExecutor:
     _validate_complete_runtime_configuration(settings)
 
-    if settings.audit_log_path is None and settings.environment is not Environment.TEST:
+    if (
+        settings.audit_mode == "file"
+        and settings.audit_log_path is None
+        and settings.environment is not Environment.TEST
+    ):
         raise RuntimeBootstrapError(BootstrapErrorCode.CONFIGURATION_INVALID)
-    audit_sink = (
-        InMemoryAuditSink()
-        if settings.audit_log_path is None
-        else JsonlAuditSink(settings.audit_log_path)
-    )
+    if settings.audit_mode == "stdout":
+        audit_sink = StdoutAuditSink(
+            metadata=CloudLogMetadata(
+                release_id=settings.release_id,
+                corpus_release_id=settings.corpus_release_id,
+                revision=settings.runtime_revision,
+            )
+        )
+    else:
+        audit_sink = (
+            InMemoryAuditSink()
+            if settings.audit_log_path is None
+            else JsonlAuditSink(settings.audit_log_path)
+        )
     stack.callback(audit_sink.close)
     provider_governance = ProviderGovernance(
         policy=ProviderPolicy.controlled_mixed(),
@@ -387,6 +402,7 @@ async def _build_memory_configuration(
     if settings.memory_mode == "in_memory":
         return FormalMemoryConfiguration.in_memory(
             policy=policy,
+            max_sessions=settings.memory_max_sessions,
             summarizer=summarizer,
             summary_policy=summary_policy,
         )

@@ -127,37 +127,37 @@
       "path": "src",
       "readme": "src/README.md",
       "review_depth": "supporting inventory / contracts",
-      "source_file_count": 172,
-      "source_sha256": "f59d2fe6b3d6e10e712390648399b6ee4e0a283ee0f8152fa15bb39addb5af38",
-      "review_stage": "P1",
-      "review_base_commit": "635a8ecc697754d798376626b0380f06d60e4cbf"
+      "source_file_count": 174,
+      "source_sha256": "1c8641dad8d15018ac0b43242d21c08c3884d499f67172eb62c6c0d05edec7d0",
+      "review_stage": "P2",
+      "review_base_commit": "5ce044b2dfec6b40dd2a7cc05401017975dc062d"
     },
     {
       "path": "src/decision_agent",
       "readme": "src/decision_agent/README.md",
       "review_depth": "supporting inventory / contracts",
-      "source_file_count": 172,
-      "source_sha256": "f59d2fe6b3d6e10e712390648399b6ee4e0a283ee0f8152fa15bb39addb5af38",
-      "review_stage": "P1",
-      "review_base_commit": "635a8ecc697754d798376626b0380f06d60e4cbf"
+      "source_file_count": 174,
+      "source_sha256": "1c8641dad8d15018ac0b43242d21c08c3884d499f67172eb62c6c0d05edec7d0",
+      "review_stage": "P2",
+      "review_base_commit": "5ce044b2dfec6b40dd2a7cc05401017975dc062d"
     },
     {
       "path": "tests",
       "readme": "tests/README.md",
       "review_depth": "supporting inventory / contracts",
-      "source_file_count": 152,
-      "source_sha256": "ee2f86012b684a62730a1c3b269412faadb51f6368ac267c1cf287eac66caafe",
-      "review_stage": "P1",
-      "review_base_commit": "635a8ecc697754d798376626b0380f06d60e4cbf"
+      "source_file_count": 154,
+      "source_sha256": "5cba502626e6dbba4dfceaa18540af8967f17ec8e482097e537685f19e5bd321",
+      "review_stage": "P2",
+      "review_base_commit": "5ce044b2dfec6b40dd2a7cc05401017975dc062d"
     },
     {
       "path": "tests/unit",
       "readme": "tests/unit/README.md",
       "review_depth": "supporting inventory / contracts",
-      "source_file_count": 121,
-      "source_sha256": "24241d1a2c2328410172b3e30b2e59d458dcba9fc7db5ff606d64634b29984b7",
-      "review_stage": "P1",
-      "review_base_commit": "635a8ecc697754d798376626b0380f06d60e4cbf"
+      "source_file_count": 123,
+      "source_sha256": "98ab963822e7ca5b507f7e01c18f3c8307937ed16bc5bc1f0432f145c9fc450a",
+      "review_stage": "P2",
+      "review_base_commit": "5ce044b2dfec6b40dd2a7cc05401017975dc062d"
     },
     {
       "path": "tests/integration",
@@ -199,25 +199,27 @@
       "readme": "src/decision_agent/api/README.md",
       "review_depth": "runtime boundary traced",
       "source_file_count": 8,
-      "source_sha256": "d9a759a70fea46d36f38f6f80cf6625f425ffcd29e08e8c3c9fd6a6477ecccf3",
-      "review_stage": "P1",
-      "review_base_commit": "635a8ecc697754d798376626b0380f06d60e4cbf"
+      "source_sha256": "f41ce2b31e50bd9959315dbc0f6db35c5b1e7efff6ff7e790a3026c13e1aefb6",
+      "review_stage": "P2",
+      "review_base_commit": "5ce044b2dfec6b40dd2a7cc05401017975dc062d"
     },
     {
       "path": "src/decision_agent/application",
       "readme": "src/decision_agent/application/README.md",
       "review_depth": "runtime boundary traced",
       "source_file_count": 11,
-      "source_sha256": "737660b70226f92e7737d48ab66bb268b5e18e2ee11c934c7cf0154d73de999f"
+      "source_sha256": "a12a4b8ef5a117a20635f5b6047a087682daa590283999b00c21dba1be880be5",
+      "review_stage": "P2",
+      "review_base_commit": "5ce044b2dfec6b40dd2a7cc05401017975dc062d"
     },
     {
       "path": "src/decision_agent/config",
       "readme": "src/decision_agent/config/README.md",
       "review_depth": "runtime boundary traced",
       "source_file_count": 3,
-      "source_sha256": "6972e0b050e5210c7b1b681c60db5a520b47410113e4a130d94db84dd12f58e5",
-      "review_stage": "P1",
-      "review_base_commit": "635a8ecc697754d798376626b0380f06d60e4cbf"
+      "source_sha256": "f3e71bbd0bd0684943308d40834a759e8598a2dced6695d6fa078617fee6929b",
+      "review_stage": "P2",
+      "review_base_commit": "5ce044b2dfec6b40dd2a7cc05401017975dc062d"
     },
     {
       "path": "src/decision_agent/context",
@@ -252,7 +254,9 @@
       "readme": "src/decision_agent/demo/README.md",
       "review_depth": "runtime boundary traced",
       "source_file_count": 3,
-      "source_sha256": "cbcb2c80729e242b49bd7df42caaa46e5c1174b5ac2150267c6692ef99baa695"
+      "source_sha256": "aa44483dcf143ba71c52c9899733f3c819c7de416d52441b3fef479a84a6b1a2",
+      "review_stage": "P2",
+      "review_base_commit": "5ce044b2dfec6b40dd2a7cc05401017975dc062d"
     },
     {
       "path": "src/decision_agent/domain",
@@ -308,14 +312,18 @@
       "readme": "src/decision_agent/memory/README.md",
       "review_depth": "runtime boundary traced",
       "source_file_count": 7,
-      "source_sha256": "8fea106d92ff6a594200eb3be84853c5981e93f8a827791ede56e4195a455438"
+      "source_sha256": "8a07cec99067a4485c4c7d2e310a44f48efadf6df7cef280d88532464275fd23",
+      "review_stage": "P2",
+      "review_base_commit": "5ce044b2dfec6b40dd2a7cc05401017975dc062d"
     },
     {
       "path": "src/decision_agent/observability",
       "readme": "src/decision_agent/observability/README.md",
       "review_depth": "runtime boundary traced",
-      "source_file_count": 10,
-      "source_sha256": "7114bb86cdadb35a53bb06088ca61479bb5d9807ce0fdfc4503c1ccf2ddd41a7"
+      "source_file_count": 11,
+      "source_sha256": "fcf8aa0cb0f221317bfd477ad89806d385cfb8e1e6d4f3143135655c2035c549",
+      "review_stage": "P2",
+      "review_base_commit": "5ce044b2dfec6b40dd2a7cc05401017975dc062d"
     },
     {
       "path": "src/decision_agent/providers",
@@ -343,9 +351,9 @@
       "readme": "src/decision_agent/security/README.md",
       "review_depth": "runtime boundary traced",
       "source_file_count": 7,
-      "source_sha256": "c088e28e5174d49733d096f2a008fd671842073d01a553a13da159f0e01965a0",
-      "review_stage": "P1",
-      "review_base_commit": "635a8ecc697754d798376626b0380f06d60e4cbf"
+      "source_sha256": "c7b1b39ca523dbe161e4ef4ad55634669adac12aa57fe3dc7ca85d7ffcaa316a",
+      "review_stage": "P2",
+      "review_base_commit": "5ce044b2dfec6b40dd2a7cc05401017975dc062d"
     },
     {
       "path": "src/decision_agent/skills",
@@ -373,9 +381,9 @@
       "readme": "src/decision_agent/web/README.md",
       "review_depth": "runtime boundary traced",
       "source_file_count": 4,
-      "source_sha256": "48d1ba807819880b7db2065bf0aadc3afeeaa0e91bdad981b966f91cad723366",
-      "review_stage": "P1",
-      "review_base_commit": "635a8ecc697754d798376626b0380f06d60e4cbf"
+      "source_sha256": "24f192f6dcd529bc11e917fabe3ae0f82048651a29e9fd997092c861daeae98b",
+      "review_stage": "P2",
+      "review_base_commit": "5ce044b2dfec6b40dd2a7cc05401017975dc062d"
     },
     {
       "path": "src/decision_agent/workflows",
@@ -397,16 +405,34 @@
       "path": "tests/unit/application",
       "readme": "tests/unit/application/README.md",
       "review_depth": "runtime behavior tests",
-      "source_sha256": "e33491b955e46c0326b095f43a4ed88bb9e2bdde102fa9581067b5826b95fcd0",
+      "source_sha256": "a5e04d11b10879bf6696b0c78d161d4b597ee3238c9815a1bf0e65b6224938e3",
+      "source_file_count": 10,
+      "review_stage": "P2",
+      "review_base_commit": "5ce044b2dfec6b40dd2a7cc05401017975dc062d"
+    },
+    {
+      "path": "tests/unit/memory",
+      "readme": "tests/unit/memory/README.md",
+      "review_depth": "runtime behavior tests",
+      "source_sha256": "e49d7b77d064c4a9fe471d529d5478d818c4d2a31747f38eafac3dde062b415f",
       "source_file_count": 9,
-      "review_stage": "P1",
-      "review_base_commit": "635a8ecc697754d798376626b0380f06d60e4cbf"
+      "review_stage": "P2",
+      "review_base_commit": "5ce044b2dfec6b40dd2a7cc05401017975dc062d"
+    },
+    {
+      "path": "tests/unit/security",
+      "readme": "tests/unit/security/README.md",
+      "review_depth": "runtime behavior tests",
+      "source_sha256": "3091f31d532632f9b14b46ed3d64e2a07d10125f9b0e0edfc2c9676639071eae",
+      "source_file_count": 3,
+      "review_stage": "P2",
+      "review_base_commit": "5ce044b2dfec6b40dd2a7cc05401017975dc062d"
     }
   ],
   "last_update": {
-    "stage": "P1",
-    "base_commit": "635a8ecc697754d798376626b0380f06d60e4cbf",
+    "stage": "P2",
+    "base_commit": "5ce044b2dfec6b40dd2a7cc05401017975dc062d",
     "date": "2026-10-03",
-    "note": "Hashes identify reviewed current file content; unaffected notes retain P0 review."
+    "note": "Hashes identify current reviewed content; untouched notes retain earlier review."
   }
 }

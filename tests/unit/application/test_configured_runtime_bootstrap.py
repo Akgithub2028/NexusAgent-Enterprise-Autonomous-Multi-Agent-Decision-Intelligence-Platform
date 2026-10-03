@@ -868,3 +868,36 @@ def test_main_defers_runtime_until_lifespan_and_keeps_failed_bootstrap_unready(
         assert client.get("/health").status_code == 200
         assert client.get("/ready").status_code == 503
         assert client.get("/api/v1/demo/session").status_code == 404
+
+
+async def test_stdout_audit_bootstraps_non_test_runtime_without_local_file(monkeypatch):
+    import io
+
+    from tests.unit.security.test_provider_policy_and_audit import _event
+
+    from decision_agent.security.audit import AuditChainError, StdoutAuditSink
+
+    stream = io.StringIO()
+    monkeypatch.setattr("sys.stdout", stream)
+    factories = _BoundaryFactories()
+    runtime = await _build(
+        factories,
+        _settings(
+            environment=Environment.PRODUCTION,
+            audit_mode="stdout",
+            memory_mode="in_memory",
+            memory_max_sessions=7,
+            release_id="p2-test",
+            corpus_release_id="m2c1",
+        ),
+    )
+    assert runtime.executor._memory_store._max_sessions == 7
+    sink = runtime.executor._provider_governance._audit_sink
+    assert isinstance(sink, StdoutAuditSink)
+    sink.append(_event())
+    assert '"release_id":"p2-test"' in stream.getvalue()
+    await runtime.aclose()
+    with pytest.raises(AuditChainError):
+        sink.append(_event())
+    assert not stream.closed
+    assert factories.knowledge_runtimes[0].close_calls == 1

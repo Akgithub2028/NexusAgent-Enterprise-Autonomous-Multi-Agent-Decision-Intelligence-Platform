@@ -266,3 +266,64 @@ def test_concurrent_stale_appends_allow_exactly_one_write_without_leaking_text()
     assert len(memory.read("session-1").turns) == 1
     assert "USER_SECRET_BODY_DO_NOT_LEAK" not in str(conflicts[0])
     assert "ASSISTANT_SECRET_BODY_DO_NOT_LEAK" not in str(conflicts[0])
+
+
+@pytest.mark.offline_integration
+def test_capacity_rejects_new_sessions_without_displacing_live_history() -> None:
+    from decision_agent.memory.store import SessionMemoryCapacityError
+
+    clock = Clock()
+    memory = InMemorySessionMemoryStore(clock=clock, max_sessions=1)
+    first = make_turn()
+    memory.append_turn(first, expected_version=0)
+    with pytest.raises(SessionMemoryCapacityError, match="memory_capacity_exceeded"):
+        memory.append_turn(make_turn(session_id="other"), expected_version=0)
+    assert memory.read("session-1").turns == (first,)
+    assert memory.read("other").version == 0
+    assert memory.append_turn(first, expected_version=0).version == 1
+    second = make_turn(turn_id="turn-2", request_id="request-2")
+    assert memory.append_turn(second, expected_version=1).version == 2
+    with pytest.raises(SessionVersionConflictError):
+        memory.append_turn(make_turn(turn_id="stale", request_id="stale"), expected_version=1)
+
+
+@pytest.mark.offline_integration
+def test_capacity_reclaims_expired_sessions_without_access_or_ttl_refresh() -> None:
+    clock = Clock()
+    memory = InMemorySessionMemoryStore(
+        clock=clock, policy=SessionMemoryPolicy(ttl_seconds=10), max_sessions=2
+    )
+    memory.append_turn(make_turn(), expected_version=0)
+    memory.append_turn(make_turn(session_id="other"), expected_version=0)
+    clock.advance(9)
+    assert memory.read("session-1").version == 1
+    clock.advance(1)
+    memory.append_turn(make_turn(session_id="new"), expected_version=0)
+    assert set(memory._sessions) == {"new"}
+    clock.advance(10)
+    assert memory.sweep_expired() == 1
+    assert memory.sweep_expired() == 0
+
+
+@pytest.mark.offline_integration
+def test_capacity_is_atomic_under_concurrent_first_writes() -> None:
+    from decision_agent.memory.store import SessionMemoryCapacityError
+
+    memory = InMemorySessionMemoryStore(max_sessions=3)
+
+    def append(index):
+        try:
+            memory.append_turn(make_turn(session_id=f"visitor-{index}"), expected_version=0)
+        except SessionMemoryCapacityError:
+            return False
+        return True
+
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        assert sum(pool.map(append, range(40))) == 3
+    assert len(memory._sessions) == 3
+
+
+@pytest.mark.parametrize("limit", [0, -1, True, 1.5])
+def test_invalid_capacity_rejected(limit):
+    with pytest.raises(ValueError, match="max_sessions"):
+        InMemorySessionMemoryStore(max_sessions=limit)

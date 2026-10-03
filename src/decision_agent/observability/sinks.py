@@ -87,7 +87,7 @@ class StructuredLoggingTraceSink:
             serialized = _serialize(payload)
             if len(serialized.encode("utf-8")) > self._limits.max_serialized_trace_bytes:
                 serialized = _serialize(_summary_payload(trace))
-            self._logger.info(serialized)
+            self._logger.info(serialized, extra={"decision_agent_payload": json.loads(serialized)})
         except (OSError, TypeError, ValueError) as exc:
             raise TraceSinkError(_FALLBACK_ERROR_CODE) from exc
 
@@ -129,7 +129,9 @@ class BestEffortTraceDispatcher:
             "error_code": _FALLBACK_ERROR_CODE,
         }
         try:
-            self._fallback_logger.warning(_serialize(payload))
+            self._fallback_logger.warning(
+                _serialize(payload), extra={"decision_agent_payload": payload}
+            )
         except (OSError, TypeError, ValueError):
             return
 

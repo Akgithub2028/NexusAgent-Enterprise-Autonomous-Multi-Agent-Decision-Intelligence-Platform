@@ -113,12 +113,17 @@ class Settings(BaseSettings):
     memory_redis_timeout_seconds: float = Field(default=5.0, gt=0)
     memory_ttl_seconds: int = Field(default=1800, gt=0)
     memory_max_turns: int = Field(default=20, gt=0)
+    memory_max_sessions: int = Field(default=1000, ge=1, le=100000)
     memory_summary_enabled: bool = False
     memory_summary_trigger_turns: int = Field(default=6, gt=0)
     memory_summary_retain_recent_turns: int = Field(default=2, gt=0)
     memory_summary_max_source_chars: int = Field(default=8_000, gt=0)
     memory_summary_max_summary_chars: int = Field(default=2_000, gt=0)
+    audit_mode: Literal["file", "stdout"] = "file"
     audit_log_path: Path | None = None
+    runtime_revision: str = Field(default="local", pattern=r"^[A-Za-z0-9_.-]{1,128}$")
+    release_id: str = Field(default="unversioned", pattern=r"^[A-Za-z0-9_.-]{1,128}$")
+    corpus_release_id: str = Field(default="unversioned", pattern=r"^[A-Za-z0-9_.-]{1,128}$")
 
     @field_validator(
         "public_demo_origin",

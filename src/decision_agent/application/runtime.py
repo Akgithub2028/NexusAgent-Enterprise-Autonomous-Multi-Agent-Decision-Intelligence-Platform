@@ -42,6 +42,7 @@ class FormalMemoryConfiguration:
     mode: FormalMemoryMode
     store: SessionMemoryStore | None = field(default=None, repr=False)
     in_memory_policy: SessionMemoryPolicy | None = field(default=None, repr=False)
+    in_memory_max_sessions: int = 1000
     summarizer: RollingSummarizer | None = field(default=None, repr=False)
     summary_policy: RollingSummaryPolicy | None = field(default=None, repr=False)
 
@@ -55,6 +56,7 @@ class FormalMemoryConfiguration:
         cls,
         *,
         policy: SessionMemoryPolicy | None = None,
+        max_sessions: int = 1000,
         summarizer: RollingSummarizer | None = None,
         summary_policy: RollingSummaryPolicy | None = None,
     ) -> FormalMemoryConfiguration:
@@ -62,6 +64,7 @@ class FormalMemoryConfiguration:
         return cls(
             mode=FormalMemoryMode.IN_MEMORY,
             in_memory_policy=policy,
+            in_memory_max_sessions=max_sessions,
             summarizer=summarizer,
             summary_policy=summary_policy,
         )
@@ -124,11 +127,12 @@ def _resolve_store(configuration: FormalMemoryConfiguration) -> SessionMemorySto
         if configuration.store is not None:
             raise FormalRuntimeConfigurationError("runtime_memory_store_not_allowed")
         return InMemorySessionMemoryStore(
+            max_sessions=configuration.in_memory_max_sessions,
             **(
                 {}
                 if configuration.in_memory_policy is None
                 else {"policy": configuration.in_memory_policy}
-            )
+            ),
         )
     if mode is FormalMemoryMode.PROVIDED:
         if configuration.in_memory_policy is not None:

@@ -1,0 +1,363 @@
+{
+  "schema_version": 1,
+  "stage": "P2",
+  "status": "complete",
+  "base_commit": "5ce044b2dfec6b40dd2a7cc05401017975dc062d",
+  "verified_utc": "2026-10-03T12:06:08.794146+00:00",
+  "python": "CPython 3.11.15",
+  "environment": {
+    "torch": "2.13.0+cpu",
+    "HF_HUB_OFFLINE": "1",
+    "TRANSFORMERS_OFFLINE": "1",
+    "temp_dir": "../.p0-runtime/tmp",
+    "evidence_dir": "../.p0-runtime/evidence/p2"
+  },
+  "checks": [
+    {
+      "name": "dependency-lock",
+      "command": [
+        ".venv/bin/python",
+        "scripts/validate_dependency_lock.py"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T11:54:22.305535+00:00",
+      "duration_seconds": 0.12,
+      "log_sha256": "feefb778602a5301abb98cf5b3a8878dfd1494e68c273c23531a4e0a752b73e9"
+    },
+    {
+      "name": "installed-dependencies",
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "pip",
+        "check"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T11:54:22.305973+00:00",
+      "duration_seconds": 0.77,
+      "log_sha256": "9261363b733079a641c2e4cc9bc46ffa1d8336945a87f807b6cf68847dbc9b09"
+    },
+    {
+      "name": "ruff-lint",
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "ruff",
+        "check",
+        "."
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T11:58:21.031359+00:00",
+      "duration_seconds": 0.12,
+      "log_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "name": "ruff-format",
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "."
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T11:58:21.032092+00:00",
+      "duration_seconds": 0.12,
+      "log_sha256": "56e107f2e74488cd48d6de765340e2e1d738f986fb850ae55db5cc06cb353a27"
+    },
+    {
+      "name": "javascript-syntax",
+      "command": [
+        "node",
+        "--check",
+        "src/decision_agent/web/app.js"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T11:54:22.422605+00:00",
+      "duration_seconds": 0.07,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "compose-config",
+      "command": [
+        "docker",
+        "compose",
+        "config",
+        "--quiet",
+        "--no-interpolate"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T11:54:22.488203+00:00",
+      "duration_seconds": 0.17,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "unit",
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/unit",
+        "--basetemp",
+        "{temp_dir}/p2-unit",
+        "--junitxml",
+        "{evidence_dir}/unit.xml"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T11:55:38.334730+00:00",
+      "duration_seconds": 28.27,
+      "log_sha256": "0c4700e559edd3ce7522f9e184759f841dda6ef7e203e6e4f555249558760634",
+      "junit_summary": {
+        "tests": 1897,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "name": "offline-integration",
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "-m",
+        "offline_integration",
+        "--strict-markers",
+        "--import-mode=importlib",
+        "--basetemp",
+        "{temp_dir}/p2-offline",
+        "--junitxml",
+        "{evidence_dir}/offline-integration.xml"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T11:55:38.449167+00:00",
+      "duration_seconds": 15.12,
+      "log_sha256": "5a8f1b28a639ca200388d6eaebee67cfe0a73b66d2804e33ea44ae8e6a6d3da2",
+      "junit_summary": {
+        "tests": 322,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "name": "retrieval-v1-evidence",
+      "command": [
+        ".venv/bin/python",
+        "scripts/verify_retrieval_evidence.py"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T11:54:23.074189+00:00",
+      "duration_seconds": 2.08,
+      "log_sha256": "2cccef9af306047ea1a2d37092ad40e1313f5761ebf0d291f5323da04dfd99b5"
+    },
+    {
+      "name": "retrieval-v2-evidence",
+      "command": [
+        ".venv/bin/python",
+        "scripts/verify_retrieval_v2_evidence.py"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T11:54:25.151962+00:00",
+      "duration_seconds": 0.27,
+      "log_sha256": "0c5f8a80fe95982989a94fbd87ff61e8c6c328a02b7223e666d605377316925c"
+    },
+    {
+      "name": "m9-derivation",
+      "command": [
+        ".venv/bin/python",
+        "scripts/calculate_m9_metrics.py",
+        "artifacts/evaluation/m9-final-eval-v1/case_records.jsonl",
+        "--dataset",
+        "datasets/agent_tasks/m9_final_eval_v1.json",
+        "--adjudications",
+        "artifacts/evaluation/m9-final-eval-v1/adjudications.json",
+        "--output",
+        "{evidence_dir}/m9-metrics.json",
+        "--manifest-output",
+        "{evidence_dir}/m9-manifest.json"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T11:54:25.417932+00:00",
+      "duration_seconds": 2.23,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "security-evaluation",
+      "command": [
+        ".venv/bin/python",
+        "scripts/run_security_evaluation.py",
+        "--output",
+        "{evidence_dir}/security.json"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T11:54:27.645414+00:00",
+      "duration_seconds": 1.97,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary": {
+        "schema_version": "2",
+        "evaluation_method": "case_handler_registry_exact_comparison",
+        "total_cases": 28,
+        "passed": 28,
+        "failed": 0,
+        "fail_closed_rate": 1.0,
+        "unauthorized_release_count": 0,
+        "sensitive_leak_count": 0,
+        "provider_bypass_count": 0,
+        "tool_bypass_count": 0,
+        "audit_integrity_detection_rate": 1.0
+      },
+      "exact_case_ids_verified": true
+    },
+    {
+      "name": "wheel",
+      "command": [
+        "uv",
+        "build",
+        "--wheel",
+        "--out-dir",
+        "{evidence_dir}/dist"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T11:58:21.032670+00:00",
+      "duration_seconds": 0.67,
+      "log_sha256": "1b53e5987dfa7c2b648c19b791effd4d3e19efe0ebfe188bfd00824178cc0b15"
+    }
+  ],
+  "dependency_audits": [
+    {
+      "name": "resolving-dependency-audit",
+      "exit_code": 0,
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "pip_audit",
+        "--strict",
+        "-r",
+        "requirements.lock",
+        "--cache-dir",
+        ".cache/pip-audit",
+        "--progress-spinner",
+        "off",
+        "--format",
+        "json"
+      ],
+      "packages_audited": 141,
+      "reported_vulnerabilities": 0,
+      "ignored_advisories": [],
+      "report_sha256": "37e8eb553128df50d4736c3692a6d6e0fa4e45c3dfd9b10992d1eb4f5fb3ff10",
+      "log_sha256": "15950a68a7ed99c59779717acefdceb3f69cfd31bde67d2c954f2a3cea4d7955"
+    },
+    {
+      "name": "pinned-package-audit",
+      "exit_code": 0,
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "pip_audit",
+        "--strict",
+        "--no-deps",
+        "--disable-pip",
+        "-r",
+        "requirements.lock",
+        "--cache-dir",
+        ".cache/pip-audit",
+        "--progress-spinner",
+        "off",
+        "--format",
+        "json"
+      ],
+      "packages_audited": 122,
+      "reported_vulnerabilities": 0,
+      "ignored_advisories": [],
+      "report_sha256": "d79f2d18c9d9291c18641306ee2cd5c3587a78fbb630a251db6de7a73b998d95",
+      "log_sha256": "79d30422388543b2563e1dde76bb7e7857d7ef0c6fdf05c8c71598633ca07e1e"
+    }
+  ],
+  "net_new_unit_cases": 39,
+  "net_new_offline_cases": 35,
+  "additional_checks": {
+    "gitleaks_staged_diff": {
+      "exit_code": 0,
+      "findings": 0,
+      "version": "8.30.1",
+      "log_sha256": "1805b0b16f2845d0e411ecedb7da5695bd58bded6088d0b4d16a4ecfd94d3f75"
+    },
+    "installed_wheel_neutral_cwd": {
+      "exit_code": 0,
+      "cloud_module_and_stdout_sink_import": "passed",
+      "ui_assets_and_health": 200,
+      "unbootstrapped_readiness": 503,
+      "actual_stdio_discovery": "passed",
+      "schema_tables": 6,
+      "sql_queries_executed": 0,
+      "log_sha256": "209f3dc935d273573eba72e15d70c5537135b6b0d6a8eef7384cc9c192c74321"
+    }
+  },
+  "wheel": {
+    "name": "enterprise_decision_agent-1.0.2-py3-none-any.whl",
+    "sha256": "071cf53556081a30190d63108e74b2630dd02cd0e1c762ae78f78e2e298db964"
+  },
+  "source_sha256": {
+    ".env.example": "2eb10a6598072b9bc91d01c17e0d3179eb6deb92a841c9939840c95f0d9d9a6d",
+    "src/decision_agent/api/runtime.py": "d9f9ab4fac6ff900caa5555de1546ed51a7deefa1a0c30522c46c45c85270035",
+    "src/decision_agent/application/configured_runtime.py": "00747113c969fa80160252cb6d56e9bb2ced1e06a0f839e70aa3830dc843c331",
+    "src/decision_agent/application/runtime.py": "000f6934dc135eb72033d798a4b7cf0429f3ff30d7f3c49726076a9c558adfad",
+    "src/decision_agent/cloud.py": "3fdee91d74659822178d282f6923f64ef3e36af9533eb5adad69217ca9888377",
+    "src/decision_agent/config/settings.py": "98baf6e1ef976b808c8b441e0809b749ca3ab755f6605e98126d7c2661925f2c",
+    "src/decision_agent/demo/local.py": "b6a9eab152eeac5203c0b683bd4a44d1b233f7872a51e54677f37d6b85731d63",
+    "src/decision_agent/memory/__init__.py": "01bb987e15c0d9c9da17767c2dad9e2df04f9065f3a6bf2152818e4cbae79f61",
+    "src/decision_agent/memory/in_memory.py": "81bef154f1cd400d8ebe9e0f27fba434006ea982d5380daf42825ddf82504cbf",
+    "src/decision_agent/memory/store.py": "94236ae83f04931024c5a1148c8ed964d3dda1f1f3e00dd46e1a4455721e368e",
+    "src/decision_agent/observability/cloud_logging.py": "3937c3c63797f57312b14c497b8f7d35f28951bf6240b695f98305d54c7f6bad",
+    "src/decision_agent/observability/sinks.py": "af059e12a6bc63b85aaf793f15ad1d20a879ec7b8caaab94f5f62382e1d079d2",
+    "src/decision_agent/security/__init__.py": "69c03a5ce14a918a077a61e4e3a1b6f213b7dfed92e1d7361ef6afa782ecbe95",
+    "src/decision_agent/security/audit.py": "0c300825e6bc0820d467c1c9ea86df2cb61666317e0a64909b4a7daed9d2a9d1",
+    "src/decision_agent/web/index.html": "978e504938a5b029b69c3ca88e4fc9365ed55230dc102ca2b8551131d7351a03",
+    "tests/unit/application/test_application_runtime_factory.py": "33b36e9482ce8f0baf8ccd4b5e280431435e496dc0729ebcb54ed99f6b63b574",
+    "tests/unit/application/test_cloud_runtime.py": "ca3ba70cfcd48f6b4e05d0650655d937ab70ceb91c4cf8c59549d25845585125",
+    "tests/unit/application/test_configured_runtime_bootstrap.py": "98943b3385d0db43734e183a84ad8dde3e8c39d7d3392dc7b5b5e59b727f97e5",
+    "tests/unit/memory/test_in_memory.py": "7b3973b7814a53e5498bacba38c3b13ba500f4e0c11c3d162975306e7d499cce",
+    "tests/unit/security/test_stdout_audit.py": "48e3b183bdc50f36954a58951c6dc8ead846a7ca87159fcd505453c83a09238f"
+  },
+  "dependency_changes": false,
+  "exit_criteria": {
+    "formal_lifecycle_and_bootstrap_failure": "passed",
+    "validated_port_one_worker_no_reload": "passed",
+    "bounded_memory_expiry_idempotence_concurrency": "passed",
+    "existing_version_compaction_and_session_isolation": "passed",
+    "mandatory_stdout_write_flush_short_write_and_poisoning": "passed",
+    "provider_admission_completion_and_response_release_failure": "passed",
+    "local_file_audit_integrity_preserved": "passed",
+    "safe_json_trace_metadata_and_best_effort_failure": "passed",
+    "real_server_sigterm_owned_resource_cleanup": "passed",
+    "readiness_bootstrap_semantics_and_remote_independent_liveness": "preserved; no continuous remote checks added",
+    "visible_ephemeral_history_limitation": "implemented in packaged Workbench"
+  },
+  "known_limits": [
+    "Process-local memory and quotas are ephemeral and not shared across revisions/instances.",
+    "Capacity rejects new persistence, never evicts live sessions; grounded responses can report store_failure.",
+    "Stdout flush is local acceptance, not durable Cloud Logging delivery; audit chain is per sink/process.",
+    "Readiness represents bootstrap plus registered checks, not continuous remote SQL/vector/provider health.",
+    "Cloud SQL socket transport and managed AUTOINDEX remain P4.",
+    "Existing Starlette/httpx TestClient deprecation warning."
+  ],
+  "not_run": [
+    "live LLM queries",
+    "real SQL/vector queries",
+    "full BGE model loading",
+    "Cloud provisioning/public HTTPS/load test"
+  ],
+  "p3_status": "not started",
+  "raw_evidence": "Workspace .p0-runtime/evidence/p2; portable summaries and hashes committed.",
+  "documentation_validation": {
+    "directory_fingerprints_verified": 56,
+    "local_markdown_links_verified": 164,
+    "current_source_hashes": "all match",
+    "json_parsing": "passed",
+    "git_diff_whitespace": "passed"
+  }
+}

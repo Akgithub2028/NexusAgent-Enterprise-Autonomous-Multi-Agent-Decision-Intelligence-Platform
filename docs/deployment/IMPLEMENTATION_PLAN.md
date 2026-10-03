@@ -1,7 +1,7 @@
 # NexusAgent Cloud Run implementation plan
 
 Source baseline: `2e2b34c220158c1711409ddb1335fba00fbe375f`, reviewed 2026-10-03.
-P0 and P1 are complete. P2–P7 remain planned work; stop before P2 for the owner's instruction.
+P0–P2 are complete. P3–P7 remain planned work; stop before P3 for the owner's instruction.
 The [audit](P0_AUDIT.md) distinguishes implemented behavior from proposed changes;
 the [baseline](P0_BASELINE.json) records checks performed on this checkout.
 
@@ -105,6 +105,9 @@ label cannot read one another's history; overload rejects before expensive execu
 New Session rotates history while retaining correct visitor ownership.
 
 ## P2 — Cloud runtime, bounded memory and structured audit
+
+Implemented: [runtime contract](P2_CLOUD_RUNTIME.md), [validation](P2_VALIDATION.json).
+The requirements below are retained as the phase acceptance specification.
 
 Change seams: `api/runtime.py`, `application/configured_runtime.py`, `security/audit.py`,
 `observability/sinks.py`, `memory/in_memory.py` and the cloud launcher.
