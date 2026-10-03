@@ -15,15 +15,15 @@
   <a href="#mcp-data-agent--safe-nl2sql"><img src="https://img.shields.io/badge/SQLGlot-AST%20Security%20Guard-EC4899?style=for-the-badge&logo=mysql&logoColor=white" alt="SQLGlot" /></a>
   <a href="#distributed-tracing--context-management"><img src="https://img.shields.io/badge/Redis-Distributed%20Session%20State-DC382D?style=for-the-badge&logo=redis&logoColor=white" alt="Redis" /></a>
   <a href="#production-asgi-runtime"><img src="https://img.shields.io/badge/FastAPI-Production%20ASGI%20Runtime-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI" /></a>
-  <a href="#engineering-rigor--ci-pipeline"><img src="https://img.shields.io/badge/Python-3.12%2B%20Type--Safe-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python 3.12" /></a>
+  <a href="#engineering-rigor--ci-pipeline"><img src="https://img.shields.io/badge/Python-3.11%2B%20Type--Safe-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python 3.11" /></a>
   <a href="#license"><img src="https://img.shields.io/badge/License-Apache%202.0-F59E0B?style=for-the-badge&logo=apache&logoColor=white" alt="Apache 2.0" /></a>
 </p>
 
 **[Key Features](#key-engineering-highlights)** • **[System Architecture](#system-architecture)** • **[Web Workbench](#interactive-web-analytics-workbench)** • **[Hybrid RAG](#clause-aware-hybrid-rag-pipeline)** • **[MCP NL2SQL](#mcp-data-agent--safe-nl2sql)** • **[Benchmarks](#retrieval-benchmark-v2-results)** • **[Quickstart](#local-quickstart)**
 
-**Cloud deployment preparation:** [P0 audit, measured baseline and P1–P7 implementation plan](docs/deployment/README.md).
-P0 documents the existing runtime and deployment gaps; public-demo implementation has not started.
-The dependency audit reports a pre-existing release blocker; see the recorded baseline before deploying.
+**Cloud deployment preparation:** [P0 audit, P1 public-demo boundary and remaining implementation plan](docs/deployment/README.md).
+P1 adds explicit demo identity, fixed synthetic scopes and bounded admission; cloud deployment remains pending.
+The dependency findings recorded in P0 are remediated; see the current validation evidence before deploying.
 
 ---
 
@@ -190,13 +190,13 @@ The retrieval pipeline is evaluated against **Retrieval Benchmark v2**, an offli
 
 ```text
 ==================================== 100% Passing Test Suite ====================================
-✓ 1,802 Unit Tests (State machines, prompts, AST guards, token budgets, serialization)
-✓ 235 Stable Offline Integration Tests (Deterministic external-I/O substitutes, LangGraph graphs)
+✓ 1,858 Unit Tests (State machines, prompts, AST guards, token budgets, serialization, public-demo boundary)
+✓ 287 Stable Offline Integration Tests (Deterministic external-I/O substitutes, LangGraph graphs, visitor isolation)
 ✓ 28 / 28 Security & Boundary Verification Tests (Tenant isolation, SQL injection prevention)
 =================================================================================================
 ```
 
-- **Zero-Network CI/CD Pipeline**: Full test suite runs entirely offline with deterministic mock providers and locked synthetic datasets.
+- **Offline Regression Tests**: Unit and offline integration suites use deterministic substitutes and synthetic datasets. Dependency installation and audits require networking; deployment automation is planned in P7.
 - **Multi-Stage Quality Gates**: GitHub Actions executes `ruff` formatting/linting, `pydantic` strict typing, `pytest` async execution, and `pip-audit` vulnerability scanning on every PR.
 - **Deterministic Evaluation Verifiers**: Standalone verification scripts validate locked artifact hashes and compute retrieval metrics without non-deterministic cloud provider dependencies.
 

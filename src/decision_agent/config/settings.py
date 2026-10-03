@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from enum import StrEnum
+from ipaddress import ip_address
 from pathlib import Path
 from typing import Any, Literal
 from urllib.parse import urlsplit
@@ -47,6 +48,18 @@ class Settings(BaseSettings):
 
     app_name: str = Field(min_length=1)
     environment: Environment = Environment.DEVELOPMENT
+    deployment_mode: Literal["private", "public_demo"] = "private"
+    public_demo_origin: str | None = None
+    public_demo_signing_secret: SecretStr | None = None
+    public_demo_cookie_ttl_seconds: int = Field(default=1800, ge=60, le=86400)
+    public_demo_max_active: int = Field(default=2, ge=1, le=32)
+    public_demo_requests_per_visitor: int = Field(default=10, ge=1, le=1000)
+    public_demo_requests_global: int = Field(default=60, ge=1, le=10000)
+    public_demo_bootstraps_global: int = Field(default=120, ge=1, le=10000)
+    public_demo_window_seconds: int = Field(default=60, ge=1, le=3600)
+    public_demo_max_visitors: int = Field(default=1000, ge=1, le=100000)
+    public_demo_max_body_bytes: int = Field(default=65536, ge=1024, le=131072)
+    public_demo_body_timeout_seconds: float = Field(default=10.0, gt=0, le=60)
     required_dependencies: list[str] = Field(default_factory=list)
     milvus_uri: str = Field(default="http://localhost:19530", min_length=1)
     milvus_token: SecretStr | None = None
@@ -108,6 +121,8 @@ class Settings(BaseSettings):
     audit_log_path: Path | None = None
 
     @field_validator(
+        "public_demo_origin",
+        "public_demo_signing_secret",
         "milvus_token",
         "embedding_cache_folder",
         "knowledge_dataset_root",
@@ -199,7 +214,48 @@ class Settings(BaseSettings):
             raise ValueError("summary retained turns must be less than trigger turns")
         if self.memory_summary_trigger_turns > self.memory_max_turns:
             raise ValueError("summary trigger turns cannot exceed memory_max_turns")
+        if self.deployment_mode == "public_demo":
+            self._validate_public_demo()
         return self
+
+    def _validate_public_demo(self) -> None:
+        """Require an explicit, non-placeholder deployment boundary before public access."""
+        origin = urlsplit(self.public_demo_origin or "")
+        if (
+            origin.scheme != "https"
+            or not origin.hostname
+            or origin.username is not None
+            or origin.password is not None
+            or origin.path
+            or origin.query
+            or origin.fragment
+            or origin.port == 443
+            or self.public_demo_origin != f"https://{origin.netloc.lower()}"
+        ):
+            raise ValueError("public demo requires a canonical HTTPS origin without a path")
+        secret = self.public_demo_signing_secret
+        if secret is None or not 43 <= len(secret.get_secret_value()) <= 256:
+            raise ValueError(
+                "public demo requires a randomly generated signing secret of 43-256 characters"
+            )
+        secrets = (secret, self.llm_api_key, self.milvus_token, self.db_readonly_password)
+        for value in secrets:
+            if value is None or _is_placeholder(value.get_secret_value()):
+                raise ValueError("public demo requires non-placeholder runtime secrets")
+        if len(set(secret.get_secret_value())) < 8:
+            raise ValueError("public demo signing secret must be randomly generated")
+        if not self.controlled_workflow_enabled:
+            raise ValueError("public demo requires the controlled mixed workflow")
+        if self.knowledge_dataset_root is None or self.llm_model_name is None:
+            raise ValueError("public demo requires corpus and model configuration")
+        if _is_placeholder(self.llm_model_name):
+            raise ValueError("public demo requires a non-placeholder model name")
+        for value in (self.public_demo_origin, self.milvus_uri, self.llm_base_url):
+            parsed = urlsplit(value or "")
+            if parsed.scheme != "https" or _is_local_or_placeholder_host(parsed.hostname or ""):
+                raise ValueError("public demo requires external HTTPS endpoints")
+        if _is_local_or_placeholder_host(self.db_host):
+            raise ValueError("public demo requires an explicit external database host")
 
     @staticmethod
     def _validate_url_structure(value: str, *, field_name: str) -> None:
@@ -212,3 +268,33 @@ class Settings(BaseSettings):
             raise ValueError(f"{field_name} must include a scheme and host")
         if parsed.username is not None or parsed.password is not None:
             raise ValueError(f"{field_name} must not embed user information")
+
+
+def _is_placeholder(value: str) -> bool:
+    return not value.strip() or any(
+        marker in value.lower()
+        for marker in (
+            "change-me",
+            "changeme",
+            "replace-with",
+            "replace-me",
+            "replace_me",
+            "placeholder",
+            "example.invalid",
+            "your-api-key",
+            "your-secret",
+            "test-secret",
+        )
+    )
+
+
+def _is_local_or_placeholder_host(host: str) -> bool:
+    name = host.lower().rstrip(".")
+    if not name or name == "localhost" or name.endswith((".localhost", ".local", ".invalid")):
+        return True
+    try:
+        address = ip_address(name)
+    except ValueError:
+        # Reject legacy numeric forms that some resolvers interpret as loopback IPv4.
+        return all(part.isdecimal() for part in name.split(".")) or name.startswith("0x")
+    return address.is_loopback or address.is_unspecified or address.is_link_local

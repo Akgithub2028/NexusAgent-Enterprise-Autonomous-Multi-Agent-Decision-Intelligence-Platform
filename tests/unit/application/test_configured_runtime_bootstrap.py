@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-import ast
 import asyncio
+import runpy
 import threading
 from collections.abc import Sequence
 from pathlib import Path
@@ -19,6 +19,7 @@ from decision_agent.agents.data_query_planner import OpenAICompatibleDataQueryPl
 from decision_agent.agents.evidence_selector import OpenAICompatibleEvidenceSelector
 from decision_agent.agents.grounded_answer import OpenAICompatibleAnswerGenerator
 from decision_agent.application.bootstrap import (
+    BootstrapErrorCode,
     RuntimeBootstrapError,
     build_bootstrapped_runtime,
 )
@@ -836,34 +837,34 @@ def test_baseline_retrieval_factory_remains_in_memory_and_unchanged() -> None:
     assert pipeline._config.config_version == "m2c2a1-v1"  # type: ignore[attr-defined]
 
 
-def test_main_ast_has_one_deferred_bootstrapped_app_expression() -> None:
-    source = (ROOT / "src/decision_agent/main.py").read_text(encoding="utf-8")
-    module = ast.parse(source)
-    assignments = [
-        node for node in module.body if isinstance(node, ast.Assign) and len(node.targets) == 1
-    ]
-    by_name = {
-        target.id: node.value
-        for node in assignments
-        if isinstance((target := node.targets[0]), ast.Name)
-    }
+def test_main_defers_runtime_until_lifespan_and_keeps_failed_bootstrap_unready(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    from fastapi.testclient import TestClient
 
-    assert set(by_name) == {"settings", "runtime_builder", "app"}
-    assert isinstance(by_name["settings"], ast.Call)
-    assert isinstance(by_name["settings"].func, ast.Name)
-    assert by_name["settings"].func.id == "Settings"
-    assert isinstance(by_name["runtime_builder"], ast.Call)
-    assert isinstance(by_name["runtime_builder"].func, ast.Name)
-    assert by_name["runtime_builder"].func.id == "create_configured_runtime_builder"
-    assert isinstance(by_name["app"], ast.Call)
-    assert isinstance(by_name["app"].func, ast.Name)
-    assert by_name["app"].func.id == "create_bootstrapped_app"
-    assert "create_app(Settings())" not in source
-    assert (
-        sum(
-            isinstance(node, ast.Assign)
-            and any(isinstance(target, ast.Name) and target.id == "app" for target in node.targets)
-            for node in module.body
-        )
-        == 1
-    )
+    import decision_agent.api.public_demo as deployment
+
+    events = []
+
+    def factory(settings):
+        assert settings.deployment_mode == "private"
+        events.append("factory")
+
+        async def builder(stack):
+            events.append("bootstrap")
+            stack.callback(events.append, "cleanup")
+            raise RuntimeBootstrapError(BootstrapErrorCode.RUNTIME_UNAVAILABLE)
+
+        return builder
+
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setenv("DECISION_AGENT_APP_NAME", "Deferred main test")
+    monkeypatch.setenv("DECISION_AGENT_ENVIRONMENT", "test")
+    monkeypatch.setattr(deployment, "create_configured_runtime_builder", factory)
+    namespace = runpy.run_path(str(ROOT / "src/decision_agent/main.py"))
+    assert events == ["factory"]
+    with TestClient(namespace["app"]) as client:
+        assert events == ["factory", "bootstrap", "cleanup"]
+        assert client.get("/health").status_code == 200
+        assert client.get("/ready").status_code == 503
+        assert client.get("/api/v1/demo/session").status_code == 404

@@ -127,29 +127,37 @@
       "path": "src",
       "readme": "src/README.md",
       "review_depth": "supporting inventory / contracts",
-      "source_file_count": 171,
-      "source_sha256": "4dfc358169254ebfe3e813c43167147b0b86592a4005002bf17c86d8c6eee0ca"
+      "source_file_count": 172,
+      "source_sha256": "f59d2fe6b3d6e10e712390648399b6ee4e0a283ee0f8152fa15bb39addb5af38",
+      "review_stage": "P1",
+      "review_base_commit": "635a8ecc697754d798376626b0380f06d60e4cbf"
     },
     {
       "path": "src/decision_agent",
       "readme": "src/decision_agent/README.md",
       "review_depth": "supporting inventory / contracts",
-      "source_file_count": 171,
-      "source_sha256": "4dfc358169254ebfe3e813c43167147b0b86592a4005002bf17c86d8c6eee0ca"
+      "source_file_count": 172,
+      "source_sha256": "f59d2fe6b3d6e10e712390648399b6ee4e0a283ee0f8152fa15bb39addb5af38",
+      "review_stage": "P1",
+      "review_base_commit": "635a8ecc697754d798376626b0380f06d60e4cbf"
     },
     {
       "path": "tests",
       "readme": "tests/README.md",
       "review_depth": "supporting inventory / contracts",
-      "source_file_count": 151,
-      "source_sha256": "e45a7618a434be0ab063cef6468debea5b15f79ab4bc4a2ac87356271971f5d9"
+      "source_file_count": 152,
+      "source_sha256": "ee2f86012b684a62730a1c3b269412faadb51f6368ac267c1cf287eac66caafe",
+      "review_stage": "P1",
+      "review_base_commit": "635a8ecc697754d798376626b0380f06d60e4cbf"
     },
     {
       "path": "tests/unit",
       "readme": "tests/unit/README.md",
       "review_depth": "supporting inventory / contracts",
-      "source_file_count": 120,
-      "source_sha256": "0e3d6c5976266b11428c2bce6896c7f113f97516b6689bf4f20d172e8bd20c65"
+      "source_file_count": 121,
+      "source_sha256": "24241d1a2c2328410172b3e30b2e59d458dcba9fc7db5ff606d64634b29984b7",
+      "review_stage": "P1",
+      "review_base_commit": "635a8ecc697754d798376626b0380f06d60e4cbf"
     },
     {
       "path": "tests/integration",
@@ -190,8 +198,10 @@
       "path": "src/decision_agent/api",
       "readme": "src/decision_agent/api/README.md",
       "review_depth": "runtime boundary traced",
-      "source_file_count": 7,
-      "source_sha256": "d063c31ca48673e1725e97f01b76056faac6d954aa1c6cab959ae9e5802217ca"
+      "source_file_count": 8,
+      "source_sha256": "d9a759a70fea46d36f38f6f80cf6625f425ffcd29e08e8c3c9fd6a6477ecccf3",
+      "review_stage": "P1",
+      "review_base_commit": "635a8ecc697754d798376626b0380f06d60e4cbf"
     },
     {
       "path": "src/decision_agent/application",
@@ -205,7 +215,9 @@
       "readme": "src/decision_agent/config/README.md",
       "review_depth": "runtime boundary traced",
       "source_file_count": 3,
-      "source_sha256": "aaac4fa47c5c288d02d7352a4f7924028ca195bca876aeaf6db7232101bd8424"
+      "source_sha256": "6972e0b050e5210c7b1b681c60db5a520b47410113e4a130d94db84dd12f58e5",
+      "review_stage": "P1",
+      "review_base_commit": "635a8ecc697754d798376626b0380f06d60e4cbf"
     },
     {
       "path": "src/decision_agent/context",
@@ -331,7 +343,9 @@
       "readme": "src/decision_agent/security/README.md",
       "review_depth": "runtime boundary traced",
       "source_file_count": 7,
-      "source_sha256": "cc5ccc2e12bcb42840161d5d8d3feb1dfe3384df0b1df01a176d700e14d19d24"
+      "source_sha256": "c088e28e5174d49733d096f2a008fd671842073d01a553a13da159f0e01965a0",
+      "review_stage": "P1",
+      "review_base_commit": "635a8ecc697754d798376626b0380f06d60e4cbf"
     },
     {
       "path": "src/decision_agent/skills",
@@ -359,7 +373,9 @@
       "readme": "src/decision_agent/web/README.md",
       "review_depth": "runtime boundary traced",
       "source_file_count": 4,
-      "source_sha256": "b18dbf078610ae5608d7df524a35e6e2c3fe0a87d4cf4360005e2417734c731b"
+      "source_sha256": "48d1ba807819880b7db2065bf0aadc3afeeaa0e91bdad981b966f91cad723366",
+      "review_stage": "P1",
+      "review_base_commit": "635a8ecc697754d798376626b0380f06d60e4cbf"
     },
     {
       "path": "src/decision_agent/workflows",
@@ -367,6 +383,30 @@
       "review_depth": "runtime boundary traced",
       "source_file_count": 4,
       "source_sha256": "a956af61195915fc749139b452bf80e73af128b50a8159eb5a0f8cdf4487987b"
+    },
+    {
+      "path": "tests/unit/api",
+      "readme": "tests/unit/api/README.md",
+      "review_depth": "runtime behavior tests",
+      "source_sha256": "cfc7d6aeae13d922570732d65e012b37d06a40930ed00ed23c85a6d1091d217d",
+      "source_file_count": 3,
+      "review_stage": "P1",
+      "review_base_commit": "635a8ecc697754d798376626b0380f06d60e4cbf"
+    },
+    {
+      "path": "tests/unit/application",
+      "readme": "tests/unit/application/README.md",
+      "review_depth": "runtime behavior tests",
+      "source_sha256": "e33491b955e46c0326b095f43a4ed88bb9e2bdde102fa9581067b5826b95fcd0",
+      "source_file_count": 9,
+      "review_stage": "P1",
+      "review_base_commit": "635a8ecc697754d798376626b0380f06d60e4cbf"
     }
-  ]
+  ],
+  "last_update": {
+    "stage": "P1",
+    "base_commit": "635a8ecc697754d798376626b0380f06d60e4cbf",
+    "date": "2026-10-03",
+    "note": "Hashes identify reviewed current file content; unaffected notes retain P0 review."
+  }
 }

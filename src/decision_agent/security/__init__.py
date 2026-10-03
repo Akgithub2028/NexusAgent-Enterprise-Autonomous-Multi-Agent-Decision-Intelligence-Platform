@@ -30,6 +30,7 @@ from decision_agent.security.models import (
     SecurityEvent,
     SessionScope,
     build_security_context,
+    make_demo_principal,
     make_system_principal,
     make_test_principal,
 )
@@ -87,6 +88,7 @@ __all__ = [
     "SessionScope",
     "build_security_context",
     "ensure_safe_provider_output",
+    "make_demo_principal",
     "make_system_principal",
     "make_test_principal",
     "new_audit_event",

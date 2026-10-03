@@ -39,6 +39,10 @@ def create_agent_router(
             status.HTTP_503_SERVICE_UNAVAILABLE: {"model": ApiErrorResponse},
             status.HTTP_401_UNAUTHORIZED: {"model": ApiErrorResponse},
             status.HTTP_403_FORBIDDEN: {"model": ApiErrorResponse},
+            status.HTTP_429_TOO_MANY_REQUESTS: {"model": ApiErrorResponse},
+            status.HTTP_413_CONTENT_TOO_LARGE: {"model": ApiErrorResponse},
+            status.HTTP_408_REQUEST_TIMEOUT: {"model": ApiErrorResponse},
+            status.HTTP_415_UNSUPPORTED_MEDIA_TYPE: {"model": ApiErrorResponse},
         },
     )
     async def execute_agent(

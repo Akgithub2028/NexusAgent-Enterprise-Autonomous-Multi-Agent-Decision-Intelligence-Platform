@@ -5,6 +5,7 @@
   const HEALTH_ENDPOINT = "/health";
   const READY_ENDPOINT = "/ready";
   const EXECUTE_ENDPOINT = "/api/v1/agent/execute";
+  const SESSION_ENDPOINT = "/api/v1/demo/session";
   const STATUS_POLL_MS = 12000;
 
   const elements = {
@@ -419,6 +420,12 @@
   }
 
   function publicErrorMessage(statusCode, payload) {
+    if (statusCode === 429) {
+      return "The demo is busy or your request limit has been reached. Please wait and try again.";
+    }
+    if (statusCode === 401) {
+      return "Your demo visit could not be verified. Please send again to start a new visit.";
+    }
     if (statusCode === 422) {
       return "Request validation failed. Please check your query and try again.";
     }
@@ -457,8 +464,20 @@
     elements.resultStatus.classList.remove("result-status-success", "result-status-failed");
 
     try {
+      const session = await fetchJson(SESSION_ENDPOINT, {
+        cache: "no-store",
+        credentials: "same-origin",
+        signal: activeController.signal,
+      });
+      // Private/local apps intentionally do not expose the public-demo bootstrap.
+      if (session.response.status !== 404 && !session.response.ok) {
+        showMessage(publicErrorMessage(session.response.status, session.payload), true);
+        elements.resultStatus.textContent = "Request Failed";
+        return;
+      }
       const result = await fetchJson(EXECUTE_ENDPOINT, {
         method: "POST",
+        credentials: "same-origin",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
         signal: activeController.signal,

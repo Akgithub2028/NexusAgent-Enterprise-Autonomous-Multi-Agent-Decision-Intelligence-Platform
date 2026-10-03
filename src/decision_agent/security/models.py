@@ -23,6 +23,7 @@ _POLICY_ID = "m8c-default-deny"
 _POLICY_VERSION = "1"
 _SYSTEM_FACTORY_MARKER = object()
 _TEST_FACTORY_MARKER = object()
+_DEMO_FACTORY_MARKER = object()
 
 
 class PrincipalType(StrEnum):
@@ -31,6 +32,7 @@ class PrincipalType(StrEnum):
     HUMAN = "human"
     SYSTEM = "system"
     TEST = "test"
+    DEMO = "demo"
 
 
 class AuthenticationMethod(StrEnum):
@@ -39,6 +41,7 @@ class AuthenticationMethod(StrEnum):
     UPSTREAM_ASSERTED = "upstream_asserted"
     INTERNAL_SYSTEM = "internal_system"
     TEST_FIXTURE = "test_fixture"
+    DEMO_COOKIE = "demo_cookie"
 
 
 class SecurityErrorCode(StrEnum):
@@ -94,6 +97,7 @@ class RequestPrincipal(BaseModel):
             PrincipalType.HUMAN: AuthenticationMethod.UPSTREAM_ASSERTED,
             PrincipalType.SYSTEM: AuthenticationMethod.INTERNAL_SYSTEM,
             PrincipalType.TEST: AuthenticationMethod.TEST_FIXTURE,
+            PrincipalType.DEMO: AuthenticationMethod.DEMO_COOKIE,
         }[self.principal_type]
         if self.authentication_method is not expected_authentication:
             raise ValueError("principal type and authentication method are incompatible")
@@ -104,6 +108,8 @@ class RequestPrincipal(BaseModel):
             raise ValueError("system principals require the explicit system factory")
         if self.principal_type is PrincipalType.TEST and marker is not _TEST_FACTORY_MARKER:
             raise ValueError("test principals require the explicit test factory")
+        if self.principal_type is PrincipalType.DEMO and marker is not _DEMO_FACTORY_MARKER:
+            raise ValueError("demo principals require the explicit demo factory")
         return self
 
 
@@ -285,6 +291,22 @@ def make_system_principal(
         context={"principal_factory_marker": _SYSTEM_FACTORY_MARKER},
     )
     principal._factory_marker = _SYSTEM_FACTORY_MARKER
+    return principal
+
+
+def make_demo_principal(*, subject_id: str, tenant_id: str) -> RequestPrincipal:
+    """Represent a server-verified demo visitor, without enterprise-user authentication."""
+    principal = RequestPrincipal.model_validate(
+        {
+            "principal_type": PrincipalType.DEMO,
+            "subject_id": subject_id,
+            "tenant_id": tenant_id,
+            "roles": frozenset({"public_demo_reader"}),
+            "authentication_method": AuthenticationMethod.DEMO_COOKIE,
+        },
+        context={"principal_factory_marker": _DEMO_FACTORY_MARKER},
+    )
+    principal._factory_marker = _DEMO_FACTORY_MARKER
     return principal
 
 

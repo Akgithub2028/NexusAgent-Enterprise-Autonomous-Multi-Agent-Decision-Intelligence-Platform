@@ -2,6 +2,9 @@
 
 Reviewed source: `2e2b34c220158c1711409ddb1335fba00fbe375f` on 2026-10-03.
 
+P1 updates affected notes based on `635a8ecc697754d798376626b0380f06d60e4cbf`.
+Current source fingerprints identify the reviewed content; unaffected notes retain P0 review.
+
 READMEs are maintained maps, not an automatic documentation generator. Runtime boundaries
 received detailed source tracing; supporting packages received an entrypoint/contract inventory.
 Existing root, corpus and frozen-artifact READMEs are preserved. No notes are added to
@@ -30,6 +33,8 @@ virtual environments, caches, Git internals or generated/frozen dataset leaves.
 | [src/decision_agent](../../src/decision_agent/README.md) | NexusAgent application package | supporting inventory / contracts |
 | [tests](../../tests/README.md) | Deterministic regression and opt-in live tests | supporting inventory / contracts |
 | [tests/unit](../../tests/unit/README.md) | Unit regression contracts | supporting inventory / contracts |
+| [tests/unit/api](../../tests/unit/api/README.md) | API and public-demo behavior | runtime behavior tests |
+| [tests/unit/application](../../tests/unit/application/README.md) | Formal lifecycle and executor behavior | runtime behavior tests |
 | [tests/integration](../../tests/integration/README.md) | Integration tests with explicit offline/live markers | supporting inventory / contracts |
 | [tests/e2e](../../tests/e2e/README.md) | End-to-end evaluation and runtime scenarios | supporting inventory / contracts |
 | [tests/fixtures](../../tests/fixtures/README.md) | Deterministic external-I/O substitutes | supporting inventory / contracts |

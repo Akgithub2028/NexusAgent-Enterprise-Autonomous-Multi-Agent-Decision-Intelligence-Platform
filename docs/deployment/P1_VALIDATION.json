@@ -1,0 +1,375 @@
+{
+  "schema_version": 1,
+  "stage": "P1",
+  "status": "complete",
+  "base_commit": "635a8ecc697754d798376626b0380f06d60e4cbf",
+  "verified_utc": "2026-10-03T11:11:51.603633+00:00",
+  "python": "CPython 3.11.15",
+  "environment": {
+    "torch": "2.13.0+cpu",
+    "HF_HUB_OFFLINE": "1",
+    "TRANSFORMERS_OFFLINE": "1",
+    "temp_dir": "../.p0-runtime/tmp",
+    "evidence_dir": "../.p0-runtime/evidence/p1"
+  },
+  "checks": [
+    {
+      "name": "dependency-lock",
+      "command": [
+        ".venv/bin/python",
+        "scripts/validate_dependency_lock.py"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T10:57:40.696569+00:00",
+      "duration_seconds": 0.12,
+      "log_sha256": "feefb778602a5301abb98cf5b3a8878dfd1494e68c273c23531a4e0a752b73e9"
+    },
+    {
+      "name": "installed-dependencies",
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "pip",
+        "check"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T10:57:40.697706+00:00",
+      "duration_seconds": 0.72,
+      "log_sha256": "9261363b733079a641c2e4cc9bc46ffa1d8336945a87f807b6cf68847dbc9b09"
+    },
+    {
+      "name": "ruff-lint",
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "ruff",
+        "check",
+        "."
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T11:06:11.021872+00:00",
+      "duration_seconds": 0.12,
+      "log_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "name": "ruff-format",
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "."
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T11:06:11.022706+00:00",
+      "duration_seconds": 0.12,
+      "log_sha256": "3fd0c66a7c348aea301c845ea2dbd910849a2ad9fa0eb44a967b12ecfa3bc5ed"
+    },
+    {
+      "name": "javascript-syntax",
+      "command": [
+        "node",
+        "--check",
+        "src/decision_agent/web/app.js"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T10:57:40.816298+00:00",
+      "duration_seconds": 0.12,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "compose-config",
+      "command": [
+        "docker",
+        "compose",
+        "config",
+        "--quiet",
+        "--no-interpolate"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T10:57:40.930900+00:00",
+      "duration_seconds": 0.17,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "unit",
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/unit",
+        "--basetemp",
+        "{temp_dir}/p1-unit",
+        "--junitxml",
+        "{evidence_dir}/unit.xml"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T11:06:11.023731+00:00",
+      "duration_seconds": 22.56,
+      "log_sha256": "57d5e3f93fa1f107d70952efb489895ffd3dad35c8e9b055e1026c92131ad0f5",
+      "junit_summary": {
+        "tests": 1858,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "name": "offline-integration",
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "-m",
+        "offline_integration",
+        "--strict-markers",
+        "--import-mode=importlib",
+        "--basetemp",
+        "{temp_dir}/p1-offline",
+        "--junitxml",
+        "{evidence_dir}/offline-integration.xml"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T11:06:11.138418+00:00",
+      "duration_seconds": 9.6,
+      "log_sha256": "12aca343513442579f7019cf0eb80da9a8f06b567b8b248c52d5ce33447ad219",
+      "junit_summary": {
+        "tests": 287,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "name": "retrieval-v1-evidence",
+      "command": [
+        ".venv/bin/python",
+        "scripts/verify_retrieval_evidence.py"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T10:57:41.416256+00:00",
+      "duration_seconds": 2.93,
+      "log_sha256": "2cccef9af306047ea1a2d37092ad40e1313f5761ebf0d291f5323da04dfd99b5"
+    },
+    {
+      "name": "retrieval-v2-evidence",
+      "command": [
+        ".venv/bin/python",
+        "scripts/verify_retrieval_v2_evidence.py"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T10:57:44.344252+00:00",
+      "duration_seconds": 0.27,
+      "log_sha256": "0c5f8a80fe95982989a94fbd87ff61e8c6c328a02b7223e666d605377316925c"
+    },
+    {
+      "name": "m9-derivation",
+      "command": [
+        ".venv/bin/python",
+        "scripts/calculate_m9_metrics.py",
+        "artifacts/evaluation/m9-final-eval-v1/case_records.jsonl",
+        "--dataset",
+        "datasets/agent_tasks/m9_final_eval_v1.json",
+        "--adjudications",
+        "artifacts/evaluation/m9-final-eval-v1/adjudications.json",
+        "--output",
+        "{evidence_dir}/m9-metrics.json",
+        "--manifest-output",
+        "{evidence_dir}/m9-manifest.json"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T10:57:44.611186+00:00",
+      "duration_seconds": 2.02,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "security-evaluation",
+      "command": [
+        ".venv/bin/python",
+        "scripts/run_security_evaluation.py",
+        "--output",
+        "{evidence_dir}/security.json"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T10:57:46.634074+00:00",
+      "duration_seconds": 2.22,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary": {
+        "schema_version": "2",
+        "evaluation_method": "case_handler_registry_exact_comparison",
+        "total_cases": 28,
+        "passed": 28,
+        "failed": 0,
+        "fail_closed_rate": 1.0,
+        "unauthorized_release_count": 0,
+        "sensitive_leak_count": 0,
+        "provider_bypass_count": 0,
+        "tool_bypass_count": 0,
+        "audit_integrity_detection_rate": 1.0
+      },
+      "exact_case_ids_verified": true
+    },
+    {
+      "name": "wheel",
+      "command": [
+        "uv",
+        "build",
+        "--wheel",
+        "--out-dir",
+        "{evidence_dir}/dist"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T10:57:48.857766+00:00",
+      "duration_seconds": 1.17,
+      "log_sha256": "c645b7695fa6578a0b3dde8ecc5862ed70fbb2320055ef4530cb86d72493ac89"
+    }
+  ],
+  "dependency_audits": [
+    {
+      "name": "pinned-package-audit",
+      "exit_code": 0,
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "pip_audit",
+        "--strict",
+        "--no-deps",
+        "--disable-pip",
+        "-r",
+        "requirements.lock",
+        "--cache-dir",
+        ".cache/pip-audit",
+        "--progress-spinner",
+        "off",
+        "--format",
+        "json"
+      ],
+      "packages_audited": 122,
+      "reported_vulnerabilities": 0,
+      "ignored_advisories": [],
+      "report_sha256": "d79f2d18c9d9291c18641306ee2cd5c3587a78fbb630a251db6de7a73b998d95",
+      "log_sha256": "79d30422388543b2563e1dde76bb7e7857d7ef0c6fdf05c8c71598633ca07e1e"
+    },
+    {
+      "name": "resolving-dependency-audit",
+      "exit_code": 0,
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "pip_audit",
+        "--strict",
+        "-r",
+        "requirements.lock",
+        "--cache-dir",
+        ".cache/pip-audit",
+        "--progress-spinner",
+        "off",
+        "--format",
+        "json"
+      ],
+      "packages_audited": 141,
+      "reported_vulnerabilities": 0,
+      "ignored_advisories": [],
+      "report_sha256": "37e8eb553128df50d4736c3692a6d6e0fa4e45c3dfd9b10992d1eb4f5fb3ff10",
+      "log_sha256": "15950a68a7ed99c59779717acefdceb3f69cfd31bde67d2c954f2a3cea4d7955"
+    }
+  ],
+  "new_public_demo_tests": 52,
+  "additional_checks": {
+    "gitleaks_staged_diff": {
+      "exit_code": 0,
+      "findings": 0,
+      "version": "8.30.1",
+      "log_sha256": "c7a4489dcdb9e905e03a4e0a1eb3a59a9dec1beb3e3539b4d1082042eaf81326"
+    },
+    "installed_wheel_neutral_cwd": {
+      "exit_code": 0,
+      "public_demo_module_import": "passed",
+      "ui_assets_and_health": 200,
+      "unbootstrapped_readiness": 503,
+      "actual_stdio_discovery": "passed",
+      "schema_tables": 6,
+      "sql_queries_executed": 0,
+      "log_sha256": "209f3dc935d273573eba72e15d70c5537135b6b0d6a8eef7384cc9c192c74321"
+    }
+  },
+  "wheel": {
+    "name": "enterprise_decision_agent-1.0.2-py3-none-any.whl",
+    "sha256": "0906c245a04bc3cad88add00fbeed0923d08a701d0a96f74992aa128f607bfec",
+    "note": "Built after final runtime code; later directory README edits do not alter tested runtime behavior."
+  },
+  "source_sha256": {
+    ".env.example": "e09269fd73dfff0a9b4cb7d0409fb0c3227c7145937ce5eb7c3f64fe21817bbf",
+    "pyproject.toml": "887103487a8da3414227f1338b959e4c7d29e575b400a1ac33da2858f0c03491",
+    "requirements.lock": "9fd8352a8547a65ec48a36995d94d82074198e99f7a6a1d001ab09fbcb844a93",
+    "src/decision_agent/api/public_demo.py": "c9a697675b87d54de3678bbb13bf6007066783242f0c83be88828b946b810861",
+    "src/decision_agent/api/routes.py": "88392d2827c7cf7454ec4e6a02dc1ed00a68c58ba1b43df3f285dd9ec4ef53c8",
+    "src/decision_agent/config/settings.py": "a86feb970e2a5131ce9efcb5467d6a0304ce1362191890afa89cd6aad4005d83",
+    "src/decision_agent/main.py": "82758f9f0c3470f06400be40b29b8896fdeac850fbc2b5863f9fea4871bfe782",
+    "src/decision_agent/security/__init__.py": "c0f5502883e718af6740b9333418c5461fa14577578cda6e2be8f3fb7e059b44",
+    "src/decision_agent/security/models.py": "9413249c5f91f94f8aabf0b810662837b603fe2682aad246fb59b7aee5aa2f54",
+    "src/decision_agent/web/app.js": "0f2a42bd6978ae42ff2c34d5e909d2abd4d44ad0246f102289c0e1db2f938360",
+    "tests/unit/api/test_public_demo.py": "4fc92d54ffb30d9dc5545912cd772ff165af9cdb3d0ff165a5afcbeafb352ede",
+    "tests/unit/application/test_configured_runtime_bootstrap.py": "f8139536dca1d0f588701c56ad87193174879f1cb3038cda3a2e784d29aae2b2"
+  },
+  "dependency_changes": {
+    "pyjwt": {
+      "from": "2.13.0",
+      "to": "2.15.1"
+    },
+    "pypdf": {
+      "from": "6.16.2",
+      "to": "6.19.0"
+    },
+    "urllib3": {
+      "from": "2.7.0",
+      "to": "2.8.0"
+    },
+    "other_pins_changed": false
+  },
+  "pyjwt_no_fix_advisory_review": {
+    "id": "GHSA-gvp8-978c-rx2q",
+    "published_affected_range": ">=2.11.0, <=2.13.0",
+    "selected_version": "2.15.1",
+    "fresh_options_and_expired_claim_regression": "passed",
+    "cookie_uses_pyjwt": false,
+    "finding_ignored": false
+  },
+  "exit_criteria": {
+    "private_default_and_invalid_mode_denial": "passed",
+    "non_loopback_demo": "passed",
+    "cookie_tamper_expiry_and_origin_binding": "passed",
+    "fixed_scope_spoof_and_mcp_table_denial": "passed",
+    "same_label_actual_executor_visitor_isolation": "passed",
+    "new_session_preserves_visitor": "passed",
+    "origin_fetch_metadata_csrf_checks": "passed",
+    "bounded_admission_and_storage": "passed",
+    "streaming_body_timeout_and_cleanup": "passed",
+    "dependency_remediation": "passed"
+  },
+  "known_limits": [
+    "process-local quotas are not a distributed spend cap",
+    "cookie clearing can reset visitor quota; global/bootstrap quotas remain",
+    "memory store capacity/cloud audit/PORT launch are P2",
+    "cloud SQL transport and managed AUTOINDEX are P4",
+    "existing Starlette/httpx TestClient deprecation warning"
+  ],
+  "not_run": [
+    "live LLM queries",
+    "real SQL/vector queries",
+    "full BGE model loading",
+    "Cloud provisioning/public HTTPS/load test"
+  ],
+  "documentation_validation": {
+    "directory_fingerprints_verified": 54,
+    "local_markdown_links_verified": 131,
+    "current_source_hashes": "all match",
+    "json_parsing": "passed",
+    "git_diff_whitespace": "passed"
+  },
+  "p2_status": "not started",
+  "raw_evidence": "Workspace .p0-runtime/evidence; safe summaries/hashes committed."
+}

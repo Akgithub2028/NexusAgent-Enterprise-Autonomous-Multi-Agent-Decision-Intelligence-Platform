@@ -1,7 +1,7 @@
 # NexusAgent Cloud Run implementation plan
 
 Source baseline: `2e2b34c220158c1711409ddb1335fba00fbe375f`, reviewed 2026-10-03.
-P0 is the current delivery. P1–P7 are planned work, with an explicit stop after P0.
+P0 and P1 are complete. P2–P7 remain planned work; stop before P2 for the owner's instruction.
 The [audit](P0_AUDIT.md) distinguishes implemented behavior from proposed changes;
 the [baseline](P0_BASELINE.json) records checks performed on this checkout.
 
@@ -60,6 +60,9 @@ local checks have recorded outcomes and limitations; no public mode or cloud res
 has been introduced. Stop and request the owner's instruction before P1.
 
 ## P1 — Public-demo identity, configuration and admission
+
+Implemented: [API contract and limitations](P1_PUBLIC_DEMO.md), [validation](P1_VALIDATION.json).
+The requirements below are retained as the phase's acceptance specification.
 
 Change seams: `config/settings.py`, `api/security.py`, `api/routes.py`, a dedicated
 public-demo app factory, `web/app.js`, and focused API/security tests.
