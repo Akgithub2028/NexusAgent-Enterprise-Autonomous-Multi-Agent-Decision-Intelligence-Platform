@@ -132,3 +132,11 @@ The ingestion owner retains explicit provisioning through `initialize()` and
 Metadata restrictions and exact local/remote chunk-ID agreement remain unchanged.
 
 See [phase report](../../docs/deployment/P3_P4_IMPLEMENTATION.md) for evidence and remaining gates.
+
+## P5 ingestion and release gates
+
+See [P5 runbook](../../docs/deployment/P5_INGESTION.md). The image now includes the
+independent ingestion module. Terraform adds a private versioned metadata bucket
+and bucket-scoped ingestion object access; serving gets no storage role. Deploy a
+single-task job by immutable image digest, with only the numeric vector-write
+secret version. Promote only after the successful execution and receipt agree.

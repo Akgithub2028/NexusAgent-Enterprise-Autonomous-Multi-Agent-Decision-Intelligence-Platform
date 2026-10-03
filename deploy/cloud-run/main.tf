@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 1.6, < 2.0"
+  required_version = ">= 1.7, < 2.0"
   required_providers {
     google = { source = "hashicorp/google", version = "6.50.0" }
   }
@@ -27,7 +27,7 @@ variable "sql_tier" {
   default = "db-f1-micro"
 }
 locals {
-  apis              = toset(["artifactregistry.googleapis.com", "sqladmin.googleapis.com", "secretmanager.googleapis.com", "run.googleapis.com", "billingbudgets.googleapis.com", "iam.googleapis.com"])
+  apis              = toset(["artifactregistry.googleapis.com", "sqladmin.googleapis.com", "secretmanager.googleapis.com", "run.googleapis.com", "billingbudgets.googleapis.com", "iam.googleapis.com", "storage.googleapis.com"])
   serving_secrets   = toset(["nexus-groq-key", "nexus-demo-signing-key", "nexus-db-reader-password", "nexus-vector-read-token"])
   ingestion_secrets = toset(["nexus-vector-write-token"])
 }
@@ -123,3 +123,20 @@ output "sql_connection_name" { value = google_sql_database_instance.demo.connect
 output "serving_identity" { value = google_service_account.serving.email }
 output "ingestion_identity" { value = google_service_account.ingestion.email }
 output "registry" { value = "${var.region}-docker.pkg.dev/${var.project_id}/${google_artifact_registry_repository.images.repository_id}" }
+
+# P5 control metadata only; knowledge payloads stay in the image and vector store.
+resource "google_storage_bucket" "releases" {
+  name                        = "${var.project_id}-nexus-releases"
+  location                    = var.region
+  uniform_bucket_level_access = true
+  public_access_prevention    = "enforced"
+  force_destroy               = false
+  versioning { enabled = true }
+  depends_on = [google_project_service.api]
+}
+resource "google_storage_bucket_iam_member" "ingestion_control" {
+  bucket = google_storage_bucket.releases.name
+  role   = "roles/storage.objectUser"
+  member = "serviceAccount:${google_service_account.ingestion.email}"
+}
+output "release_control_bucket" { value = google_storage_bucket.releases.name }

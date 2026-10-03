@@ -291,3 +291,6 @@ For comprehensive architectural design decisions, see the specialized technical 
 ## 📜 License
 
 This project is licensed under the **Apache License 2.0** - see the [LICENSE](LICENSE) file for details.
+
+P5 versioned ingestion and promotion gates are implemented; real job execution awaits
+billing/P4 provisioning. See [ingestion runbook](docs/deployment/P5_INGESTION.md).

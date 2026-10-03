@@ -448,6 +448,28 @@ class MilvusVectorStore:
                 close_error.add_note("Primary record-ID query failure remains authoritative")
         return frozenset(record_ids)
 
+    async def verify_record_fields(self, expected: Sequence[Mapping[str, Any]]) -> None:
+        """Compare canonical non-vector fields in bounded strong-consistency batches."""
+        self._require_initialized()
+        if await self.list_record_ids() != frozenset(row["record_id"] for row in expected):
+            raise VectorStoreOperationError("corpus record IDs differ")
+        for offset in range(0, len(expected), 50):
+            batch = expected[offset : offset + 50]
+            rows = await self._operation_call(
+                "verify corpus fields",
+                self._client.query,
+                collection_name=self._collection_name,
+                filter="record_id in " + json.dumps([row["record_id"] for row in batch]),
+                output_fields=list(batch[0]),
+                consistency_level="Strong",
+                timeout=self._timeout_seconds,
+            )
+            actual = {row["record_id"]: row for row in rows}
+            if len(rows) != len(batch) or any(
+                actual.get(row["record_id"]) != dict(row) for row in batch
+            ):
+                raise VectorStoreOperationError("corpus record fields differ")
+
     async def _create_collection_and_index(self) -> None:
         schema = await self._connection_call(
             "create collection schema",

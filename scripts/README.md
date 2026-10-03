@@ -9,3 +9,6 @@ P3 prepare_cloud_release.py produces immutable corpus/model manifests; validate_
 
 Validation and phase gates: [deployment plan](../docs/deployment/IMPLEMENTATION_PLAN.md).
 Update this note with source changes; check its source fingerprint in the [directory index](../docs/deployment/DIRECTORY_INDEX.md).
+
+P5 adds independent versioned ingestion, distributed generation locks and completion/
+promotion gates. See [P5 runbook](../docs/deployment/P5_INGESTION.md). Managed execution awaits billing/P4 prerequisites.

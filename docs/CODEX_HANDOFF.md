@@ -1,7 +1,7 @@
 # Codex implementation handoff
 
-Updated 2026-10-03 during P3/P4 work, based on P2 commit
-`a7f4d5dcdde2bffaecd95340a63f41689e35c111`. Inspect Git for the final phase commit.
+Updated 2026-10-03 during P5, based on P3/P4 commit
+`8cee3a60efba2ba5050cb25dd6a468b41428401b`. Inspect Git for the final phase commit.
 
 ## Objective and phase status
 
@@ -14,7 +14,8 @@ and P3 reproducible image are implemented and validated. P4 adapters and Terrafo
 implemented; Zilliz and local socket/SQL privilege checks passed. The owner explicitly
 authorized placeholder billing configuration because billing setup is blocked. Actual
 Google provisioning/Cloud SQL validation and vector reader separation are deferred gates.
-P5 ingestion/promotion, P6 restricted deployment/measurement and P7 CD/live badge are unstarted.
+P5 ingestion/promotion implementation is ready; managed first/repeat execution remains
+deferred. P6 restricted deployment/measurement and P7 CD/live badge are unstarted.
 P3/P4 implementation is complete under that adjusted scope; deployment acceptance
 is not complete until the deferred managed gates pass.
 
@@ -29,7 +30,7 @@ Authoritative contracts/evidence: [phase plan](deployment/IMPLEMENTATION_PLAN.md
 Repository is the `NexusAgent-Enterprise-Autonomous-Multi-Agent-Decision-Intelligence-Platform`
 child of `/media/aayaann-kausar/New Volume1/Project Enhancements-Deployements`. Set workdir
 explicitly. Work only within this workspace; do not delete unrelated/outside files.
-Branch main. User authorizes commit/push and P3/P4 together. P0/P1/P2 historical commits
+Branch main. User authorizes commit/push and has authorized P5 implementation. P0/P1/P2 historical commits
 are in prior evidence/Git. Existing gh authentication works; no PAT is needed in commands.
 No applicable AGENTS.md was found; no subagents were requested.
 
@@ -118,8 +119,8 @@ apply validated Terraform, create/admin-seed SQL, validate real Cloud SQL throug
 create scoped vector credentials (tier-dependent, do not assume cluster RBAC on Free),
 load Secret Manager values through stdin and record numeric versions. Serving must never
 receive admin/write credentials. Verify provider-enforced denied vector mutations.
-Then update evidence/handoff with real managed results. P5 is the next implementation
-phase if authorized, but actual job execution/promotion awaits those prerequisites.
+Then update evidence/handoff with real managed results. P6 is the next implementation phase if authorized. Actual P5 job execution/promotion
+awaits those prerequisites.
 
 ## Run/verify commands and results
 
@@ -166,3 +167,28 @@ at API startup. Do not widen vector/SQL credentials for public serving. Keep mod
 512 normalized COSINE vectors, schema/filter checks and image/corpus/collection pairing.
 Do not treat local socket tests as real Cloud SQL evidence or mark billing/provisioning
 complete without successful managed checks. No live badge or deployment URL exists yet.
+
+## P5 additions (2026-10-03)
+
+`ingestion/cloud_job.py` is an explicit installed-module job, never API startup. Reuses
+formal ingestion and immutable manifest verification. Cloud Storage generation-zero
+create locks serialize writers across executions; generation-specific deletion and
+manual stopped-execution recovery prevent expired leases permitting overlapping writes.
+Permanent collection bindings reject changed manifests, including partial first runs.
+Exact IDs/canonical fields and a filtered hybrid retrieval sample precede cleanup and
+a payload-free immutable receipt. Published reruns use reader mode with no upserts.
+
+Terraform adds private/versioned `project-nexus-releases` metadata bucket and scoped
+ingestion object access; serving receives no bucket permissions. Minimum Terraform is
+1.7 for existing mock tests. `scripts/prepare_corpus_promotion.py` requires an actual
+successful execution and receipt matching the digest/manifest, then emits a descriptor
+only. P6 owns restricted revision/traffic operations. See P5 runbook for job commands,
+lock recovery, promotion and rollback. No new dependencies or source-corpus edits.
+
+New P5 images must be built: retained `nexusagent:p34` lacks the job module. Managed
+execution, interrupted-job recovery and actual traffic rollback remain untested gates.
+Do not expire locks automatically, repurpose collections, promote from receipts alone,
+or delete retained rollback image/config/collection pairs.
+
+P5 checks: 107 targeted tests passed; Ruff passed. Terraform validate and two mock
+plans passed. Installed wheel includes the job module. No real cloud job ran.

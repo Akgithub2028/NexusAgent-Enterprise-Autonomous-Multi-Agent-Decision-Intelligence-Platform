@@ -106,8 +106,8 @@
       "path": "scripts",
       "readme": "scripts/README.md",
       "review_depth": "supporting inventory / contracts",
-      "source_file_count": 32,
-      "source_sha256": "a98763c57e3a2d0908b0ec02b114b7e240453f862a9c11287fb84ea52d190e05"
+      "source_file_count": 33,
+      "source_sha256": "6b2b86f4a10c2e4a0b08fb2bf71b361b0052dff4df448da8407752d861012339"
     },
     {
       "path": "scripts/runtime",
@@ -127,8 +127,8 @@
       "path": "src",
       "readme": "src/README.md",
       "review_depth": "supporting inventory / contracts",
-      "source_file_count": 175,
-      "source_sha256": "9f2cd5d447125dd07ffd9e990a1461fee52be55ef75f43b8386e73cf75fb2a1d",
+      "source_file_count": 176,
+      "source_sha256": "995e8b9a7ea7465b32a23bdaf0b8a7a739664059e076af5ab6ed9ff5fb2d8a2a",
       "review_stage": "P2",
       "review_base_commit": "5ce044b2dfec6b40dd2a7cc05401017975dc062d"
     },
@@ -136,8 +136,8 @@
       "path": "src/decision_agent",
       "readme": "src/decision_agent/README.md",
       "review_depth": "supporting inventory / contracts",
-      "source_file_count": 175,
-      "source_sha256": "9f2cd5d447125dd07ffd9e990a1461fee52be55ef75f43b8386e73cf75fb2a1d",
+      "source_file_count": 176,
+      "source_sha256": "995e8b9a7ea7465b32a23bdaf0b8a7a739664059e076af5ab6ed9ff5fb2d8a2a",
       "review_stage": "P2",
       "review_base_commit": "5ce044b2dfec6b40dd2a7cc05401017975dc062d"
     },
@@ -145,8 +145,8 @@
       "path": "tests",
       "readme": "tests/README.md",
       "review_depth": "supporting inventory / contracts",
-      "source_file_count": 155,
-      "source_sha256": "185fb7147aad9a9050964a072862345de31dd6a4d90e500f804e0952c7d8a1cf",
+      "source_file_count": 156,
+      "source_sha256": "443d8c64eba79ad8fca9cd42b908f17e3ad57ad3106c2b9f3361c147d602cd8b",
       "review_stage": "P2",
       "review_base_commit": "5ce044b2dfec6b40dd2a7cc05401017975dc062d"
     },
@@ -154,8 +154,8 @@
       "path": "tests/unit",
       "readme": "tests/unit/README.md",
       "review_depth": "supporting inventory / contracts",
-      "source_file_count": 124,
-      "source_sha256": "e70355b80386324b7d9bec22ead92abbfd8d06a9f67dfa8f986f0075e9f89938",
+      "source_file_count": 125,
+      "source_sha256": "61fc1326364f0d569860fccecd7e21099a022afd3cf4ed1fe8f063c68e9bdb67",
       "review_stage": "P2",
       "review_base_commit": "5ce044b2dfec6b40dd2a7cc05401017975dc062d"
     },
@@ -283,8 +283,8 @@
       "path": "src/decision_agent/ingestion",
       "readme": "src/decision_agent/ingestion/README.md",
       "review_depth": "supporting inventory / contracts",
-      "source_file_count": 7,
-      "source_sha256": "dcafc92fc786ad7030bac6f2a4edaef6990789415883a313698770da7d1c3576"
+      "source_file_count": 8,
+      "source_sha256": "fe2a4f96867486bcecc69ad5d510d779bef3393d168bc2d5e4d3c71e9edd206e"
     },
     {
       "path": "src/decision_agent/mcp",
@@ -337,7 +337,7 @@
       "readme": "src/decision_agent/retrieval/README.md",
       "review_depth": "runtime boundary traced",
       "source_file_count": 16,
-      "source_sha256": "a96a57b39a1745697dc1c7d90e1b057638b0e532d7b5edbee85c4168a5a3ee87"
+      "source_sha256": "cba147a83d24ad57b59768d78bca13fd0ffd702cc03460ee3b3ba97647a646b8"
     },
     {
       "path": "src/decision_agent/routing",
@@ -432,22 +432,22 @@
       "path": "deploy",
       "readme": "deploy/README.md",
       "review_depth": "P3/P4 implementation contracts",
-      "source_file_count": 8,
-      "source_sha256": "da994eaab1989ee322fb60e8ad7d888449e4df208f5ebede489fe88410df4868"
+      "source_file_count": 9,
+      "source_sha256": "c151c232cea702adf6308371a6a21e7b1343e1cf87e5d4bb20dcea4c59ab2bcb"
     },
     {
       "path": "deploy/cloud-run",
       "readme": "deploy/cloud-run/README.md",
       "review_depth": "P3/P4 implementation contracts",
-      "source_file_count": 8,
-      "source_sha256": "da994eaab1989ee322fb60e8ad7d888449e4df208f5ebede489fe88410df4868"
+      "source_file_count": 9,
+      "source_sha256": "c151c232cea702adf6308371a6a21e7b1343e1cf87e5d4bb20dcea4c59ab2bcb"
     },
     {
       "path": "deploy/cloud-run/tests",
       "readme": "deploy/cloud-run/tests/README.md",
       "review_depth": "P3/P4 implementation contracts",
       "source_file_count": 1,
-      "source_sha256": "9f37750845e04d3e1ae00a587d2db65cdf82f555682371d06626716653ae0a06"
+      "source_sha256": "41296c15f2ed39afd87ab8bb9f77ef943ccaa23df17123b39d1f591c03d39368"
     },
     {
       "path": "tests/unit/mcp_client",
@@ -471,8 +471,8 @@
     "note": "Hashes identify current reviewed content; untouched notes retain earlier review."
   },
   "latest_phase_review": {
-    "phase": "P3/P4 implementation",
-    "base_commit": "a7f4d5dcdde2bffaecd95340a63f41689e35c111",
-    "live_provisioning": "owner-deferred due billing"
+    "phase": "P5 implementation",
+    "base_commit": "8cee3a60efba2ba5050cb25dd6a468b41428401b",
+    "live_execution": "deferred due billing/P4 prerequisites"
   }
 }

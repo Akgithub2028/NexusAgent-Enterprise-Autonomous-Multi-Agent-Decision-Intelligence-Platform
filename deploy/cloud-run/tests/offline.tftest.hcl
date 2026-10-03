@@ -34,3 +34,21 @@ run "least_privilege_infrastructure_plan" {
     error_message = "The reviewed monthly alert budget must match operator inputs."
   }
 }
+
+run "private_ingestion_control" {
+  command = plan
+  variables {
+    project_id            = "nexus-agent-510512"
+    region                = "us-west1"
+    billing_account_id    = "000000-000000-000000"
+    monthly_budget_amount = 50
+  }
+  assert {
+    condition     = google_storage_bucket.releases.public_access_prevention == "enforced" && google_storage_bucket.releases.uniform_bucket_level_access && google_storage_bucket.releases.versioning[0].enabled && !google_storage_bucket.releases.force_destroy
+    error_message = "Release control metadata must remain private, versioned and protected from bulk deletion."
+  }
+  assert {
+    condition     = google_storage_bucket_iam_member.ingestion_control.role == "roles/storage.objectUser"
+    error_message = "Only bucket-scoped ingestion object access is required."
+  }
+}

@@ -55,3 +55,6 @@ zilliz-cloud-*-username-password.txt
 .terraform/
 *.tfvars
 !*.tfvars.example
+
+# Local operator job environment
+deploy/cloud-run/ingestion.env.yaml

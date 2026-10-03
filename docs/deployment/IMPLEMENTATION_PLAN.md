@@ -3,7 +3,8 @@
 Source baseline: `2e2b34c220158c1711409ddb1335fba00fbe375f`, reviewed 2026-10-03.
 P0–P3 are complete. P4 implementation is complete with real Google provisioning and
 vector RBAC validation deferred by the owner due blocked billing. Offline Terraform
-planning uses explicit dummy inputs. P5–P7 remain planned work.
+planning uses explicit dummy inputs. P5 implementation is ready; managed execution and
+promotion acceptance await those same prerequisites. P6–P7 remain planned work.
 The [audit](P0_AUDIT.md) distinguishes implemented behavior from proposed changes;
 the [baseline](P0_BASELINE.json) records checks performed on this checkout.
 
@@ -201,6 +202,9 @@ Exit: real SELECT-only denial, Cloud SQL connectivity through the MCP child, and
 vector insert/filter/search tests pass. Serving cannot provision collections or seed SQL.
 
 ## P5 — Independent, versioned ingestion job
+
+Implementation ready: [runbook](P5_INGESTION.md). Managed execution acceptance is deferred
+until billing/infrastructure and scoped credentials are available.
 
 Reuse `scripts/initialize_knowledge_corpus.py` and `initialize_for_ingestion()` with the
 same image/model/corpus manifest as serving. The job uses a separate vector-write identity,

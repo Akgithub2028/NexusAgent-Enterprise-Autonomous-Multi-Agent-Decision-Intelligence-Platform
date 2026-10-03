@@ -1,0 +1,32 @@
+{
+  "phase": "P5",
+  "status": "implementation_ready_managed_acceptance_deferred",
+  "base_commit": "8cee3a60efba2ba5050cb25dd6a468b41428401b",
+  "checks": {
+    "targeted_tests": 107,
+    "ruff_lint": "passed",
+    "ruff_format_files": 340,
+    "terraform_validate": "passed",
+    "terraform_mock_plans": 2,
+    "wheel_job_module": "present",
+    "staged_secret_scan": "no leaks found",
+    "directory_fingerprints": 61,
+    "markdown_links": 44
+  },
+  "source_sha256": {
+    "deploy/cloud-run/main.tf": "41fe87a8ee0050aee480f141d93ba62b02cf75a4a1e60d8aa14ea727f020bd30",
+    "deploy/cloud-run/tests/offline.tftest.hcl": "ea88cd876897bc871d89d347d3a245680f85d8ddd4a3385093ec25a8d7693f6b",
+    "scripts/prepare_corpus_promotion.py": "764752dd2a754b3bf875cb13ba915af1247bc980632669140d5561380c41012e",
+    "src/decision_agent/ingestion/cloud_job.py": "5be329c0570fbaba33035309ad9e742812844ab4bfaff66be5d4970927fda23f",
+    "src/decision_agent/retrieval/factory.py": "aeffa4870e325544b2ad9ac864a6cea4ce6c389f5f59d19336cf4b3a5c97bf27",
+    "src/decision_agent/retrieval/milvus_store.py": "a2389b78527d773abfdbbbe89e4e842d4c9b71ab02fe34db55f606dd63b1a1cc",
+    "tests/unit/ingestion/test_cloud_job.py": "23aac9d16509b8956695c79a550c4ab26a029b43a8487490ca3f9fab92b28780"
+  },
+  "deferred": [
+    "Real Cloud Run first/repeat job executions",
+    "Cloud Storage lock interruption recovery",
+    "Changed-corpus managed validation",
+    "Restricted revision promotion and traffic rollback (P6)"
+  ],
+  "cloud_resources_created": false
+}

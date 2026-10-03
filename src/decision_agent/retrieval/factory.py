@@ -58,6 +58,11 @@ class EnterpriseRetrievalRuntime:
         self._reranker = reranker
 
     @property
+    def vector_store(self) -> ProductionVectorStore:
+        """Expose the owned store for explicit ingestion validation."""
+        return self._vector_store
+
+    @property
     def pipeline(self) -> EnterpriseRetrievalPipeline:
         """Return the formal pipeline consumed by the Knowledge graph."""
         return self._pipeline
