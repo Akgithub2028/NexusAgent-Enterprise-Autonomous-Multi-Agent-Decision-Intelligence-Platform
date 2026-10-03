@@ -192,3 +192,35 @@ async def test_remote_field_and_obsolete_id_validation():
     store.list_record_ids.return_value = frozenset({"c", "obsolete"})
     with pytest.raises(VectorStoreOperationError):
         await store.verify_record_fields(expected)
+
+
+@pytest.mark.asyncio
+async def test_new_code_image_revalidates_existing_corpus_without_writes(monkeypatch):
+    monkeypatch.setattr(cloud_job, "verify_release", lambda _: MANIFEST)
+    monkeypatch.setattr(cloud_job, "validate_runtime", AsyncMock())
+    first = cloud_job.release_descriptor(MANIFEST, IMAGE)
+    control = Mock()
+    control.request.side_effect = lambda method, name, **kw: (
+        {"manifest_sha256": first["manifest_sha256"]}
+        if name.startswith("bindings/")
+        else first
+        if name.startswith("validated/")
+        else None
+    )
+    runtime = SimpleNamespace(
+        initialize=AsyncMock(), initialize_for_ingestion=AsyncMock(), aclose=AsyncMock()
+    )
+    second_image = IMAGE[:-64] + "b" * 64
+    result = await cloud_job.ingest(
+        SimpleNamespace(knowledge_dataset_root="unused"),
+        second_image,
+        control,
+        factory=lambda _: runtime,
+    )
+    assert result["image"] == second_image
+    runtime.initialize.assert_awaited_once()
+    runtime.initialize_for_ingestion.assert_not_awaited()
+    assert any(
+        c.args[0] == "POST" and c.args[1].startswith("images/")
+        for c in control.request.call_args_list
+    )

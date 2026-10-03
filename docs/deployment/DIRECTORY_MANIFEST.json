@@ -107,7 +107,7 @@
       "readme": "scripts/README.md",
       "review_depth": "supporting inventory / contracts",
       "source_file_count": 33,
-      "source_sha256": "6b2b86f4a10c2e4a0b08fb2bf71b361b0052dff4df448da8407752d861012339"
+      "source_sha256": "7fc153a41441e2f1f5926116aa2110ee17c20e50edf4dacdedbe284ecaae2364"
     },
     {
       "path": "scripts/runtime",
@@ -128,7 +128,7 @@
       "readme": "src/README.md",
       "review_depth": "supporting inventory / contracts",
       "source_file_count": 176,
-      "source_sha256": "995e8b9a7ea7465b32a23bdaf0b8a7a739664059e076af5ab6ed9ff5fb2d8a2a",
+      "source_sha256": "72cf1bb9e9ea245f7a059b06adad9689b3ba9f4fecbae4607a369b10abafadeb",
       "review_stage": "P2",
       "review_base_commit": "5ce044b2dfec6b40dd2a7cc05401017975dc062d"
     },
@@ -137,7 +137,7 @@
       "readme": "src/decision_agent/README.md",
       "review_depth": "supporting inventory / contracts",
       "source_file_count": 176,
-      "source_sha256": "995e8b9a7ea7465b32a23bdaf0b8a7a739664059e076af5ab6ed9ff5fb2d8a2a",
+      "source_sha256": "72cf1bb9e9ea245f7a059b06adad9689b3ba9f4fecbae4607a369b10abafadeb",
       "review_stage": "P2",
       "review_base_commit": "5ce044b2dfec6b40dd2a7cc05401017975dc062d"
     },
@@ -146,7 +146,7 @@
       "readme": "tests/README.md",
       "review_depth": "supporting inventory / contracts",
       "source_file_count": 156,
-      "source_sha256": "443d8c64eba79ad8fca9cd42b908f17e3ad57ad3106c2b9f3361c147d602cd8b",
+      "source_sha256": "4cdd4bc8f90556104a764b64eea0d184bbc011920d18c62fd3e0ce6ba1b18eb6",
       "review_stage": "P2",
       "review_base_commit": "5ce044b2dfec6b40dd2a7cc05401017975dc062d"
     },
@@ -155,7 +155,7 @@
       "readme": "tests/unit/README.md",
       "review_depth": "supporting inventory / contracts",
       "source_file_count": 125,
-      "source_sha256": "61fc1326364f0d569860fccecd7e21099a022afd3cf4ed1fe8f063c68e9bdb67",
+      "source_sha256": "8d5b595bb9c03063f62f36858f238c1a843d682c2f0e25485b6f439508f4b16f",
       "review_stage": "P2",
       "review_base_commit": "5ce044b2dfec6b40dd2a7cc05401017975dc062d"
     },
@@ -284,7 +284,7 @@
       "readme": "src/decision_agent/ingestion/README.md",
       "review_depth": "supporting inventory / contracts",
       "source_file_count": 8,
-      "source_sha256": "fe2a4f96867486bcecc69ad5d510d779bef3393d168bc2d5e4d3c71e9edd206e"
+      "source_sha256": "9086469c9f70c64063932ed598864d4eed14de27d69f271af063517aa6cdb5af"
     },
     {
       "path": "src/decision_agent/mcp",

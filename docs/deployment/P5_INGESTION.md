@@ -31,7 +31,8 @@ embedding/vector/BM25/reranking/parent retrieval without an LLM. Runtime cleanup
 succeed before publishing `validated/<collection>.json`. Receipts contain counts,
 manifest SHA256, corpus/collection and image digest, without document/query payloads.
 A repeat of a published release uses reader initialization and performs no upserts.
-A different digest cannot silently replace the validated pair. Failed partial runs
+A code-only new digest revalidates in reader mode and gets a separate
+`images/<SHA256(image-reference)>.json` receipt; it never replaces the original pair. Failed partial runs
 may retry the SAME manifest; exact-ID validation refuses stale/extra records.
 
 Receipts alone do not authorize promotion: the promotion helper also requires a

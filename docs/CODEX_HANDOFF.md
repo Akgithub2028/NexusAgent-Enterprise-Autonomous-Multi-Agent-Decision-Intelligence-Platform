@@ -190,5 +190,9 @@ execution, interrupted-job recovery and actual traffic rollback remain untested 
 Do not expire locks automatically, repurpose collections, promote from receipts alone,
 or delete retained rollback image/config/collection pairs.
 
-P5 checks: 107 targeted tests passed; Ruff passed. Terraform validate and two mock
+P5 checks: 108 targeted tests passed; Ruff passed. Terraform validate and two mock
 plans passed. Installed wheel includes the job module. No real cloud job ran.
+
+Code-only images reuse a validated corpus through reader revalidation and separate
+`images/<SHA256(image-reference)>.json` receipts. The original corpus receipt and
+rollback pair remain unchanged. Promotion requires the matching image receipt.

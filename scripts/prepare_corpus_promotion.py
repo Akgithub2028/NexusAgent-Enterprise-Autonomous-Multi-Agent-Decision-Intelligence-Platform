@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import subprocess
 from pathlib import Path
@@ -55,7 +56,9 @@ def main() -> int:
             )
         )
         check_execution(execution, args.image)
-        receipt_uri = f"gs://{args.bucket}/validated/{expected['collection']}.json"
+        receipt_uri = (
+            f"gs://{args.bucket}/images/{hashlib.sha256(args.image.encode()).hexdigest()}.json"
+        )
         receipt = json.loads(
             subprocess.check_output(
                 ["gcloud", "storage", "cat", receipt_uri],

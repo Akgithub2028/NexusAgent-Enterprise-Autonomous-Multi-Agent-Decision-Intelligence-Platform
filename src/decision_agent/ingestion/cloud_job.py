@@ -141,8 +141,10 @@ async def ingest(settings, image, control, *, factory=build_production_retrieval
         elif existing_binding != binding:
             raise ValueError("collection already bound to another manifest")
         previous = control.request("GET", receipt)
-        if previous is not None and previous != descriptor:
-            raise ValueError("immutable completion differs; use original image")
+        if previous is not None and {k: v for k, v in previous.items() if k != "image"} != {
+            k: v for k, v in descriptor.items() if k != "image"
+        }:
+            raise ValueError("immutable completion differs")
         runtime = factory(settings)
         try:
             if previous is None:
@@ -155,6 +157,12 @@ async def ingest(settings, image, control, *, factory=build_production_retrieval
             await runtime.aclose()
         if previous is None:
             control.request("POST", receipt, body=canonical(descriptor))
+        image_receipt = "images/" + hashlib.sha256(image.encode()).hexdigest() + ".json"
+        existing_image = control.request("GET", image_receipt)
+        if existing_image is None:
+            control.request("POST", image_receipt, body=canonical(descriptor))
+        elif existing_image != descriptor:
+            raise ValueError("image completion differs")
     finally:
         control.release(lock, generation)
     return descriptor
