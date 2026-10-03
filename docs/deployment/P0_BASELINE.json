@@ -1,0 +1,371 @@
+{
+  "schema_version": 1,
+  "source_commit": "2e2b34c220158c1711409ddb1335fba00fbe375f",
+  "branch": "main",
+  "source_worktree_initially_clean": true,
+  "remote_main_matched_source": true,
+  "review_date": "2026-10-03",
+  "p0_status": "audit_complete_with_pre_existing_dependency_release_blocker",
+  "environment": {
+    "python": "Python 3.11.15",
+    "platform": "Linux x86_64",
+    "dependency_install": "uv pip install --python .venv/bin/python --torch-backend cpu -r requirements.lock",
+    "torch": "2.13.0+cpu",
+    "torch_note": "CPU distribution selected for local baseline; original lock unchanged. Production CPU source/hashes remain P3 work.",
+    "project_install": "uv pip install --python .venv/bin/python -e . --no-deps",
+    "app_name": "Enterprise Decision Agent",
+    "HF_HUB_OFFLINE": "1",
+    "TRANSFORMERS_OFFLINE": "1",
+    "evidence_dir": "../.p0-runtime/evidence",
+    "temp_dir": "../.p0-runtime/tmp",
+    "workspace_runtime_dir": "../.p0-runtime"
+  },
+  "checks": [
+    {
+      "name": "dependency-lock",
+      "command": [
+        ".venv/bin/python",
+        "scripts/validate_dependency_lock.py"
+      ],
+      "started_utc": "2026-10-03T10:02:47.839564+00:00",
+      "duration_seconds": 0.12,
+      "exit_code": 0,
+      "log_sha256": "feefb778602a5301abb98cf5b3a8878dfd1494e68c273c23531a4e0a752b73e9",
+      "log": ".p0-runtime/evidence/dependency-lock.log",
+      "status": "passed"
+    },
+    {
+      "name": "installed-dependencies",
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "pip",
+        "check"
+      ],
+      "started_utc": "2026-10-03T10:02:47.839876+00:00",
+      "duration_seconds": 1.68,
+      "exit_code": 0,
+      "log_sha256": "9261363b733079a641c2e4cc9bc46ffa1d8336945a87f807b6cf68847dbc9b09",
+      "log": ".p0-runtime/evidence/installed-dependencies.log",
+      "status": "passed"
+    },
+    {
+      "name": "ruff-lint",
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "ruff",
+        "check",
+        "."
+      ],
+      "started_utc": "2026-10-03T10:02:47.840196+00:00",
+      "duration_seconds": 0.17,
+      "exit_code": 0,
+      "log_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "log": ".p0-runtime/evidence/ruff-lint.log",
+      "status": "passed"
+    },
+    {
+      "name": "ruff-format",
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "."
+      ],
+      "started_utc": "2026-10-03T10:02:47.958581+00:00",
+      "duration_seconds": 0.22,
+      "exit_code": 0,
+      "log_sha256": "b28ae8aaa3707cf5270618a97dbaa76b91be5ede0140d82182a9a157cda077a0",
+      "log": ".p0-runtime/evidence/ruff-format.log",
+      "status": "passed"
+    },
+    {
+      "name": "compose-config",
+      "command": [
+        "docker",
+        "compose",
+        "config",
+        "--quiet",
+        "--no-interpolate"
+      ],
+      "started_utc": "2026-10-03T10:02:48.010027+00:00",
+      "duration_seconds": 0.17,
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "log": ".p0-runtime/evidence/compose-config.log",
+      "status": "passed"
+    },
+    {
+      "name": "javascript-syntax",
+      "command": [
+        "node",
+        "--check",
+        "src/decision_agent/web/app.js"
+      ],
+      "started_utc": "2026-10-03T10:02:48.176306+00:00",
+      "duration_seconds": 0.07,
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "log": ".p0-runtime/evidence/javascript-syntax.log",
+      "status": "passed"
+    },
+    {
+      "name": "retrieval-v1-evidence",
+      "command": [
+        ".venv/bin/python",
+        "scripts/verify_retrieval_evidence.py"
+      ],
+      "started_utc": "2026-10-03T10:02:48.177002+00:00",
+      "duration_seconds": 6.04,
+      "exit_code": 0,
+      "log_sha256": "2cccef9af306047ea1a2d37092ad40e1313f5761ebf0d291f5323da04dfd99b5",
+      "log": ".p0-runtime/evidence/retrieval-v1-evidence.log",
+      "status": "passed"
+    },
+    {
+      "name": "retrieval-v2-evidence",
+      "command": [
+        ".venv/bin/python",
+        "scripts/verify_retrieval_v2_evidence.py"
+      ],
+      "started_utc": "2026-10-03T10:02:48.241699+00:00",
+      "duration_seconds": 0.22,
+      "exit_code": 0,
+      "log_sha256": "0c5f8a80fe95982989a94fbd87ff61e8c6c328a02b7223e666d605377316925c",
+      "log": ".p0-runtime/evidence/retrieval-v2-evidence.log",
+      "status": "passed"
+    },
+    {
+      "name": "m9-frozen-derivation",
+      "command": [
+        ".venv/bin/python",
+        "scripts/calculate_m9_metrics.py",
+        "artifacts/evaluation/m9-final-eval-v1/case_records.jsonl",
+        "--dataset",
+        "datasets/agent_tasks/m9_final_eval_v1.json",
+        "--adjudications",
+        "artifacts/evaluation/m9-final-eval-v1/adjudications.json",
+        "--output",
+        "{evidence_dir}/m9-metrics.json",
+        "--manifest-output",
+        "{evidence_dir}/m9-manifest.json"
+      ],
+      "started_utc": "2026-10-03T10:02:48.457805+00:00",
+      "duration_seconds": 5.39,
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "log": ".p0-runtime/evidence/m9-frozen-derivation.log",
+      "status": "passed"
+    },
+    {
+      "name": "unit-tests",
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/unit",
+        "--basetemp",
+        "{temp_dir}/unit",
+        "--junitxml",
+        "{evidence_dir}/unit.xml"
+      ],
+      "started_utc": "2026-10-03T10:02:49.515687+00:00",
+      "duration_seconds": 38.21,
+      "exit_code": 0,
+      "log_sha256": "18e04d757a0e74b823290780efce8a91962cb22fe2c362b85dd6ca54339493df",
+      "log": ".p0-runtime/evidence/unit-tests.log",
+      "status": "passed",
+      "junit_summary": {
+        "tests": 1806,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "name": "offline-integration",
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "-m",
+        "offline_integration",
+        "--strict-markers",
+        "--import-mode=importlib",
+        "--basetemp",
+        "{temp_dir}/offline",
+        "--junitxml",
+        "{evidence_dir}/offline-integration.xml"
+      ],
+      "started_utc": "2026-10-03T10:02:53.845868+00:00",
+      "duration_seconds": 23.77,
+      "exit_code": 0,
+      "log_sha256": "f1c7932f63d76b58ce405d89b5d3a7b1e931b4441c6a6339c74a8e0f8ec3d654",
+      "log": ".p0-runtime/evidence/offline-integration.log",
+      "status": "passed",
+      "junit_summary": {
+        "tests": 235,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "name": "security-evaluation",
+      "command": [
+        ".venv/bin/python",
+        "scripts/run_security_evaluation.py",
+        "--output",
+        "{evidence_dir}/security-summary.json"
+      ],
+      "started_utc": "2026-10-03T10:02:54.216641+00:00",
+      "duration_seconds": 6.59,
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "log": ".p0-runtime/evidence/security-evaluation.log",
+      "status": "passed",
+      "summary": {
+        "schema_version": "2",
+        "evaluation_method": "case_handler_registry_exact_comparison",
+        "total_cases": 28,
+        "passed": 28,
+        "failed": 0,
+        "fail_closed_rate": 1.0,
+        "unauthorized_release_count": 0,
+        "sensitive_leak_count": 0,
+        "provider_bypass_count": 0,
+        "tool_bypass_count": 0,
+        "audit_integrity_detection_rate": 1.0
+      },
+      "exact_dataset_case_ids_verified": true
+    },
+    {
+      "name": "dependency-audit",
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "pip_audit",
+        "--strict",
+        "-r",
+        "requirements.lock",
+        "--progress-spinner",
+        "off",
+        "--format",
+        "json",
+        "--output",
+        "{evidence_dir}/dependency-audit.json"
+      ],
+      "started_utc": "2026-10-03T10:03:00.810156+00:00",
+      "duration_seconds": 557.13,
+      "exit_code": 1,
+      "log_sha256": "66a8d088d444cf9540ab70f5d8c1ae8690d93db15e1e5d9f393c848c93898dee",
+      "log": ".p0-runtime/evidence/dependency-audit.log",
+      "status": "pre_existing_release_blocker",
+      "summary": {
+        "reported_advisories": 24,
+        "affected_locked_packages": 3,
+        "details": "P0_DEPENDENCY_AUDIT.json"
+      }
+    },
+    {
+      "name": "wheel-build",
+      "command": [
+        "uv",
+        "build",
+        "--wheel",
+        "--out-dir",
+        "{evidence_dir}/dist"
+      ],
+      "started_utc": "2026-10-03T10:03:17.611754+00:00",
+      "duration_seconds": 1.02,
+      "exit_code": 0,
+      "log_sha256": "a9598f4cf9009b5248b7caaf47d1d0448d4df7dc041e351a0825d7446edd06f8",
+      "log": ".p0-runtime/evidence/wheel-build.log",
+      "status": "passed"
+    },
+    {
+      "name": "git-history-secret-scan",
+      "command": [
+        ".tmp-p0/gitleaks",
+        "git",
+        "--redact",
+        "--no-banner",
+        "--log-opts=--all",
+        "--report-format",
+        "json",
+        "--report-path",
+        "{evidence_dir}/gitleaks-history.json"
+      ],
+      "exit_code": 0,
+      "status": "passed",
+      "log": ".p0-runtime/evidence/gitleaks-history.log",
+      "log_sha256": "869ebc60430aac30ba63d05b65ab28daba493bbc7c2fe8fbefa2294adb69c2ad",
+      "summary": {
+        "gitleaks_version": "8.30.1",
+        "commits_scanned": 11,
+        "findings": 0,
+        "binary_release_sha256": "551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb"
+      }
+    },
+    {
+      "name": "installed-wheel-neutral-cwd-smoke",
+      "command": [
+        ".venv/bin/python",
+        "{workspace_runtime_dir}/wheel_smoke.py"
+      ],
+      "reproduction_recipe": "P0_AUDIT.md#installed-wheel-smoke",
+      "exit_code": 0,
+      "status": "passed",
+      "log": ".p0-runtime/evidence/wheel-smoke-neutral.log",
+      "log_sha256": "209f3dc935d273573eba72e15d70c5537135b6b0d6a8eef7384cc9c192c74321",
+      "summary": {
+        "package_import": "installed wheel target, not src",
+        "ui_and_assets": 200,
+        "health": 200,
+        "unbootstrapped_readiness": 503,
+        "actual_stdio_discovery": "passed",
+        "schema_tables": 6,
+        "mysql_queries_executed": 0,
+        "existing_deprecation_warning": "Starlette/httpx TestClient"
+      }
+    }
+  ],
+  "check_summary": {
+    "passed": 15,
+    "failed": 1,
+    "failure_classification": "unchanged lock dependency advisories"
+  },
+  "wheel": {
+    "name": "enterprise_decision_agent-1.0.2-py3-none-any.whl",
+    "sha256": "1977f490151561dac829cabbfb0b783e7c386e59bb05fd0292d271f8693d54b0",
+    "kind": "baseline source wheel before directory documentation additions"
+  },
+  "corpus": {
+    "root": "datasets/enterprise_kb/m2c1",
+    "documents": 12,
+    "parents": 36,
+    "children": 101,
+    "files": {
+      "datasets/enterprise_kb/m2c1/document_manifest.json": "66c5024212bc5c6c620924dcf17f4527e822f83fb46891981334972fd8a31a2c",
+      "datasets/enterprise_kb/m2c1/generated/parent_chunks.jsonl": "e4898f96b58b99ed8f6fdbeceae7028bda38bf364d33798fd8ec66b1c4a9a004",
+      "datasets/enterprise_kb/m2c1/generated/child_chunks.jsonl": "f77a9117e7aec8742900092f2f249c68cec4821515b27d143b38524de47e3810"
+    }
+  },
+  "dependency_lock_sha256": "dd647acde7a0c46c8b18e1a309bf9d7cc3d05f4d5d48b800d6feaddca93c28e6",
+  "not_run": [
+    "live LLM calls",
+    "full BGE model downloads/loading",
+    "live MySQL queries",
+    "live Milvus/Zilliz operations",
+    "application Docker image",
+    "Cloud provisioning/deployment",
+    "cloud IAM/HTTPS/load/shutdown acceptance"
+  ],
+  "raw_evidence_location": "Workspace .p0-runtime/evidence; not committed. Safe check summaries and log hashes retained here.",
+  "documentation_validation": "See P0_VALIDATION.json; runtime sources and lock remain unchanged."
+}

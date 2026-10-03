@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "validated_utc": "2026-10-03T10:22:52.615890+00:00",
+  "source_commit": "2e2b34c220158c1711409ddb1335fba00fbe375f",
+  "directory_notes": 52,
+  "source_fingerprints": "all match reviewed source",
+  "local_markdown_links_checked": 323,
+  "json": "all changed JSON parses",
+  "runtime_code_and_lock_changed": false,
+  "corpus_hashes": "match baseline",
+  "scope": "P0 documentation only",
+  "p1_status": "not started",
+  "dependency_scan_status": "pre-existing release blocker, 24 reports retained",
+  "git_diff_whitespace_check": "passed",
+  "gitleaks_p0_documentation_diff": "passed, zero findings"
+}

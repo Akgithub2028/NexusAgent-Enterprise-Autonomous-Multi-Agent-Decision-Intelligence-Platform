@@ -1,0 +1,372 @@
+{
+  "schema_version": 1,
+  "reviewed_source_commit": "2e2b34c220158c1711409ddb1335fba00fbe375f",
+  "review_date": "2026-10-03",
+  "fingerprint_algorithm": "sha256 of sorted repository-relative path + NUL + file sha256 + LF; tracked non-Markdown files, excluding docs/deployment review evidence",
+  "directories": [
+    {
+      "path": ".github",
+      "readme": ".github/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 2,
+      "source_sha256": "4e9a8767a840f9a70f472a5e9ffb8ce365343817f8bf3c461a4dfeac160e020e"
+    },
+    {
+      "path": ".github/workflows",
+      "readme": ".github/workflows/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 1,
+      "source_sha256": "734db89b1d67e791aeb7b10392ade518cb1f2918fda82e7a732f5beea21ee286"
+    },
+    {
+      "path": "artifacts",
+      "readme": "artifacts/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 39,
+      "source_sha256": "d4495b5caa3177d9c9bfca17c04a5fc995233860c5b0fee78f0a59cc82afb3ef"
+    },
+    {
+      "path": "datasets",
+      "readme": "datasets/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 19,
+      "source_sha256": "32fc4901fd38baf2536090e2cc10d0b58a43ad91bc1a3144b31031cbb5d67a3a"
+    },
+    {
+      "path": "datasets/enterprise_kb",
+      "readme": "datasets/enterprise_kb/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 12,
+      "source_sha256": "7f03ba515fe55d369c2908f1e4cba1bc1ea99c620d7503a0fdea5436ae465062"
+    },
+    {
+      "path": "datasets/enterprise_operations",
+      "readme": "datasets/enterprise_operations/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 1,
+      "source_sha256": "096cdd4fc4e7e10e6757f42295d63efad1cfe3756f02ad806fb56cd12a365ff7"
+    },
+    {
+      "path": "datasets/agent_tasks",
+      "readme": "datasets/agent_tasks/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 2,
+      "source_sha256": "956b922bb1c85e5c6c5f0774b85bbd305ad114fa6b5267fe693de36b559d3abb"
+    },
+    {
+      "path": "datasets/retrieval",
+      "readme": "datasets/retrieval/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 3,
+      "source_sha256": "4dbee766187ea8b2c3b0373076f6f84aa2d4ae26172d2f1aa9ab241646de81ba"
+    },
+    {
+      "path": "datasets/security",
+      "readme": "datasets/security/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 1,
+      "source_sha256": "b54b31b4dc685bef4549828b836b8512a985a5707a83faee91f7c0f6c610dbe5"
+    },
+    {
+      "path": "docker",
+      "readme": "docker/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 3,
+      "source_sha256": "42c9632c357eec6dcd9138a861b0ea03521be138b60d867ae38c9d6d2d117ca3"
+    },
+    {
+      "path": "docker/mysql",
+      "readme": "docker/mysql/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 3,
+      "source_sha256": "42c9632c357eec6dcd9138a861b0ea03521be138b60d867ae38c9d6d2d117ca3"
+    },
+    {
+      "path": "docker/mysql/init",
+      "readme": "docker/mysql/init/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 3,
+      "source_sha256": "42c9632c357eec6dcd9138a861b0ea03521be138b60d867ae38c9d6d2d117ca3"
+    },
+    {
+      "path": "docs",
+      "readme": "docs/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 2,
+      "source_sha256": "91a571bca1acf717c1053f11aa1aef8fdef0d3a97fa3a80612e982d3f06a0e01"
+    },
+    {
+      "path": "docs/assets",
+      "readme": "docs/assets/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 2,
+      "source_sha256": "91a571bca1acf717c1053f11aa1aef8fdef0d3a97fa3a80612e982d3f06a0e01"
+    },
+    {
+      "path": "scripts",
+      "readme": "scripts/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 28,
+      "source_sha256": "c306690b8bd3ff26185e96215cbb16304f181d28aea4cdb64a0463598a896b70"
+    },
+    {
+      "path": "scripts/runtime",
+      "readme": "scripts/runtime/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 3,
+      "source_sha256": "3a7a17650c732a65ca7e34791378a508219318a02d9d97c974dad53add0e8c5f"
+    },
+    {
+      "path": "scripts/testing",
+      "readme": "scripts/testing/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 1,
+      "source_sha256": "fd0b68012d98a1b6b3ff16519bd8917e3687cb3fbb6aa0a75dd06e35e0755c85"
+    },
+    {
+      "path": "src",
+      "readme": "src/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 171,
+      "source_sha256": "4dfc358169254ebfe3e813c43167147b0b86592a4005002bf17c86d8c6eee0ca"
+    },
+    {
+      "path": "src/decision_agent",
+      "readme": "src/decision_agent/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 171,
+      "source_sha256": "4dfc358169254ebfe3e813c43167147b0b86592a4005002bf17c86d8c6eee0ca"
+    },
+    {
+      "path": "tests",
+      "readme": "tests/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 151,
+      "source_sha256": "e45a7618a434be0ab063cef6468debea5b15f79ab4bc4a2ac87356271971f5d9"
+    },
+    {
+      "path": "tests/unit",
+      "readme": "tests/unit/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 120,
+      "source_sha256": "0e3d6c5976266b11428c2bce6896c7f113f97516b6689bf4f20d172e8bd20c65"
+    },
+    {
+      "path": "tests/integration",
+      "readme": "tests/integration/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 20,
+      "source_sha256": "a3102fb5ea1263b698b38e0004552f674f6af2374710fc263d6e9a4414af9fe1"
+    },
+    {
+      "path": "tests/e2e",
+      "readme": "tests/e2e/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 8,
+      "source_sha256": "c6571d745d395008f2ee2d77c2265cc8458c2292ca54322f1d46d94dde0c1457"
+    },
+    {
+      "path": "tests/fixtures",
+      "readme": "tests/fixtures/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 3,
+      "source_sha256": "f54c972cc0d73a2228ef10fc8a87d3502c32c1aefd10857577871e8094320e79"
+    },
+    {
+      "path": "src/decision_agent/agent_workflow",
+      "readme": "src/decision_agent/agent_workflow/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 7,
+      "source_sha256": "090a893fd6d1757139df7555dff860da0035b3587aec01657584da2a9bb14167"
+    },
+    {
+      "path": "src/decision_agent/agents",
+      "readme": "src/decision_agent/agents/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 7,
+      "source_sha256": "c470608387c4bfbe8aad9d5166f44cefb6c0cf0b690a0f6a505a3a8c7914674f"
+    },
+    {
+      "path": "src/decision_agent/api",
+      "readme": "src/decision_agent/api/README.md",
+      "review_depth": "runtime boundary traced",
+      "source_file_count": 7,
+      "source_sha256": "d063c31ca48673e1725e97f01b76056faac6d954aa1c6cab959ae9e5802217ca"
+    },
+    {
+      "path": "src/decision_agent/application",
+      "readme": "src/decision_agent/application/README.md",
+      "review_depth": "runtime boundary traced",
+      "source_file_count": 11,
+      "source_sha256": "737660b70226f92e7737d48ab66bb268b5e18e2ee11c934c7cf0154d73de999f"
+    },
+    {
+      "path": "src/decision_agent/config",
+      "readme": "src/decision_agent/config/README.md",
+      "review_depth": "runtime boundary traced",
+      "source_file_count": 3,
+      "source_sha256": "aaac4fa47c5c288d02d7352a4f7924028ca195bca876aeaf6db7232101bd8424"
+    },
+    {
+      "path": "src/decision_agent/context",
+      "readme": "src/decision_agent/context/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 8,
+      "source_sha256": "544577301f90155a4eadbed0eca8ad645e32e331c261e0b020e38b4bfe167d2e"
+    },
+    {
+      "path": "src/decision_agent/coordination",
+      "readme": "src/decision_agent/coordination/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 5,
+      "source_sha256": "16918bc6612bb7ad989acf1cbbed57848712a5a68fc223fd433595e9edfb0958"
+    },
+    {
+      "path": "src/decision_agent/data",
+      "readme": "src/decision_agent/data/README.md",
+      "review_depth": "runtime boundary traced",
+      "source_file_count": 7,
+      "source_sha256": "12560868754e84c3aed132c4cb8ee12af5b219feaf45404c28290f6ddedb93fc"
+    },
+    {
+      "path": "src/decision_agent/data_agent",
+      "readme": "src/decision_agent/data_agent/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 3,
+      "source_sha256": "8c119c3547d3e97fa0dc58b3cb5f4cff2e0de8fdd39d53e1fe7a7cac6ec3581a"
+    },
+    {
+      "path": "src/decision_agent/demo",
+      "readme": "src/decision_agent/demo/README.md",
+      "review_depth": "runtime boundary traced",
+      "source_file_count": 3,
+      "source_sha256": "cbcb2c80729e242b49bd7df42caaa46e5c1174b5ac2150267c6692ef99baa695"
+    },
+    {
+      "path": "src/decision_agent/domain",
+      "readme": "src/decision_agent/domain/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 3,
+      "source_sha256": "8906b074064ee64f01889f0f45ed5cd0e9c40afc5197da38eb7fd6e2608e2716"
+    },
+    {
+      "path": "src/decision_agent/evaluation",
+      "readme": "src/decision_agent/evaluation/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 17,
+      "source_sha256": "073db61575968717c520163ece3d5ad6cc8d8920f735a8a39b22a9e719a80c95"
+    },
+    {
+      "path": "src/decision_agent/infrastructure",
+      "readme": "src/decision_agent/infrastructure/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 2,
+      "source_sha256": "9edeae3ee3f8cddf9b76948430d300a7915704f4dfb1ba44da3bc58efc70630f"
+    },
+    {
+      "path": "src/decision_agent/ingestion",
+      "readme": "src/decision_agent/ingestion/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 7,
+      "source_sha256": "dcafc92fc786ad7030bac6f2a4edaef6990789415883a313698770da7d1c3576"
+    },
+    {
+      "path": "src/decision_agent/mcp",
+      "readme": "src/decision_agent/mcp/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 2,
+      "source_sha256": "ff613299d32f45962f5e108994090470e622572a215838b2ecd061538379593a"
+    },
+    {
+      "path": "src/decision_agent/mcp_client",
+      "readme": "src/decision_agent/mcp_client/README.md",
+      "review_depth": "runtime boundary traced",
+      "source_file_count": 4,
+      "source_sha256": "ad5f43296b1a1dc9e99ae89715f53d147af112ce86f64ca7ff518ecdcb55fdf1"
+    },
+    {
+      "path": "src/decision_agent/mcp_server",
+      "readme": "src/decision_agent/mcp_server/README.md",
+      "review_depth": "runtime boundary traced",
+      "source_file_count": 4,
+      "source_sha256": "92167aca1e002e89be36b742161641a8d7910c3e0fa53b2d95c5c62b9d457bb2"
+    },
+    {
+      "path": "src/decision_agent/memory",
+      "readme": "src/decision_agent/memory/README.md",
+      "review_depth": "runtime boundary traced",
+      "source_file_count": 7,
+      "source_sha256": "8fea106d92ff6a594200eb3be84853c5981e93f8a827791ede56e4195a455438"
+    },
+    {
+      "path": "src/decision_agent/observability",
+      "readme": "src/decision_agent/observability/README.md",
+      "review_depth": "runtime boundary traced",
+      "source_file_count": 10,
+      "source_sha256": "7114bb86cdadb35a53bb06088ca61479bb5d9807ce0fdfc4503c1ccf2ddd41a7"
+    },
+    {
+      "path": "src/decision_agent/providers",
+      "readme": "src/decision_agent/providers/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 2,
+      "source_sha256": "8b4d40d97e1fdeb9d3728ea832f3968bb532a98fdfb1c8c70ed8029f4de02e13"
+    },
+    {
+      "path": "src/decision_agent/retrieval",
+      "readme": "src/decision_agent/retrieval/README.md",
+      "review_depth": "runtime boundary traced",
+      "source_file_count": 16,
+      "source_sha256": "d1e1fc0aa4d595f663c41246e747f25a3e8be77160996c9bff3c5b124ac59ecc"
+    },
+    {
+      "path": "src/decision_agent/routing",
+      "readme": "src/decision_agent/routing/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 4,
+      "source_sha256": "d1a96f5cd85edc7e49946419a1082359fe1c1fb072d22ea4e875c5500230a179"
+    },
+    {
+      "path": "src/decision_agent/security",
+      "readme": "src/decision_agent/security/README.md",
+      "review_depth": "runtime boundary traced",
+      "source_file_count": 7,
+      "source_sha256": "cc5ccc2e12bcb42840161d5d8d3feb1dfe3384df0b1df01a176d700e14d19d24"
+    },
+    {
+      "path": "src/decision_agent/skills",
+      "readme": "src/decision_agent/skills/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 8,
+      "source_sha256": "d5d0334bf74bbe70204d23ca61c3bf39f4904166db37230061f04d1c2402c36d"
+    },
+    {
+      "path": "src/decision_agent/tool_calling",
+      "readme": "src/decision_agent/tool_calling/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 4,
+      "source_sha256": "45f835b2747ca0eee5298a66d88d403cb302d596481a7bf2ec452460967c8f3f"
+    },
+    {
+      "path": "src/decision_agent/tools",
+      "readme": "src/decision_agent/tools/README.md",
+      "review_depth": "supporting inventory / contracts",
+      "source_file_count": 2,
+      "source_sha256": "66c1ebcaaf9694b115662cf26b923fef69903864768d695117acc743b07e2e99"
+    },
+    {
+      "path": "src/decision_agent/web",
+      "readme": "src/decision_agent/web/README.md",
+      "review_depth": "runtime boundary traced",
+      "source_file_count": 4,
+      "source_sha256": "b18dbf078610ae5608d7df524a35e6e2c3fe0a87d4cf4360005e2417734c731b"
+    },
+    {
+      "path": "src/decision_agent/workflows",
+      "readme": "src/decision_agent/workflows/README.md",
+      "review_depth": "runtime boundary traced",
+      "source_file_count": 4,
+      "source_sha256": "a956af61195915fc749139b452bf80e73af128b50a8159eb5a0f8cdf4487987b"
+    }
+  ]
+}

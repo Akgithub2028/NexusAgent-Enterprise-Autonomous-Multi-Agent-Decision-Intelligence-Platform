@@ -21,6 +21,10 @@
 
 **[Key Features](#key-engineering-highlights)** • **[System Architecture](#system-architecture)** • **[Web Workbench](#interactive-web-analytics-workbench)** • **[Hybrid RAG](#clause-aware-hybrid-rag-pipeline)** • **[MCP NL2SQL](#mcp-data-agent--safe-nl2sql)** • **[Benchmarks](#retrieval-benchmark-v2-results)** • **[Quickstart](#local-quickstart)**
 
+**Cloud deployment preparation:** [P0 audit, measured baseline and P1–P7 implementation plan](docs/deployment/README.md).
+P0 documents the existing runtime and deployment gaps; public-demo implementation has not started.
+The dependency audit reports a pre-existing release blocker; see the recorded baseline before deploying.
+
 ---
 
 </div>
