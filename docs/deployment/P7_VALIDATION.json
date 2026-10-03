@@ -46,7 +46,7 @@
     "scripts/verify_release_ci.py": "306c4b3962f24c46f1830462c6cb29258682962f6921b7cc795ce2fb8bc0b5ad",
     "scripts/add_live_demo_badge.py": "e631c2f899f76ec8d9fe4a6f8f29564465913a28e5be699539edd9691de1497f",
     "scripts/measure_restricted_service.py": "7b05ecdc3baaad145f21728a71a6bad8841d2fd71cba62aed9fee69a2ca47924",
-    "README.md": "b366aa354bfcf7e8bc0409e0ee4676d18fc0aacbc3c7b49edeb04be6751aa32b"
+    "README.md": "cdd85fa98c02c9d1d9696fa36c6ebe53ceba5483569d9f405588426a6b620944"
   },
   "preserved_assets_sha256": {
     "docs/assets/nexusagent-logo.svg": "d8e8bbc6b188482e32a3741d1faa18af50d5a6994aeefb9df7d71da222f578c4",
@@ -60,5 +60,14 @@
     "Apply scoped OIDC root and verify GitHub token/resource permissions",
     "Approve exact-image LIVE_ACCEPTANCE.json with real evidence",
     "Verify public HTTPS release receipt and only then add live badge"
-  ]
+  ],
+  "verified_ci": {
+    "commit": "bc922867f7857de89e6571fe7c781fbdef61adba",
+    "run_url": "https://github.com/Akgithub2028/NexusAgent-Enterprise-Autonomous-Multi-Agent-Decision-Intelligence-Platform/actions/runs/37146027540",
+    "all_six_jobs": "success",
+    "unit_passed": 1941,
+    "offline_integration_passed": 323,
+    "security_cases_passed": 28,
+    "cloud_release": "skipped (enablement false)"
+  }
 }

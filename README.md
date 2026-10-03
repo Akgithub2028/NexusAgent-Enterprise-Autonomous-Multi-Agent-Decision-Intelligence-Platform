@@ -211,8 +211,8 @@ metric. Rounded percentage-point gains come from unrounded scores. Verify the
 
 ## Engineering rigor & CI pipeline
 
-The [verified P6 CI snapshot](https://github.com/Akgithub2028/NexusAgent-Enterprise-Autonomous-Multi-Agent-Decision-Intelligence-Platform/actions/runs/37143083491)
-passed **1,930 unit tests**, **323 offline integration tests** and **28/28 security
+The [verified P7 CI snapshot](https://github.com/Akgithub2028/NexusAgent-Enterprise-Autonomous-Multi-Agent-Decision-Intelligence-Platform/actions/runs/37146027540)
+passed **1,941 unit tests**, **323 offline integration tests** and **28/28 security
 cases**. Security cases overlap the unit suite; these counts are not additive.
 The current CI badge links to the latest run.
 
@@ -233,7 +233,8 @@ checks runtime schemas; it is not a substitute for a static type checker.
 <summary><strong>Historical counts preserved from the original README</strong></summary>
 
 The pre-P0 README reported **1,802 unit tests** and **235 offline integration tests**.
-P0's audited baseline recorded **1,806** and **235**; subsequent phases expanded coverage.
+P0's audited baseline recorded **1,806** and **235**. The verified P6 snapshot reached
+**1,930 unit tests** and **323 offline integration tests**; P7 adds 11 release cases.
 Use the linked CI run for current verified results, not the older marketing snapshot.
 
 </details>
