@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="docs/assets/nexusagent-logo.svg" alt="NexusAgent Logo" width="130" height="130" />
+<img src="docs/assets/nexusagent-logo.svg" alt="NexusAgent Logo" width="150" height="150" />
 
 # NexusAgent
 
@@ -10,13 +10,13 @@
 
 *Turn enterprise policies and operational data into decisions you can inspect.*
 
-<p>
-  <a href="https://github.com/Akgithub2028/NexusAgent-Enterprise-Autonomous-Multi-Agent-Decision-Intelligence-Platform/actions/workflows/ci.yml"><img src="https://github.com/Akgithub2028/NexusAgent-Enterprise-Autonomous-Multi-Agent-Decision-Intelligence-Platform/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-F59E0B" alt="Apache 2.0" /></a>
-  <a href="#local-quickstart"><img src="https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white" alt="Python 3.11+" /></a>
-  <a href="#cloud-deployment"><img src="https://img.shields.io/badge/cloud-release%20gated-64748B?logo=googlecloud&logoColor=white" alt="Cloud release gated" /></a>
+<p align="center">
+  <a href="https://github.com/Akgithub2028/NexusAgent-Enterprise-Autonomous-Multi-Agent-Decision-Intelligence-Platform/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/Akgithub2028/NexusAgent-Enterprise-Autonomous-Multi-Agent-Decision-Intelligence-Platform/ci.yml?branch=main&style=flat-square&label=CI&logo=githubactions&logoColor=white" alt="CI" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-F59E0B?style=flat-square&logo=apache&logoColor=white" alt="Apache 2.0" /></a>
+  <a href="#local-quickstart"><img src="https://img.shields.io/badge/Python-3.11%2B-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python 3.11+" /></a>
+  <a href="#cloud-deployment"><img src="https://img.shields.io/badge/Cloud-Release%20Gated-8B5CF6?style=flat-square&logo=googlecloud&logoColor=white" alt="Cloud release gated" /></a>
 </p>
-<p>
+<p align="center">
   <a href="#system-architecture"><img src="https://img.shields.io/badge/LangGraph-Multi--Agent-FF6F00?style=for-the-badge&logo=langchain&logoColor=white" alt="LangGraph" /></a>
   <a href="#mcp-data-agent--safe-nl2sql"><img src="https://img.shields.io/badge/MCP-Guarded%20NL2SQL-5865F2?style=for-the-badge&logo=anthropic&logoColor=white" alt="MCP" /></a>
   <a href="#clause-aware-hybrid-rag-pipeline"><img src="https://img.shields.io/badge/Milvus-Hybrid%20Retrieval-00A1EA?style=for-the-badge&logo=zilliz&logoColor=white" alt="Milvus" /></a>
@@ -28,9 +28,16 @@
   <a href="#cloud-deployment"><img src="https://img.shields.io/badge/Cloud%20Run-Container%20%2B%20Jobs-4285F4?style=for-the-badge&logo=googlecloud&logoColor=white" alt="Cloud Run preparation" /></a>
 </p>
 
+<p align="center">
+  <a href="#retrieval-benchmark-v2-results"><img src="https://img.shields.io/badge/Hit%401-96.25%25-22C55E?style=for-the-badge" alt="Child Hit at 1: 96.25 percent" /></a>
+  <a href="#retrieval-benchmark-v2-results"><img src="https://img.shields.io/badge/MRR%405-98.12%25-06B6D4?style=for-the-badge" alt="MRR at 5: 98.12 percent" /></a>
+  <a href="#engineering-rigor--ci-pipeline"><img src="https://img.shields.io/badge/Unit%20Tests-1%2C941%20Passed-A855F7?style=for-the-badge" alt="Verified P7 snapshot: 1941 unit tests passed" /></a>
+  <a href="#engineering-rigor--ci-pipeline"><img src="https://img.shields.io/badge/Security%20Cases-28%20%2F%2028-F97316?style=for-the-badge" alt="Frozen security evaluation: 28 of 28 passed" /></a>
+</p>
+
 <!-- VERIFIED_LIVE_BADGE -->
 
-**[Highlights](#key-engineering-highlights)** · **[Architecture](#system-architecture)** · **[Workbench](#interactive-web-analytics-workbench)** · **[Benchmarks](#retrieval-benchmark-v2-results)** · **[Quickstart](#local-quickstart)** · **[Deployment](#cloud-deployment)** · **[Docs](#documentation-map)**
+**[Highlights](#key-engineering-highlights)** · **[Architecture](#system-architecture)** · **[Workbench](#interactive-web-analytics-workbench)** · **[API](#api-and-execution-contracts)** · **[Benchmarks](#retrieval-benchmark-v2-results)** · **[Quickstart](#local-quickstart)** · **[Deployment](#cloud-deployment)** · **[Docs](#documentation-map)**
 
 | 200 benchmark scenarios | 96.25% Child Hit@1 | 28/28 security cases | 3 agent routes |
 | :---: | :---: | :---: | :---: |
@@ -39,6 +46,8 @@
 </div>
 
 > **Deployment status:** P0–P7 implementation is prepared. Live acceptance is pending: project billing is disabled, and managed provisioning, ingestion and cloud measurements remain unfinished. Release automation defaults to disabled. A live badge will appear only after verified public HTTPS acceptance. See the [phase ledger](docs/deployment/README.md).
+
+---
 
 ## The problem NexusAgent solves
 
@@ -58,16 +67,30 @@ The system is designed to reduce unsupported answers and fail closed at its boun
 Its measured results apply to synthetic fixtures and recorded evaluations; they are
 not a guarantee of zero hallucinations or a production security certification.
 
+### Three routes, one evidence contract
+
+| Route | Example question | Evidence and behavior |
+| :--- | :--- | :--- |
+| **Knowledge** | “What is the standard base warranty period for Product B?” | Retrieve policy clauses, rerank and expand parent context, then release an answer with document citations. |
+| **Data** | “Which products have the lowest available inventory?” | Discover authorized schemas, plan and validate a read-only query, then cite database evidence. |
+| **Mixed** | “Which replenishment decisions need policy review?” | Combine scoped operational facts with relevant policy evidence before reviewing the recommendation. |
+
+These are illustrative entry points; available evidence determines whether the
+request completes, asks for clarification or returns an insufficient-evidence outcome.
+The repository ships [synthetic enterprise policies](datasets/enterprise_kb/README.md),
+[relational fixtures](datasets/enterprise_operations/README.md) and
+[versioned evaluation tasks](datasets/agent_tasks/README.md).
+
 ## Key engineering highlights
 
 | Capability | What makes it inspectable |
 | :--- | :--- |
-| **LangGraph multi-agent orchestration** | Explicit router, planner, skill/tool and reviewer transitions; Pydantic v2 contracts; bounded failure outcomes. |
-| **Clause-aware hybrid RAG** | Dense + lexical recall, RRF, cross-encoder reranking, stable clause markers and parent expansion. |
-| **MCP data access** | Runtime-owned installed stdio client/server, discovered schemas and guarded SQL; protocol-only child stdout. |
-| **Evidence release** | Sufficiency review, citation/reference checks and structured abstention when evidence is inadequate. |
-| **Scoped memory** | Optional Redis or bounded in-memory sessions, TTL, version checks, deduplication and rolling summaries. |
-| **Cloud boundary** | Non-root CPU image, offline pinned models, immutable corpus manifests, separate ingestion, restricted preview and OIDC release gates. |
+| **[LangGraph multi-agent orchestration](docs/AGENT_WORKFLOW.md)** | Explicit router, planner, skill/tool and reviewer transitions; Pydantic v2 contracts; bounded failure outcomes. |
+| **[Clause-aware hybrid RAG](docs/HYBRID_RAG.md)** | Dense + lexical recall, RRF, cross-encoder reranking, stable clause markers and parent expansion. |
+| **[MCP data access](docs/DATA_AGENT_AND_MCP.md)** | Runtime-owned installed stdio client/server, discovered schemas and guarded SQL; protocol-only child stdout. |
+| **[Evidence release](docs/SECURITY_BOUNDARIES.md)** | Sufficiency review, citation/reference checks and structured abstention when evidence is inadequate. |
+| **[Scoped memory](src/decision_agent/memory/README.md)** | Optional Redis or bounded in-memory sessions, TTL, version checks, deduplication and rolling summaries. |
+| **[Cloud boundary](docs/deployment/README.md)** | Non-root CPU image, offline pinned models, immutable corpus manifests, separate ingestion, restricted preview and OIDC release gates. |
 
 ## System architecture
 
@@ -96,7 +119,27 @@ flowchart TD
     REV -->|Sufficient| OUT[Grounded answer + citations]
     REV -->|Insufficient| STOP[Refusal / clarification]
     EX -.-> OBS[Request traces + mandatory audit]
+
+    classDef gateway fill:#0f766e,stroke:#5eead4,color:#fff
+    classDef agent fill:#6d28d9,stroke:#c4b5fd,color:#fff
+    classDef retrieval fill:#0369a1,stroke:#7dd3fc,color:#fff
+    classDef data fill:#b45309,stroke:#fcd34d,color:#fff
+    classDef review fill:#15803d,stroke:#86efac,color:#fff
+    classDef refusal fill:#be123c,stroke:#fda4af,color:#fff
+    class API,EX,CM,OBS gateway
+    class R,K,D,M agent
+    class HY,RRF,CE,P retrieval
+    class PLAN,MCP,SQL,DB data
+    class REV,OUT review
+    class STOP refusal
 ```
+
+The [architecture guide](docs/ARCHITECTURE.md) explains resource ownership and
+composition. The [workflow guide](docs/AGENT_WORKFLOW.md) follows routing, planning,
+skill dispatch, tool use and review. Implementation entry points are the
+[application runtime](src/decision_agent/application/README.md),
+[coordinator](src/decision_agent/coordination/README.md) and
+[LangGraph workflows](src/decision_agent/workflows/README.md).
 
 ### Advanced technology stack
 
@@ -135,6 +178,11 @@ collection; an explicit writer job owns those operations.
 Frozen clause-aware benchmark variants are retained separately from the baked serving
 corpus. Their artifact hashes and adoption decisions remain unchanged.
 
+**Implementation references:** [hybrid retrieval design](docs/HYBRID_RAG.md) ·
+[retrieval components](src/decision_agent/retrieval/README.md) ·
+[clause-aware ingestion](src/decision_agent/ingestion/README.md) ·
+[versioned cloud ingestion](docs/deployment/P5_INGESTION.md).
+
 ## MCP data agent & safe NL2SQL
 
 The Data Agent discovers approved schemas through MCP, plans an SQL query, validates
@@ -150,6 +198,11 @@ application controls; the README does not claim that a SQL hint alone cancels ev
 server-side operation. MCP stays inside the application runtime rather than becoming
 an extra public service.
 
+See [Data Agent & MCP](docs/DATA_AGENT_AND_MCP.md) for the query lifecycle,
+[SQL execution components](src/decision_agent/data/README.md) for guard contracts,
+and the [MCP client](src/decision_agent/mcp_client/README.md) /
+[MCP server](src/decision_agent/mcp_server/README.md) notes for subprocess ownership.
+
 ## Distributed tracing & context management
 
 Request traces record stage status and timing across routing, retrieval, reranking,
@@ -163,6 +216,12 @@ Memory supports `disabled`, `in_memory` and `redis`. The cloud v1 configuration 
 idempotency and optimistic versions remain enforced. Optional rolling summaries run
 after successful persistence when configured turn thresholds are reached. Redis is
 supported in code, but is not included in current Compose or the initial cloud plan.
+
+**Design references:** [context budgets](src/decision_agent/context/README.md) ·
+[memory lifecycle](src/decision_agent/memory/README.md) ·
+[observability](src/decision_agent/observability/README.md) ·
+[mandatory audit and governance](src/decision_agent/security/README.md) ·
+[cloud runtime decisions](docs/deployment/P2_CLOUD_RUNTIME.md).
 
 ## Production ASGI runtime
 
@@ -179,11 +238,54 @@ Quotas and one-instance settings are process/resource controls, not a guaranteed
 spending cap. Readiness reflects bootstrap and registered checks, not continuous proof
 that every remote dependency is healthy.
 
+## API and execution contracts
+
+The API and Workbench share the same runtime. The transport accepts a small request
+schema and returns a reviewed response projection; clients cannot provide security
+principals, tenant grants or arbitrary tool definitions.
+
+| Endpoint | Purpose | Contract |
+| :--- | :--- | :--- |
+| `GET /` | Open the Workbench | Package-local HTML, served by FastAPI. |
+| `GET /assets/*` | Load the Workbench assets | Installed JavaScript and CSS. |
+| `GET /health` | Process liveness | `{"status":"ok"}` when the process responds. |
+| `GET /ready` | Runtime readiness | Dependency map; HTTP 503 while required bootstrap checks are not ready. |
+| `GET /api/v1/demo/session` | Public-demo visitor bootstrap | Signed visitor cookie; public-demo mode only. |
+| `POST /api/v1/agent/execute` | Run a decision request | Validated request, resolved identity, bounded execution and safe response. |
+
+**Request shape** — an illustrative payload, not a recorded benchmark response:
+
+```json
+{
+  "request_id": "warranty-check-001",
+  "session_id": "operations-review",
+  "query": "What is the standard base warranty period for Product B?"
+}
+```
+
+`request_id` is required and bounded to 128 characters; `session_id` is optional and
+bounded to 128 characters; `query` is required and bounded to 8,000 characters.
+Unknown fields are rejected. Responses expose `status`, `route`, `skill`, `answer`,
+`citations`, `error_code`, memory statuses and an optional safe trace, alongside the
+request ID. A successful HTTP response can still carry a structured business outcome;
+clients should inspect `status` and `error_code`.
+
+Public execution requires a valid visitor cookie and the exact configured HTTPS
+Origin. Local execution uses the loopback-only resolver. The default private resolver
+rejects execution until a trusted adapter is installed. Transport failures include
+unauthenticated/unauthorized requests, quota/body limits, unavailable runtime and
+execution timeout.
+
+**Source of truth:** [HTTP models](src/decision_agent/api/models.py) ·
+[execution router](src/decision_agent/api/routes.py) ·
+[application/probes](src/decision_agent/api/app.py) ·
+[public-demo security boundary](docs/deployment/P1_PUBLIC_DEMO.md).
+
 ## Interactive Web Analytics Workbench
 
 <div align="center">
   <img src="docs/assets/demo-ui.png" alt="NexusAgent Web Analytics Workbench" width="920" />
-  <p><em>The existing Workbench: scoped multi-turn interaction, route/status indicators, citations and request-stage telemetry.</em></p>
+  <p align="center"><em>The existing Workbench: scoped multi-turn interaction, route/status indicators, citations and request-stage telemetry.</em></p>
 </div>
 
 Ask knowledge, operational data or mixed questions from the same interface. Inspect
@@ -191,6 +293,17 @@ answer citations and the execution trace, continue a session or reset it. Public
 users receive distinct visitor identities and an explicit warning that history may
 expire or disappear on restart. FastAPI serves the UI directly—no separate frontend
 hosting is needed.
+
+| Workbench capability | What you can inspect |
+| :--- | :--- |
+| Multi-turn interaction | Continue or reset a scoped conversation. |
+| Route and execution status | See which request path ran and whether it completed. |
+| Answer citations | Inspect the references returned with the answer. |
+| Request trace | Follow safe stage-level status and timing information. |
+| Session notices | Understand the limits of ephemeral history. |
+
+See the [Workbench directory guide](src/decision_agent/web/README.md) and
+[local demo guide](docs/LOCAL_DEMO.md) for UI assets, launcher behavior and setup.
 
 ## Retrieval Benchmark v2 results
 
@@ -239,6 +352,12 @@ Use the linked CI run for current verified results, not the older marketing snap
 
 </details>
 
+**Validation references:** [CI workflow](.github/workflows/ci.yml) ·
+[automation guide](.github/AUTOMATION.md) ·
+[test suite map](tests/README.md) ·
+[offline integration contracts](tests/integration/README.md) ·
+[frozen public evaluation](artifacts/public-evaluation/README.md).
+
 ## Local quickstart
 
 ### A. Evidence verification without provider keys
@@ -262,6 +381,11 @@ Dependency installation and runtime checks depend on your machine and available 
 
 ### B. Full local runtime and Workbench
 
+Complete option A first, then configure local infrastructure and the provider.
+The [environment template](.env.example) documents all settings; use an ignored
+`.env` for local values.
+
+
 ```bash
 cp .env.example .env
 # Fill the OpenAI-compatible provider fields and local infrastructure credentials.
@@ -277,6 +401,21 @@ python scripts/run_local_web_demo.py mixed
 Open **http://127.0.0.1:8000**. Compose starts infrastructure; it does not package the
 application or launch Redis. See the [local run guide](docs/LOCAL_DEMO.md) for audit
 paths, scopes and prerequisites. Local demo launchers must not be exposed publicly.
+
+### Configuration map
+
+| Configuration group | Relevant settings / files | Where to learn more |
+| :--- | :--- | :--- |
+| LLM transport | `DECISION_AGENT_LLM_BASE_URL`, `DECISION_AGENT_LLM_MODEL_NAME`, API key | [Settings](src/decision_agent/config/README.md), [.env.example](.env.example) |
+| Retrieval | Model names/revisions, 512 dimensions, Milvus URI/database/collection/index | [Hybrid RAG](docs/HYBRID_RAG.md), [retrieval contracts](src/decision_agent/retrieval/README.md) |
+| SQL / MCP | Read-only identity, local TCP or Cloud SQL socket, bounded waits | [Data Agent & MCP](docs/DATA_AGENT_AND_MCP.md) |
+| Session state | Memory mode, TTL, turn/token budgets and bounded store | [Memory guide](src/decision_agent/memory/README.md) |
+| Public demo | Origin, signing secret, cookie lifetime and admission limits | [P1 boundary](docs/deployment/P1_PUBLIC_DEMO.md) |
+| Cloud release | Numeric secret versions, immutable image, release/corpus metadata | [Configuration example](deploy/cloud-run/release.config.example.json), [P7 runbook](docs/deployment/P7_RELEASE.md) |
+
+Local provider configuration is OpenAI-compatible. The prepared cloud plan uses
+Groq with `openai/gpt-oss-20b`. Runtime credentials belong in ignored local files or
+Secret Manager; GitHub's release configuration contains nonsecret references.
 
 ## Cloud deployment
 
@@ -296,6 +435,15 @@ flowchart LR
     SECRETS[Secret Manager] --> JOB
     SECRETS --> PROD
     PROD --> LOGS[Cloud Logging]
+
+    classDef delivery fill:#6d28d9,stroke:#c4b5fd,color:#fff
+    classDef compute fill:#0369a1,stroke:#7dd3fc,color:#fff
+    classDef state fill:#b45309,stroke:#fcd34d,color:#fff
+    classDef approval fill:#15803d,stroke:#86efac,color:#fff
+    class CI,OIDC,AR delivery
+    class JOB,PREVIEW,PROD compute
+    class V,SQL,SECRETS state
+    class RECEIPT,ACCEPT approval
 ```
 
 Prepared for `nexus-agent-510512` / `us-west1`, alongside Zilliz `gcp-us-west1`.
@@ -317,6 +465,25 @@ automation is disabled. There is no verified live URL to advertise yet.
 [P7 release runbook](docs/deployment/P7_RELEASE.md) ·
 [infrastructure and operators](deploy/cloud-run/README.md) ·
 [next-session handoff](docs/CODEX_HANDOFF.md).
+
+### Deployment implementation and acceptance
+
+| Phase | Implemented boundary | Evidence / operating guide |
+| :--- | :--- | :--- |
+| P0 | Repository audit, baseline and implementation map | [Audit](docs/deployment/P0_AUDIT.md), [implementation plan](docs/deployment/IMPLEMENTATION_PLAN.md) |
+| P1 | Fixed public scopes, visitor identity and admission | [Public-demo boundary](docs/deployment/P1_PUBLIC_DEMO.md) |
+| P2 | Cloud launcher, mandatory stdout audit and bounded memory | [Cloud runtime](docs/deployment/P2_CLOUD_RUNTIME.md) |
+| P3–P4 | Reproducible CPU image, managed database/vector adapters and infrastructure | [Implementation report](docs/deployment/P3_P4_IMPLEMENTATION.md), [operator guide](deploy/cloud-run/README.md) |
+| P5 | Independent ingestion, generation locks and promotion receipts | [Ingestion runbook](docs/deployment/P5_INGESTION.md) |
+| P6 | Restricted revisions, probes and HTTPS measurement tooling | [Restricted deployment](docs/deployment/P6_RESTRICTED_DEPLOYMENT.md) |
+| P7 | Exact-commit CI checks, scoped OIDC, candidate/public/rollback/pause operations | [Release runbook](docs/deployment/P7_RELEASE.md), [federation root](deploy/github-oidc/README.md) |
+
+The [live acceptance record](docs/deployment/LIVE_ACCEPTANCE.json) tracks the remaining
+managed gates. Public promotion requires real evidence for the exact image, protected
+environment approval and a successful ingestion receipt. Rollback restores saved
+revision traffic and public invoker state; pause revokes public access and routes to
+a private deny-all revision. The [release workflow](.github/workflows/release.yml)
+is disabled by default and does not deploy on pull requests.
 
 ## Repository structure
 
@@ -355,6 +522,8 @@ tests/                    Unit, offline integration and opt-in live/e2e scenario
 | [Local demo](docs/LOCAL_DEMO.md) | Working installation and Workbench commands. |
 | [Engineering decisions](docs/ENGINEERING_DECISIONS.md) | Trade-offs and deferred capabilities. |
 | [Deployment ledger](docs/deployment/README.md) | P0–P7 implementation versus managed acceptance. |
+| [Release automation](.github/AUTOMATION.md) | CI responsibilities, OIDC release controls and workflow entry points. |
+| [Next-session handoff](docs/CODEX_HANDOFF.md) | Verified state, durable contracts and exact unfinished work. |
 | [Directory index](docs/deployment/DIRECTORY_INDEX.md) | Maintained directory maps and source fingerprints. |
 
 ## License

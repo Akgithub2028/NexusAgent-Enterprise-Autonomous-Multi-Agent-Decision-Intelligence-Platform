@@ -6,14 +6,15 @@ P1 updates affected notes based on `635a8ecc697754d798376626b0380f06d60e4cbf`.
 P2 updates affected notes based on `5ce044b2dfec6b40dd2a7cc05401017975dc062d`, including memory/security regression notes.
 Current source fingerprints identify the reviewed content; unaffected notes retain P0 review.
 
-READMEs are maintained maps, not an automatic documentation generator. Runtime boundaries
+Directory notes are maintained maps, not an automatic documentation generator.
+The `.github` note is `AUTOMATION.md` so GitHub displays the root project README. Runtime boundaries
 received detailed source tracing; supporting packages received an entrypoint/contract inventory.
 Existing root, corpus and frozen-artifact READMEs are preserved. No notes are added to
 virtual environments, caches, Git internals or generated/frozen dataset leaves.
 
 | Directory | Purpose | Review depth |
 | --- | --- | --- |
-| [.github](../../.github/README.md) | GitHub automation | supporting inventory / contracts |
+| [.github](../../.github/AUTOMATION.md) | GitHub automation | supporting inventory / contracts |
 | [.github/workflows](../../.github/workflows/README.md) | Continuous integration workflows | supporting inventory / contracts |
 | [artifacts](../../artifacts/README.md) | Frozen dataset and evaluation evidence | supporting inventory / contracts |
 | [datasets](../../datasets/README.md) | Synthetic fixtures and versioned evaluation data | supporting inventory / contracts |

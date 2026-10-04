@@ -6,7 +6,7 @@
   "directories": [
     {
       "path": ".github",
-      "readme": ".github/README.md",
+      "readme": ".github/AUTOMATION.md",
       "review_depth": "supporting inventory / contracts",
       "source_file_count": 3,
       "source_sha256": "888c11cfe3db429bf0ec6909a0a6777b3b2d3c082f6322ffd4e2b8f03ea7cdc4"

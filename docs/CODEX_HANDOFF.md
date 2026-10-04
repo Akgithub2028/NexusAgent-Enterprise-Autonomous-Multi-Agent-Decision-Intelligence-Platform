@@ -275,3 +275,12 @@ release enablement remains false. Local targeted tests passed 28/28; Actionlint,
 Ruff, locked Terraform validation/mock, dependency lock, frozen retrieval verifier,
 405 local documentation paths, 64 directory fingerprints and staged secret scanning
 passed. No live cloud acceptance was established by these checks.
+
+## Repository landing-page contract
+
+GitHub selects `.github/README` ahead of root `README.md`. The automation directory
+note has been renamed to `.github/AUTOMATION.md` to keep the full project overview
+on the repository landing page. Do not add another README directly under `.github`.
+The directory index/manifest link to AUTOMATION.md; nested workflow READMEs remain valid.
+The root overview retains the original logo/screenshot and verified benchmark metrics,
+with API contracts, configuration, phase runbooks and source links.
